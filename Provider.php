@@ -680,13 +680,57 @@ class Provider extends \MapasCulturais\AuthProvider {
     function recover() {
         $app = App::i();
         $config = $app->_config;
-        $email = filter_var($app->request->post('email'), FILTER_SANITIZE_STRING);
-        $user = $app->repo("User")->findOneBy(array('email' => $email));
-        
-        if (!$user) {
+        $email = filter_var($app->request->post('email'), FILTER_SANITIZE_STRING);               
+        $user = null;
+
+        if(!empty($email))  {
+            $user = $app->repo("User")->findOneBy(array('email' => $email));
+
+        } else {
+
+            if (isset($config['enableLoginByCPF']) && $config['enableLoginByCPF']) { 
+                $metadataFieldCpf = $this->getMetadataFieldCpfFromConfig();
+                if(empty($metadataFieldCpf)) $metadataFieldCpf = 'documento';
+                
+                $nome = filter_var($app->request->post('nome'), FILTER_SANITIZE_STRING);
+                $cpf = filter_var($app->request->post('documento'), FILTER_SANITIZE_STRING);
+                $dtnas = filter_var($app->request->post('dtnas'), FILTER_SANITIZE_STRING);
+                $cpf = preg_replace("/(\d{3}).?(\d{3}).?(\d{3})-?(\d{2})/", "$1.$2.$3-$4", $cpf);
+                $cpf2 = preg_replace( '/[^0-9]/is', '', $cpf );
+
+                $foundAgent = $app->repo("AgentMeta")->findBy(['key' => $metadataFieldCpf, 'value' => [$cpf,$cpf2]]);
+
+                //cria um array com os agentes que estão com status == 1, pois o usuario pode ter, por exemplo, 3 agentes, mas 2 estão com status == 0
+                $activeAgents  = [];
+                $active_agent_users = [];
+                foreach ($foundAgent as $agentMeta) {
+                    if($agentMeta->owner->status === 1) {
+                        $activeAgents[] = $agentMeta;
+                        if (!in_array($agentMeta->owner->user->id, $active_agent_users)) {
+                            $active_agent_users[] = $agentMeta->owner->user->id;
+                        }
+                    }
+                }
+                
+                if(count($active_agent_users) > 1) {
+                    return $this->setFeedback(i::__('Você possui 2 ou mais agente com o mesmo CPF ! Por favor entre em contato com o suporte.', 'multipleLocal'));
+                }
+                
+                $user = $app->repo("User")->findOneBy(array('id' => $foundAgent[0]->owner->user->id));
+            }
+
+        }
+                
+        if (is_null($user)) {            
             $this->feedback_success = false;
             $this->triedEmail = $email;
-            $this->feedback_msg = i::__('Email não encontrado', 'multipleLocal');
+
+            if(empty($email)) {
+                $this->feedback_msg = i::__('Dados cadastrais não encontrados', 'multipleLocal');                
+            } else {
+                $this->feedback_msg = i::__('Email não encontrado', 'multipleLocal');                
+            }
+            
             return false;
         }
 
@@ -747,10 +791,10 @@ class Provider extends \MapasCulturais\AuthProvider {
         
             // set feedback
             $this->feedback_success = true;
-            $this->feedback_msg = i::__('Sucesso: Um e-mail foi enviado com instruções para recuperação da senha.', 'multipleLocal');
+            $this->feedback_msg = i::__('Sucesso: Um e-mail foi enviado para'. $user->email . 'com instruções para recuperação da senha.', 'multipleLocal');
         } else {
             $this->feedback_success = false;
-            $this->feedback_msg = i::__('Erro ao enviar email de recuperação. Entre em contato com os administradors do site.', 'multipleLocal');
+            $this->feedback_msg = i::__('Erro ao enviar email de recuperação para '. $user->email . '. Entre em contato com os administradors do site.', 'multipleLocal');
         }
     }
 
@@ -1204,7 +1248,7 @@ class Provider extends \MapasCulturais\AuthProvider {
     }
 
     public function getMetadataFieldCpfFromConfig() {
-        return $this->_config['metadataFieldCPF'];
+        return (isset($this->_config['metadataFieldCPF']))? $this->_config['metadataFieldCPF'] : "";
     }
 
     public function _getAuthenticatedUser() {
