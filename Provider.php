@@ -176,22 +176,25 @@ class Provider extends \MapasCulturais\AuthProvider {
         });
 
         $app->hook('adminchangeuserpassword', function ($userEmail) use($app){
-
+            $msg = i::__('Criar nova senha para: ', 'multipleLocal');
+            $msg2 = i::__('Alterar senha ', 'multipleLocal');
+            $msg3 = i::__('Nova senha: ', 'multipleLocal');
+            $msg4 = i::__('Atualizar', 'multipleLocal');
             if(!$app->user->is('admin')) {
                 return;
             }
 
             echo
             '
-            <a class="btn btn-primary js-open-dialog" data-dialog="#admin-change-user-password" data-dialog-block="true">
-                Criar nova senha para: '.$userEmail.'
+            <a class="btn btn-primary js-open-dialog" data-dialog="#admin-change-user-password" data-dialog-block="true">'.
+            $msg.$userEmail.'
             </a>
 
-            <div id="admin-change-user-password" class="js-dialog" title="Alterar senha">
-                <label for="admin-set-user-password">Nova senha:</label><br>
+            <div id="admin-change-user-password" class="js-dialog" title='.$msg2.'>
+                <label for="admin-set-user-password">'.$msg3.'</label><br>
                 <input type="text" id="admin-set-user-password" name="admin-set-user-password" ><br>
                 <input type="hidden" id="email-to-admin-set-password" value='.$userEmail.' />
-                <button class="btn add" id="user-managerment-adminChangePassword" > Atualizar </button>
+                <button class="btn add" id="user-managerment-adminChangePassword" >'.$msg4.' </button>
             </div>
             ';
         });
@@ -235,22 +238,24 @@ class Provider extends \MapasCulturais\AuthProvider {
         });
 
         $app->hook('adminchangeuseremail', function ($userEmail) use($app){
-
+            $msg = i::__('Alterar email para: ', 'multipleLocal');
+            $msg2 = i::__('Novo email: ', 'multipleLocal');
+            $msg3 = i::__('Atualizar', 'multipleLocal');
             if(!$app->user->is('admin')) {
                 return;
             }
 
             echo
             '
-            <a class="btn btn-primary js-open-dialog" data-dialog="#admin-change-user-email" data-dialog-block="true">
-                Alterar email para: '.$userEmail.'
+            <a class="btn btn-primary js-open-dialog" data-dialog="#admin-change-user-email" data-dialog-block="true">'.
+                $msg.$userEmail.'
             </a>
 
             <div id="admin-change-user-email" class="js-dialog" title="Alterar email">
-                <label for="new-email">Novo email:</label><br>
+                <label for="new-email">'.$msg2.'</label><br>
                 <input type="text" id="new-email" name="new-email" ><br>
                 <input type="hidden" id="email-to-admin-set-email" value='.$userEmail.' />
-                <button class="btn add" id="user-managerment-adminChangeEmail" > Atualizar </button>
+                <button class="btn add" id="user-managerment-adminChangeEmail" >'. $msg3 .'</button>
             </div>
             ';
         });

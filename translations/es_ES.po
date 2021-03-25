@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Multiple Local Auth\n"
-"POT-Creation-Date: 2021-03-25 03:00-0300\n"
+"POT-Creation-Date: 2021-03-25 20:12-0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -53,115 +53,139 @@ msgstr "Token incorrecto"
 msgid "Email validado com sucesso"
 msgstr "Email validado con éxito"
 
-#: Provider.php:356
-msgid "Senha alterada com sucesso. Agora você pode fazer login"
-msgstr "Contraseña cambiada con éxito! Ahora puede ingresar"
+#: Provider.php:179
+msgid "Criar nova senha para: "
+msgstr "Crear nueva contraseña para :"
 
-#: Provider.php:369
-msgid "Minha conta"
-msgstr "Mi cuenta"
+#: Provider.php:180
+msgid "Alterar senha "
+msgstr "Cambiar contraseña "
 
-#: Provider.php:456
-msgid "Sua senha deve conter pelo menos "
-msgstr "Tu contraseña debe contener al menos "
+#: Provider.php:181
+msgid "Nova senha: "
+msgstr "Nueva contraseña: "
 
-#: Provider.php:460
-msgid " Sua senha deve conter pelo menos 1 número !"
-msgstr " ¡Su contraseña debe contener al menos 1 número!"
+#: Provider.php:182 Provider.php:243
+msgid "Atualizar"
+msgstr "Actualizar"
 
-#: Provider.php:464
-msgid " Sua senha deve conter pelo menos 1 letra maiúscula !"
-msgstr " ¡Su contraseña debe tener por lo menos 1 letra mayúscula!"
-
-#: Provider.php:468
-msgid " Sua senha deve conter pelo menos 1 letra minúscula !"
-msgstr " ¡Su contraseña debe tener por lo menos 1 letra minúscula!"
-
-#: Provider.php:472
-msgid " Sua senha deve conter pelo menos 1 caractere especial !"
-msgstr " ¡Su contraseña debe contener al menos 1 carácter especial!"
-
-#: Provider.php:475
-msgid "Por favor, insira sua senha"
-msgstr "Por favor, introduzca su contraseña"
-
-#: Provider.php:481
-msgid "As senhas não conferem"
-msgstr "Las contraseñas no coinciden"
-
-#: Provider.php:500 Provider.php:694 Provider.php:898
-msgid "Captcha incorreto, tente novamente !"
-msgstr "¡Captcha incorrecto, intente nuevamente!"
-
-#: Provider.php:504
-msgid "Por favor, informe seu nome"
-msgstr "Por favor, ingrese su nombre"
-
-#: Provider.php:511
-msgid "Por favor, informe um cpf válido"
-msgstr "Por favor, ingrese una CI válida"
-
-#: Provider.php:534
-msgid "Este CPF já esta em uso. Tente recuperar a sua senha."
-msgstr "Esta CI ya está en uso. Intente recuperar su contraseña."
-
-#: Provider.php:545
+#: Provider.php:215 Provider.php:554
 msgid "Este endereço de email já está em uso"
 msgstr "Esta dirección de email ya está en uso"
 
-#: Provider.php:549
-msgid "Por favor, informe um email válido"
-msgstr "Por favor, ingrese un email válido"
-
-#: Provider.php:573
-msgid "Email alterado com sucesso"
-msgstr "Email cambiado con éxito"
-
-#: Provider.php:576
+#: Provider.php:232 Provider.php:585
 msgid "Informe um email válido"
 msgstr "Ingrese un email válido"
 
-#: Provider.php:593
+#: Provider.php:241
+msgid "Alterar email para: "
+msgstr "Cambiar el email para: "
+
+#: Provider.php:242
+msgid "Novo email: "
+msgstr "Nuevo email: "
+
+#: Provider.php:365
+msgid "Senha alterada com sucesso. Agora você pode fazer login"
+msgstr "Contraseña cambiada con éxito! Ahora puede ingresar"
+
+#: Provider.php:378
+msgid "Minha conta"
+msgstr "Mi cuenta"
+
+#: Provider.php:465
+msgid "Sua senha deve conter pelo menos "
+msgstr "Tu contraseña debe contener al menos "
+
+#: Provider.php:469
+msgid " Sua senha deve conter pelo menos 1 número !"
+msgstr " ¡Su contraseña debe contener al menos 1 número!"
+
+#: Provider.php:473
+msgid " Sua senha deve conter pelo menos 1 letra maiúscula !"
+msgstr " ¡Su contraseña debe tener por lo menos 1 letra mayúscula!"
+
+#: Provider.php:477
+msgid " Sua senha deve conter pelo menos 1 letra minúscula !"
+msgstr " ¡Su contraseña debe tener por lo menos 1 letra minúscula!"
+
+#: Provider.php:481
+msgid " Sua senha deve conter pelo menos 1 caractere especial !"
+msgstr " ¡Su contraseña debe contener al menos 1 carácter especial!"
+
+#: Provider.php:484
+msgid "Por favor, insira sua senha"
+msgstr "Por favor, introduzca su contraseña"
+
+#: Provider.php:490
+msgid "As senhas não conferem"
+msgstr "Las contraseñas no coinciden"
+
+#: Provider.php:509 Provider.php:703 Provider.php:907
+msgid "Captcha incorreto, tente novamente !"
+msgstr "¡Captcha incorrecto, intente nuevamente!"
+
+#: Provider.php:513
+msgid "Por favor, informe seu nome"
+msgstr "Por favor, ingrese su nombre"
+
+#: Provider.php:520
+msgid "Por favor, informe um cpf válido"
+msgstr "Por favor, ingrese una CI válida"
+
+#: Provider.php:543
+msgid "Este CPF já esta em uso. Tente recuperar a sua senha."
+msgstr "Esta CI ya está en uso. Intente recuperar su contraseña."
+
+#: Provider.php:558
+msgid "Por favor, informe um email válido"
+msgstr "Por favor, ingrese un email válido"
+
+#: Provider.php:582
+msgid "Email alterado com sucesso"
+msgstr "Email cambiado con éxito"
+
+#: Provider.php:602
 msgid "Email e senha alterados com sucecsso"
 msgstr "Email y contraseña cambiados con éxito"
 
-#: Provider.php:593
+#: Provider.php:602
 msgid "Senha alterada com sucesso"
 msgstr "Contraseña cambiada con éxito"
 
-#: Provider.php:600
+#: Provider.php:609
 msgid "Senha inválida"
 msgstr "Contraseña incorrecta"
 
-#: Provider.php:635 Provider.php:644
+#: Provider.php:644 Provider.php:653
 msgid "Email ou token inválidos"
 msgstr "Email o token incorrectos"
 
-#: Provider.php:657
+#: Provider.php:666
 msgid "Este token expirou"
 msgstr "Este token expiró"
 
-#: Provider.php:675
+#: Provider.php:684
 msgid "Senha alterada com sucesso! Você pode fazer login agora"
 msgstr "Contraseña cambiada con éxito! Ahora puede ingresar"
 
-#: Provider.php:689
+#: Provider.php:698
 msgid "Email não encontrado"
 msgstr "Email no encontrado"
 
-#: Provider.php:718
+#: Provider.php:727
 #, php-format
 msgid "Pedido de recuperação de senha para %s"
 msgstr "Pedido de recuperación de contraseña para %s"
 
-#: Provider.php:750
+#: Provider.php:759
 msgid ""
 "Sucesso: Um e-mail foi enviado com instruções para recuperação da senha."
 msgstr ""
 "Un mensaje de correo electrónico fue enviado con instrucciones para "
 "recuperar la contraseña."
 
-#: Provider.php:753
+#: Provider.php:762
 msgid ""
 "Erro ao enviar email de recuperação. Entre em contato com os administradors "
 "do site."
@@ -169,62 +193,62 @@ msgstr ""
 "Error al enviar el correo electrónico de recuperación. Entre en contacto con "
 "los administradores del sitio."
 
-#: Provider.php:762 views/auth/pass-recover.php:8
+#: Provider.php:771 views/auth/pass-recover.php:8
 msgid "A senha deve conter uma letra maiúscula"
 msgstr "La contraseña debe contener una letra mayúscula"
 
-#: Provider.php:763 views/auth/pass-recover.php:9
+#: Provider.php:772 views/auth/pass-recover.php:9
 msgid "A senha deve conter uma letra minúscula"
 msgstr "La contraseña debe contener una letra minúscula"
 
-#: Provider.php:764 views/auth/pass-recover.php:10
+#: Provider.php:773 views/auth/pass-recover.php:10
 msgid "A senha deve conter um caractere especial"
 msgstr "La contraseña debe contener un carácter especial"
 
-#: Provider.php:765 views/auth/pass-recover.php:11
+#: Provider.php:774 views/auth/pass-recover.php:11
 msgid "A senha deve conter um número "
 msgstr "La contraseña debe contener un número "
 
-#: Provider.php:766 views/auth/pass-recover.php:12
+#: Provider.php:775 views/auth/pass-recover.php:12
 msgid "O tamanho mínimo da senha é de: "
 msgstr "El tamaño mínimo de la contraseña es: "
 
-#: Provider.php:929
+#: Provider.php:938
 msgid "CPF ou senha incorreta"
 msgstr "CI o contraseña incorrecta"
 
-#: Provider.php:948
+#: Provider.php:957
 msgid ""
 "Você possui 2 ou mais agente com o mesmo CPF ! Por favor entre em contato "
 "com o suporte."
 msgstr "¡Tiene 2 o más agentes con la misma CI! Comuníquese con el soporte."
 
-#: Provider.php:954
+#: Provider.php:963
 msgid "CPF ou senha incorreta. Utilize o CPF do seu agente principal"
 msgstr "CI o contraseña incorrectas. Utilice la CI de su agente principal"
 
-#: Provider.php:972 Provider.php:1014
+#: Provider.php:981 Provider.php:1023
 msgid "Usuário ou senha inválidos"
 msgstr "Usuario o contraseña incorrectos"
 
-#: Provider.php:981
+#: Provider.php:990
 msgid "Verifique seu email para validar a sua conta"
 msgstr "Revise su correo electrónico para validar su cuenta"
 
-#: Provider.php:990
+#: Provider.php:999
 msgid "Login bloqueado, tente novamente em "
 msgstr "Inicio de sesión bloqueado, inténtalo de nuevo en "
 
-#: Provider.php:1106
+#: Provider.php:1115
 msgid "Sucesso: Um e-mail lhe foi enviado com detalhes sobre a plataforma "
 msgstr ""
 "Éxito: se le envió un correo electrónico con detalles sobre la plataforma "
 
-#: Provider.php:1108
+#: Provider.php:1117
 msgid "Sucesso: Conta criada com sucesso."
 msgstr "Éxito: cuenta creada correctamente."
 
-#: Provider.php:1286
+#: Provider.php:1295
 msgid "É preciso estar autenticado para realizar esta ação"
 msgstr "Es preciso está autenticado para realizar esta acción"
 
