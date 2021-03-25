@@ -36,7 +36,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             'salt' => env('AUTH_SALT', null),
             'timeout' => env('AUTH_TIMEOUT', '24 hours'),
     
-            'enableLoginByCPF' => env('AUTH_LOGIN_BY_CPF', true),
+            'enableLoginByCPF' => env('AUTH_LOGIN_BY_CPF', false),
             'passwordMustHaveCapitalLetters' => env('AUTH_PASS_CAPITAL_LETTERS', true),
             'passwordMustHaveLowercaseLetters' => env('AUTH_PASS_LOWERCASE_LETTERS', true),
             'passwordMustHaveSpecialCharacters' => env('AUTH_PASS_SPECIAL_CHARS', true),
@@ -209,7 +209,9 @@ class Provider extends \MapasCulturais\AuthProvider {
             $checkEmailExists = $checkEmailExistsQuery->getResult();
 
             if (!empty($checkEmailExists)) {
-                $this->json (array("error"=>"Este endereço de email já está em uso"));
+                $msg = i::__('Este endereço de email já está em uso', 'multipleLocal');  
+                //$this->json (array("error"=>"Este endereço de email já está em uso")); /*uy*/
+                $this->json (array("error"=>$msg));
             }
 
             if (Validator::email()->validate($new_email)) {
@@ -224,7 +226,9 @@ class Provider extends \MapasCulturais\AuthProvider {
 
                 $this->json (array("new_email"=>$new_email));
             } else {
-                $this->json (array("error"=>"Informe um email válido"));
+                $msg = i::__('Informe um email válido', 'multipleLocal');
+                $this->json (array("error"=>$msg));
+                //$this->json (array("error"=>"Informe um email válido")); /*uy*/
             }
             
 
@@ -453,7 +457,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         $err = "";
         if(!empty($pass) && $pass != "" ){
             if (strlen($pass) < $passwordLength) {
-                $err .= i::__("Sua senha deve conter pelo menos ".$passwordLength." dígitos !", 'multipleLocal');
+               $err .= i::__("Sua senha deve conter pelo menos ".$passwordLength." dígitos !", 'multipleLocal');
             }
             if($config['passwordMustHaveNumbers'] &&
                 !preg_match("#[0-9]+#",$pass)) {
