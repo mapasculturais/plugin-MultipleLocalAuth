@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Multiple Local Auth\n"
-"POT-Creation-Date: 2021-03-25 20:12-0300\n"
+"POT-Creation-Date: 2021-03-25 21:28-0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -55,7 +55,7 @@ msgstr "Email validado con éxito"
 
 #: Provider.php:179
 msgid "Criar nova senha para: "
-msgstr "Crear nueva contraseña para :"
+msgstr "Crear nueva contraseña para: "
 
 #: Provider.php:180
 msgid "Alterar senha "
@@ -269,8 +269,12 @@ msgid "Entrar"
 msgstr "Ingresar"
 
 #: views/auth/multiple-local.php:52
-msgid "Se você já possui uma conta no "
-msgstr "Si ya tiene una cuenta con "
+msgid ""
+"Se você já possui uma conta, comece pelo login. Caso tenha esquecido sua "
+"senha, clique em \"esqueci a senha\"."
+msgstr ""
+"Si usted ya posee una cuenta , comience por el \"inicio de sesión\". En caso "
+"de que haya olvidado su contraseña, haga clic en \"olvidé la contraseña\"."
 
 #: views/auth/multiple-local.php:60 views/auth/multiple-local.php:139
 #: views/auth/multiple-local.php:177 views/auth/pass-recover.php:33
@@ -320,8 +324,9 @@ msgid "Criar conta"
 msgstr "Crear cuenta"
 
 #: views/auth/multiple-local.php:162
-msgid "Se ainda não possui conta no "
-msgstr "Si no tiene una cuenta en "
+msgid "Se ainda não possui conta, preencha os campos abaixo."
+msgstr ""
+"Si aún no tiene una cuenta en, complete los campos que se encuentran debajo."
 
 #: views/auth/multiple-local.php:169
 msgid "Nome"
@@ -378,6 +383,9 @@ msgstr "Nueva contraseña"
 #: views/panel/my-account.php:32
 msgid "Confirmar nova senha"
 msgstr "Confirmar nueva contraseña"
+
+#~ msgid "Se você já possui uma conta no "
+#~ msgstr "Si ya tiene una cuenta con "
 
 #~ msgid ""
 #~ "Alguém solicitou a recuperação da senha utilizada em %s por este email.\n"

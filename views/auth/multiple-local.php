@@ -49,7 +49,7 @@ function showStrategy($name, $config) {
                 <div id="multiple-login">
                     <h5><?php i::_e('Entrar', 'multipleLocal'); ?></h5>
                     <h6 class="text-center introduction">
-                    <?php i::_e('Se você já possui uma conta no ' .$app->view->dict('site: name', false). ', comece pelo login. Caso tenha esquecido sua senha, clique em "esqueci a senha".', 'multipleLocal'); ?>
+                    <?php i::_e('Se você já possui uma conta, comece pelo login. Caso tenha esquecido sua senha, clique em "esqueci a senha".', 'multipleLocal'); ?>
                     </h6>
                     <div class="login-options">
                         <form action="<?php echo $login_form_action; ?>" method="POST">
@@ -159,7 +159,7 @@ function showStrategy($name, $config) {
         <div class="section-register">
             <h5><?php i::_e('Criar conta', 'multipleLocal'); ?></h5>
             <h6 class="text-center introduction">
-            <?php i::_e('Se ainda não possui conta no ' .$app->view->dict('site: name', false). ', preencha os campos abaixo.', 'multipleLocal'); ?>
+            <?php i::_e('Se ainda não possui conta, preencha os campos abaixo.', 'multipleLocal'); ?>
             </h6>
 
             <div class="register-options">
