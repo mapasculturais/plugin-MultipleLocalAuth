@@ -54,9 +54,11 @@ class Provider extends \MapasCulturais\AuthProvider {
             'metadataFieldCPF' => env('AUTH_METADATA_FIELD_DOCUMENT', 'documento'),
 
             'urlSupportChat' => env('AUTH_SUPPORT_CHAT', ''),
-            'urlSupportEmail' => env('AUTH_SUPPORT_EMAIL', ''),
-            'urlSupportSite' => env('AUTH_SUPPORT_SITE', ''),
+            'urlSupportEmail' => env('AUTH_SUPPORT_EMAIL', 'mailto:suporte@mapasculturais.com.br'),
+            'urlSupportSite' => env('AUTH_SUPPORT_SITE', 'https://mapasculturais.com.br/suporte'),
             'urlImageToUseInEmails' => env('AUTH_EMAIL_IMAGE' ,'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRqLRsBSuwp4VBxBlIAqytRgieI_7nHjrDxyQ&usqp=CAU'),
+
+            'urlTermsOfUse' => env('LINK_TERMOS', $app->createUrl('auth', 'termos-e-condicoes')),
 
             'strategies' => [
                 'Facebook' => [
@@ -108,23 +110,23 @@ class Provider extends \MapasCulturais\AuthProvider {
 
         $app = App::i();
 
-        $app->hook('GET(auth.termos-e-condicoes)',function () use ($app) {
-            $this->render('termos-e-condicoes');
+        $config = $this->_config;
+
+        $app->hook('GET(auth.termos-e-condicoes)',function () use ($app, $config) {
+            $this->render('termos-e-condicoes', ['config' => $config]);
         });
 
-        $app->hook('GET(auth.passwordvalidationinfos)', function () use($app){
-            $app = App::i();
-            $config = $app->config;
-
+        $app->hook('GET(auth.passwordvalidationinfos)', function () use($config){
+            
             $passwordRules = array(
-                "passwordMustHaveCapitalLetters" => $config['auth.config']['passwordMustHaveCapitalLetters'],
-                "passwordMustHaveLowercaseLetters" => $config['auth.config']['passwordMustHaveLowercaseLetters'],
-                "passwordMustHaveSpecialCharacters" => $config['auth.config']['passwordMustHaveSpecialCharacters'],
-                "passwordMustHaveNumbers" => $config['auth.config']['passwordMustHaveNumbers'],
-                "minimumPasswordLength" => $config['auth.config']['minimumPasswordLength'],
+                "passwordMustHaveCapitalLetters" => $config['passwordMustHaveCapitalLetters'],
+                "passwordMustHaveLowercaseLetters" => $config['passwordMustHaveLowercaseLetters'],
+                "passwordMustHaveSpecialCharacters" => $config['passwordMustHaveSpecialCharacters'],
+                "passwordMustHaveNumbers" => $config['passwordMustHaveNumbers'],
+                "minimumPasswordLength" => $config['minimumPasswordLength'],
             );
 
-            $this->json (array("passwordRules"=>$passwordRules));
+            $this->json(array("passwordRules"=>$passwordRules));
         });
 
         $app->hook('GET(auth.confirma-email)', function () use($app){
@@ -288,10 +290,7 @@ class Provider extends \MapasCulturais\AuthProvider {
 
         if($this->usingSocialLogin()){
             $providers = implode('|', array_keys($config['strategies']));
-        }        
 
-
-        if($this->usingSocialLogin()){
             $app->hook("<<GET|POST>>(auth.<<{$providers}>>)", function () use($opauth, $config){
                 $opauth->run();
             });
@@ -301,9 +300,14 @@ class Provider extends \MapasCulturais\AuthProvider {
 
             $app->auth->processResponse();
             if($app->auth->isUserAuthenticated()){
+                $app->applyHook('auth.successful');
+
+                $redirect_url = $app->auth->getRedirectPath();
                 unset($_SESSION['mapasculturais.auth.redirect_path']);
-                $app->redirect($app->auth->getRedirectPath());
+                
+                $app->redirect($redirect_url);
             }else{
+                $app->applyHook('auth.failed');
                 $app->redirect($this->createUrl(''));
             }
         });
@@ -320,14 +324,15 @@ class Provider extends \MapasCulturais\AuthProvider {
         });
         
         $app->hook('POST(auth.login)', function () use($app){
-            $redirectUrl = $app->request->post('redirectUrl');
-            $email = $app->request->post('email');
-            $redirectUrl = (empty($redirectUrl)) ? $app->auth->getRedirectPath() : $redirectUrl;
-            
             if ($app->auth->verifyLogin()) {
+                $app->applyHook('auth.successful');
+                
+                $redirectUrl = $app->request->post('redirectUrl') ?: $app->auth->getRedirectPath();
                 unset($_SESSION['mapasculturais.auth.redirect_path']);
+                
                 $app->redirect($redirectUrl);
             } else {
+                $app->applyHook('auth.failed');
                 $app->auth->renderForm($this);
             }
         });
@@ -517,7 +522,15 @@ class Provider extends \MapasCulturais\AuthProvider {
 
             $foundAgent = $findUserByCpfMetadata1 ? $findUserByCpfMetadata1 : $findUserByCpfMetadata2;
 
-            if(count($foundAgent) > 0) {
+            //cria um array com os agentes que estão com status == 1, pois o usuario pode ter, por exemplo, 3 agentes, mas 2 estão com status == 0
+            $activeAgents  = [];
+            foreach ($foundAgent as $agentMeta) {
+                if($agentMeta->owner->status === 1) {
+                    $activeAgents[] = $agentMeta;
+                }
+            }
+
+            if(count($activeAgents) > 0) {
                 return $this->setFeedback(i::__('Este CPF já esta em uso. Tente recuperar a sua senha.', 'multipleLocal'));
             }
 
@@ -534,15 +547,6 @@ class Provider extends \MapasCulturais\AuthProvider {
         // validate email
         if (empty($email) || Validator::email()->validate($email) !== true)
             return $this->setFeedback(i::__('Por favor, informe um email válido', 'multipleLocal'));
-
-        // // email exists? (case insensitive)
-        // $checkEmailExistsQuery = $app->em->createQuery("SELECT u FROM \MapasCulturais\Entities\User u WHERE LOWER(u.email) = :email");
-        // $checkEmailExistsQuery->setParameter('email', strtolower($email));
-        // $checkEmailExists = $checkEmailExistsQuery->getResult();
-        
-        // if (!empty($checkEmailExists)) {
-        //     return $this->setFeedback(i::__('Este endereço de email já está em uso', 'multipleLocal'));
-        // }
 
         // validate password
         return $this->verifyPassowrds($pass, $pass_v);
@@ -917,21 +921,31 @@ class Provider extends \MapasCulturais\AuthProvider {
             $cpf = $email;
 
             $cpf = preg_replace("/(\d{3}).?(\d{3}).?(\d{3})-?(\d{2})/", "$1.$2.$3-$4", $cpf);
+            $cpf2 = preg_replace( '/[^0-9]/is', '', $cpf );
 
-            $findUserByCpfMetadata1 = $app->repo("AgentMeta")->findBy(array('key' => $metadataFieldCpf, 'value' => $cpf));
-
-            //retira ". e -" do $request->post('cpf')
-            $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-            $findUserByCpfMetadata2 = $app->repo("AgentMeta")->findBy(array('key' => $metadataFieldCpf, 'value' => $cpf));
-
-            $foundAgent = $findUserByCpfMetadata1 ? $findUserByCpfMetadata1 : $findUserByCpfMetadata2;
+            $foundAgent = $app->repo("AgentMeta")->findBy(['key' => $metadataFieldCpf, 'value' => [$cpf,$cpf2]]);
 
             if(!$foundAgent) {
                 return $this->setFeedback(i::__('CPF ou senha incorreta', 'multipleLocal'));
             }
 
-            if(count($foundAgent) > 1) {
-                return $this->setFeedback(i::__('Somente é necessario que UM AGENTE tenha cpf UNICO, por favor exluca os demais agentes que tem CPF duplicado', 'multipleLocal'));
+            //cria um array com os agentes que estão com status == 1, pois o usuario pode ter, por exemplo, 3 agentes, mas 2 estão com status == 0
+            $activeAgents  = [];
+            $active_agent_users = [];
+            foreach ($foundAgent as $agentMeta) {
+                if($agentMeta->owner->status === 1) {
+                    $activeAgents[] = $agentMeta;
+                    if (!in_array($agentMeta->owner->user->id, $active_agent_users)) {
+                        $active_agent_users[] = $agentMeta->owner->user->id;
+                    }
+                }
+            }
+
+            //aqui foi feito um "jogo de atribuição" de variaveis para que o restando do fluxo do codigo continue funcionando normalmente
+            $foundAgent = $activeAgents;
+
+            if(count($active_agent_users) > 1) {
+                return $this->setFeedback(i::__('Você possui 2 ou mais agente com o mesmo CPF ! Por favor entre em contato com o suporte.', 'multipleLocal'));
             }
             
             $user = $app->repo("User")->findOneBy(array('id' => $foundAgent[0]->owner->user->id));
@@ -1039,7 +1053,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             //Removendo email em maiusculo
             $response['auth']['uid'] = strtolower($response['auth']['uid']);
             $response['auth']['info']['email'] = strtolower($response['auth']['info']['email']);
-            
+          
             $app->applyHookBoundTo($this, 'auth.createUser:before', [$response]);
             $user = $this->_createUser($response);
             $app->applyHookBoundTo($this, 'auth.createUser:after', [$user, $response]);
@@ -1087,9 +1101,13 @@ class Provider extends \MapasCulturais\AuthProvider {
 
 
             $this->feedback_success = true;
-            $this->feedback_msg = i::__('Sucesso: Um e-mail lhe foi enviado com detalhes sobre a plataforma '.$config['app.siteName'] . '. Verifique sua caixa de email e clique em “Validar conta” para continuar.' , 'multipleLocal');
-            
-        
+
+            if(isset($config['auth.config']) && isset($config['auth.config']['userMustConfirmEmailToUseTheSystem']) && $config['auth.config']['userMustConfirmEmailToUseTheSystem']) {
+                $this->feedback_msg = i::__('Sucesso: Um e-mail lhe foi enviado com detalhes sobre a plataforma '.$config['app.siteName'] . '. Verifique sua caixa de email e clique em “Validar conta” para continuar.' , 'multipleLocal');
+            } else {
+                $this->feedback_msg = i::__('Sucesso: Conta criada com sucesso.' , 'multipleLocal');
+            }
+
         } 
         
     }
@@ -1244,11 +1262,9 @@ class Provider extends \MapasCulturais\AuthProvider {
                 $this->_setRedirectPath($profile->editUrl);
             }
             $this->_setAuthenticatedUser($user);
-            App::i()->applyHook('auth.successful');
             return true;
         } else {
             $this->_setAuthenticatedUser();
-            App::i()->applyHook('auth.failed');
             return false;
         }
     }
@@ -1322,8 +1338,9 @@ class Provider extends \MapasCulturais\AuthProvider {
         $user->save(true);
         
         $app->enableAccessControl();
-
-        $this->_setRedirectPath($agent->editUrl);
+        $redirectUrl = $agent->editUrl;
+        $app->applyHookBoundTo($this, 'auth.createUser:redirectUrl', [&$redirectUrl]);
+        $this->_setRedirectPath($redirectUrl);
         
         return $user;
     }

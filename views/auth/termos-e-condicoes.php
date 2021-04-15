@@ -23,7 +23,7 @@ Consulta aos cadastros de espaços, de agentes, de eventos, de projetos e de opo
 Apresentação dos dados cadastrais em interface de georreferenciamento;
 Exportação das informações públicas existentes nos cadastros mantidos pelo sistema;
 Execução, acompanhamento e publicação dos resultados de projetos e oportunidades.
-Novos serviços poderão ser disponibilizados a qualquer momento e os serviços existentes poderão ser removidos mediante comunicação através do site https://mapacultural.secult.ce.gov.br 
+Novos serviços poderão ser disponibilizados a qualquer momento e os serviços existentes poderão ser removidos mediante comunicação através do site <a href="<?= $config['urlSupportSite'] ?>"><?= $config['urlSupportSite'] ?></a>.
 </p>
 
 <h1>III. Da Qualificação das Partes</h1>
@@ -86,7 +86,7 @@ A eliminação de informações, por parte do titular, antes que todos os prazos
 A utilização do Mapa Cultural  somente pode se dar para propósitos lícitos e de modo a não afetar os direitos ou possibilidades de uso do sistema por terceiros. Não serão toleradas condutas ilícitas, imorais ou que possam molestar ou ser inconvenientes para os administradores do sistema, para os serviços disponibilizados ou para terceiros. Da mesma forma, o Mapa Cultural  não pode ser utilizado para difamar, abusar, assediar, perseguir, ameaçar ou violar quaisquer direitos individuais ou para a transmissão de conteúdo ilícito.
 O titular tem responsabilidade pessoal sobre suas informações de acesso ao Mapa Cultural  (login e senha) e deverá mantê-las em segurança, estritamente sob seu controle pessoal, não franqueando, em nenhuma circunstância, seu acesso a terceiros.
 O titular é responsável pela veracidade e pela atualização dos dados que informar ao Mapa Cultural , bem como aos serviços disponíveis através dele. O fornecimento de informação falsa poderá causar desde resultados inexatos e indesejados em relação aos serviços, bem como suspender ou cancelar o acesso ao sistema e ainda poderá punir o responsável por qualquer ato, conforme a legislação aplicável ao caso.
-O titular deverá comunicar imediatamente ao suporte do Mapa Cultural , através do email mapacultural@secult.ce.gov.br acerca de qualquer suspeita de acesso indevido ao sistema, de falha de segurança ou do comprometimento de suas informações de acesso.
+O titular deverá comunicar imediatamente ao suporte do Mapa Cultural, através do email <a href="<?= $config['urlSupportEmail'] ?>"><?= str_replace('mailto:', '', $config['urlSupportEmail']) ?></a> acerca de qualquer suspeita de acesso indevido ao sistema, de falha de segurança ou do comprometimento de suas informações de acesso.
 A não observância pelo titular, dos seus deveres previstos nestes Termos de Uso ou em qualquer outra legislação aplicável, poderá acarretar na suspensão ou no cancelamento do seu acesso ao Mapa Cultural , ou a um ou mais serviços disponibilizados, além das outras sanções previstas em Lei.
 </p>
 
@@ -113,7 +113,7 @@ Estas informações poderão ser utilizadas pela Secretaria da Cultura do Estado
 <p>
 Ao utilizar o Mapa Cultural , o titular será informado previamente sobre quais as informações pessoais serão de visualização pública e quais são privadas. 
 As informações do titular do Mapa Cultural  somente poderão ser modificadas através do sítio web do sistema, mediante o uso de suas informações de acesso.
-Caso o titular tenha perdido as suas informações de acesso, ele poderá utilizar o serviço de recuperação deste, disponibilizados no site do Mapa Cultural  ou através da equipe técnica no email mapacultural@secult.ce.gov.br.
+Caso o titular tenha perdido as suas informações de acesso, ele poderá utilizar o serviço de recuperação deste, disponibilizados no site do Mapa Cultural  ou através da equipe técnica no email <a href="<?= $config['urlSupportEmail'] ?>"><?= str_replace('mailto:', '', $config['urlSupportEmail']) ?></a>.
 </p>
 
 <h1>XIV. Suspensão ou Término da Disponibilização</h1>
