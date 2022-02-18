@@ -161,14 +161,27 @@ class Provider extends \MapasCulturais\AuthProvider {
             $new_pass = $this->data['password'];
             $email = $this->data['email'];
             $user = $app->auth->getUserFromDB($email);
+            $newPassUpdate = $user->getMetadata('localAuthenticationPassword');
             
-            $user->setMetadata('localAuthenticationPassword', $app->auth->hashPassword($new_pass));
+            //script sql para atualizar password na tabela auth_user
+	    $updatePasswordAuthUserTable = "
+                                    update 
+                                        public.auth_user
+                                    set
+                                        password = '$newPassUpdate' 
+                                    where 
+                                        email = '$email'
+                                    ";
+            $stmt = $app->em->getConnection()->prepare($updatePasswordAuthUserTable);
+            
+	    $user->setMetadata('localAuthenticationPassword', $app->auth->hashPassword($new_pass));
             
             // save
             $app->disableAccessControl();
             $user->saveMetadata(true);
             $app->enableAccessControl();
             $user->save(true);
+            $stmt->execute();
             $app->em->flush();
 
             $this->json (array("password"=>$new_pass,"user"=>$user,"password"=>$app->auth->hashPassword($new_pass)));
