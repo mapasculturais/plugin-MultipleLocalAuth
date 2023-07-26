@@ -147,7 +147,10 @@ function showStrategy($name, $config) {
                     <h5><?php i::_e('Esqueci minha senha', 'multipleLocal'); ?></h5>
                     <div class="recover-options">
                         <form autocomplete="off" action="<?php echo $recover_form_action; ?>" method="POST">
-                            <!-- <p><?php i::_e('Para recuperar sua senha, informe o e-mail utilizado no cadastro.', 'multipleLocal'); ?></p> -->
+                            <p>
+                                <h5>Recuperar senha utilizando email de acesso</h5>
+                                <?php i::_e('Para recuperar sua senha, informe o e-mail utilizado no cadastro.', 'multipleLocal'); ?>
+                            </p> 
 
                             <fieldset>
                                 <label for="re-email">
@@ -155,17 +158,52 @@ function showStrategy($name, $config) {
                                 </label>
 
                                 <input autocomplete="off" type="text" id="re-email" name="email" value="" />
-                            </fieldset>
 
-
-                            <?php if (isset($config['google-recaptcha-sitekey'])) : ?>
+                                <?php if (isset($config['google-recaptcha-sitekey'])) : ?>
                                 <div class="g-recaptcha" data-sitekey="<?php echo $config['google-recaptcha-sitekey']; ?>"></div>
-                            <?php endif; ?>
+                                <?php endif; ?>
 
-                            <input type="submit" value="<?php i::esc_attr_e('Recuperar senha', 'multipleLocal'); ?>" />
-                            <a id="multiple-login-recover-cancel" class="multiple-recover-link secondary"><?php i::_e('Cancelar', 'multipleLocal'); ?></a>
+                                <input type="submit" value="<?php i::esc_attr_e('Recuperar senha', 'multipleLocal'); ?>" />
+                                <a id="multiple-login-recover-cancel" class="multiple-recover-link secondary"><?php i::_e('Cancelar', 'multipleLocal'); ?></a>
+                            </fieldset>                            
                         </form>
-                    </div>
+                        <?php if (isset($config['enableLoginByCPF']) && $config['enableLoginByCPF']): ?>
+                            <form autocomplete="off" action="<?php echo $recover_form_action; ?>" method="POST">
+                                <p>
+                                    <h5>Recuperar senha utilizando dados cadastrais</h5>
+                                    <?php i::_e('Para recuperar sua senha, informe o dados solicitados abaixo.', 'multipleLocal'); ?>
+                                </p>
+
+                                <fieldset>
+                                    <label for="re-nome">
+                                        <?php i::_e('Nome Completo', 'multipleLocal'); ?>
+                                    </label>
+
+                                    <input autocomplete="off" type="text" id="re-nome" name="nome" value="" />
+
+                                    <label for="re-documento">
+                                        <?php i::_e('CPF', 'multipleLocal'); ?>
+                                    </label>
+
+                                    <input autocomplete="off" type="text" id="re-documento" name="documento" value="" />
+
+                                    <label for="re-dtnas">
+                                        <?php i::_e('Data de nascimento', 'multipleLocal'); ?>
+                                    </label>
+
+                                    <input autocomplete="off" type="text" id="re-dtnas" name="dtnas" value="" />
+                                </fieldset>
+
+
+                                <?php if (isset($config['google-recaptcha-sitekey'])) : ?>
+                                    <div class="g-recaptcha" data-sitekey="<?php echo $config['google-recaptcha-sitekey']; ?>"></div>
+                                <?php endif; ?>
+
+                                <input type="submit" value="<?php i::esc_attr_e('Recuperar senha', 'multipleLocal'); ?>" />
+                                <a class="multiple-recover-link secondary" onclick="$(function() {$('#multiple-login').show();$('#multiple-recover').hide();});"><?php i::_e('Cancelar', 'multipleLocal'); ?></a>
+                            </form>
+                        <?php endif;?>
+                    </div>                    
                 </div>
             </div>
         </div>
