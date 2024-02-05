@@ -4,6 +4,7 @@ use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\Entities\Agent;
 use MapasCulturais\i;
+use DateTime;
 use Mustache\Mustache;
 use Respect\Validation\Validator;
 
@@ -335,6 +336,14 @@ class Provider extends \MapasCulturais\AuthProvider {
             $login = $app->auth->doLogin();
 
             if ($login['success']) {
+                $entity = $app->user->profile;
+
+                if($entity->dataDeNascimento){
+                    $today = new DateTime('now');
+                    $calc = (new DateTime($entity->dataDeNascimento))->diff($today);
+                    $entity->idoso = ($calc->y >= 60) ? "1" : "0";
+                    $entity->save(true);
+                }
                 $this->json([
                     'error' => false, 
                     'redirectTo' => $app->auth->getRedirectPath()
