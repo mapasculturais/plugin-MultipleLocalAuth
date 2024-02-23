@@ -71,7 +71,7 @@ msgstr " ¡Su contraseña debe contener al menos 1 número!"
 
 #: Provider.php:508
 msgid " Sua senha deve conter pelo menos 1 letra maiúscula !"
-msgstr " ¡Su contraseña debe contener al menos 1 letra mayúscula!"
+msgstr " ¡Su contraseña debe contener al menos 1 letra mayúscula !"
 
 #: Provider.php:512
 msgid " Sua senha deve conter pelo menos 1 letra minúscula !"
