@@ -21,13 +21,13 @@ $this->import('
         <div class="login__card">
             <div class="login__card__header">
                 <h3 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Boas vindas!')) ?> </h3>
-                <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Bem vindo de volta!')) ?> </h3>
-                <h3 v-if="passwordResetRequired"> <?= $this->text('welcome', i::__('Bem vindo de volta!')) ?> </h3>
-                <h3 v-if="userNotFound"> <?= $this->text('welcome', i::__('Bem vindo ao Mapas Culturais!')) ?> </h3>
-
+                <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Boas vindas de volta!')) ?> </h3>
+                <h3 v-if="passwordResetRequired"> <?= $this->text('welcome', i::__('Boas vindas de volta!')) ?> </h3>
+                <h3 v-if="userNotFound"> <?= $this->text('welcome', i::__('Boas vindas ao Mapas Culturais!')) ?> </h3>
                 <h6 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= sprintf($this->text('greeting', i::__('Informe seu e-mail ou CPF e iremos verificar se já possui um cadastro no %s')), $app->siteName) ?> </h6>
                 <h6 v-if="showPassword && !passwordResetRequired"> <?= i::__('Digite sua senha do Mapas Culturais para avançar') ?> </h6>
-                <h6 v-if="passwordResetRequired"> <?= i::__('Verificamos aqui que com esse e-mail informado, você já possui cadastro no Mapas. Para acessar seu cadastro será necessário realizar a criação de uma nova senha, para isso clicar no ícone abaixo de ESQUECI MINHA SENHA, vamos lá!') ?> </h6>
+                <h6 v-if="passwordResetRequired"> <?= i::__('Verificamos que você já possui cadastro no Mapas com este e-mail ou CPF informado. 
+                Porém, como é seu primeiro acesso nesta versão, será necessário criar uma nova senha. Vamos lá?') ?> </h6>
             </div>
 
             <div class="login__card__content">
@@ -53,7 +53,7 @@ $this->import('
                     <div class="login__buttons">
                         <button v-if="!showPassword && !passwordResetRequired && !userNotFound" class="button button--primary button--large button--md" type="submit"> <?= i::__('Próximo') ?> </button>
                         <button v-if="showPassword && !passwordResetRequired" class="button button--primary button--large button--md" type="button" @click="doLogin"> <?= i::__('Entrar') ?> </button>
-                        <button v-if="passwordResetRequired" class="button button--secondary button--large button--md" @click="recoveryRequest = true"> <?= i::__('Esqueci minha senha') ?> </button>
+                        <button v-if="passwordResetRequired" class="button button--primary button--large button--md" @click="recoveryRequest = true"> <?= i::__('Gerar nova senha') ?> </button>
                         <button  v-if="passwordResetRequired || showPassword" class="button button--secondary button--large button--md" @click="resetLoginState"> <?= i::__('Voltar') ?> </button>
                     </div>
 
@@ -75,7 +75,7 @@ $this->import('
         <div class="login__card" v-if="!recoveryEmailSent">
             <div class="login__card__header">
                 <h3> <?= i::__('Alteração de senha') ?> </h3>
-                <h6> <?= i::__('Se você esqueceu a senha, não se preocupe, todo mundo passa por isso.') ?> <br> <?= i::__('Digite seu e-mail para criar uma nova.') ?> </h6>
+                <h6> <?= i::__('Digite seu e-mail para receber instruções e criar uma nova senha.') ?> </h6>
             </div>
 
             <div class="login__card__content">
@@ -85,7 +85,7 @@ $this->import('
                         <input type="email" name="email" id="email" v-model="email" autocomplete="off" />
                     </div>
                     <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
-                    <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Alterar senha') ?> </button>
+                    <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Receber instruções no e-mail') ?> </button>
                     <a @click="recoveryRequest = false" class="col-12 button button--secondarylight button--large button--md"> <?= i::__('Voltar') ?> </a>
                 </form>
             </div>
