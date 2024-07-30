@@ -20,50 +20,55 @@ $this->import('
     <div v-if="!recoveryRequest && !recoveryMode" class="login__action">
         <div class="login__card">
             <div class="login__card__header">
-                <h3 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Boas vindas!')) ?> </h3>
-                <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Boas vindas de volta!')) ?> </h3>
-                <h3 v-if="passwordResetRequired"> <?= $this->text('welcome', i::__('Boas vindas de volta!')) ?> </h3>
-                <h3 v-if="userNotFound"> <?= $this->text('welcome', i::__('Boas vindas ao Mapas Culturais!')) ?> </h3>
-                <h6 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= sprintf($this->text('greeting', i::__('Informe seu e-mail ou CPF e iremos verificar se já possui um cadastro no %s')), $app->siteName) ?> </h6>
-                <h6 v-if="showPassword && !passwordResetRequired"> <?= i::__('Digite sua senha do Mapas Culturais para avançar') ?> </h6>
-                <h6 v-if="passwordResetRequired"> <?= i::__('Verificamos que você já possui cadastro no Mapas com este e-mail ou CPF informado. 
-                Porém, como é seu primeiro acesso nesta versão, será necessário criar uma nova senha. Vamos lá?') ?> </h6>
+                <h3> <?= $this->text('welcome', i::__('Boas vindas!')) ?> </h3>
+                <h6> <?= sprintf($this->text('greeting', i::__('Entre na sua conta do %s')), $app->siteName) ?> </h6>
             </div>
 
             <div class="login__card__content">
-                <form class="login__form" @submit.prevent="showPasswordField">
+                <form class="login__form" @submit.prevent="doLogin();">
                     <div class="login__fields">
-                        <div class="field" v-if="!showPassword && !passwordResetRequired && !userNotFound">
+                        <div class="field">
                             <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
                             <input type="text" name="email" id="email" v-model="email" autocomplete="off" />
                         </div>
 
-                        <div v-if="showPassword && !passwordResetRequired" class="field password">
+                        <div class="field password">
                             <label for="password"> <?= i::__('Senha') ?> </label>
                             <input type="password" name="password" id="password" v-model="password" autocomplete="off" />
                             <a id="multiple-login-recover" class="login__recover-link" @click="recoveryRequest = true"> <?= i::__('Esqueci minha senha') ?> </a>
                             <div class="seePassword" @click="togglePassword('password', $event)"></div>
+                        </div> 
+                    </div>                     
+
+                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha"></VueRecaptcha>
+                    
+                    <div class="login__buttons">
+                        <button class=" button button--primary button--large button--md" type="submit"> <?= i::__('Entrar') ?> </button>
+
+                        <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="divider"> 
+                            <span class="divider__text"> <?= i::__('Ou entre com') ?> </span>
                         </div>
 
+                        <div class="login__social-buttons" :class="{'login__social-buttons--multiple': multiple}">
+                            <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">                                
+                                <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
+                                <?= i::__('Entrar com Gov.br') ?>                            
+                            </a>
 
+                            <a v-if="configs.strategies.Google?.visible" class="social-login--button button button--icon button--large button--md google" href="<?php echo $app->createUrl('auth', 'google') ?>">                                
+                                <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>                                
+                                <?= i::__('Entrar com Google') ?>
+                            </a>
+
+                        </div>
                     </div>
 
-                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey'] && !showPassword && !passwordResetRequired && !userNotFound" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha"></VueRecaptcha>
+                    <div class="create ">
+                        <h5 class="bold"> <?= sprintf($this->text('register', i::__('Ainda não tem cadastro no %s? Realize seu cadastro agora!')), $app->siteName) ?> </h5>
 
-                    <div class="login__buttons">
-                        <button v-if="!showPassword && !passwordResetRequired && !userNotFound" class="button button--primary button--large button--md" type="submit"> <?= i::__('Próximo') ?> </button>
-                        <button v-if="showPassword && !passwordResetRequired" class="button button--primary button--large button--md" type="button" @click="doLogin"> <?= i::__('Entrar') ?> </button>
-                        <button v-if="passwordResetRequired" class="button button--primary button--large button--md" @click="recoveryRequest = true"> <?= i::__('Gerar nova senha') ?> </button>
-                        <button  v-if="passwordResetRequired || showPassword" class="button button--secondary button--large button--md" @click="resetLoginState"> <?= i::__('Voltar') ?> </button>
-                    </div>
-
-
-                    <div v-if="userNotFound" class="create">
-                        <h5 class="bold"> <?= i::__('Usuário não encontrado. Por favor, realize seu cadastro.') ?> </h5>
-                        <a class="button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>"> 
-                            <?= i::__('Fazer cadastro') ?>
+                        <a class=" button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>"> 
+                            <?= $this->text('fazer-cadastro', i::__('Fazer cadastro')) ?>
                         </a>
-                        <button class="button button--secondary button--large button--md" @click="resetLoginState"> <?= i::__('Voltar') ?> </button>
                     </div>
                 </form>
             </div>
@@ -75,7 +80,7 @@ $this->import('
         <div class="login__card" v-if="!recoveryEmailSent">
             <div class="login__card__header">
                 <h3> <?= i::__('Alteração de senha') ?> </h3>
-                <h6> <?= i::__('Digite seu e-mail para receber instruções e criar uma nova senha.') ?> </h6>
+                <h6> <?= i::__('Se você esqueceu a senha, não se preocupe, todo mundo passa por isso.') ?> <br> <?= i::__('Digite seu e-mail para criar uma nova.') ?> </h6>
             </div>
 
             <div class="login__card__content">
@@ -85,7 +90,7 @@ $this->import('
                         <input type="email" name="email" id="email" v-model="email" autocomplete="off" />
                     </div>
                     <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
-                    <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Receber instruções no e-mail') ?> </button>
+                    <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Alterar senha') ?> </button>
                     <a @click="recoveryRequest = false" class="col-12 button button--secondarylight button--large button--md"> <?= i::__('Voltar') ?> </a>
                 </form>
             </div>
@@ -119,6 +124,7 @@ $this->import('
                     <div class="field col-12 password">
                         <label for="pwd"> <?= i::__('Senha'); ?> </label>
                         <input autocomplete="off" id="pwd" type="password" name="password" v-model="password" />
+                        
                     </div>
 
                     <div class="field col-12 password">
