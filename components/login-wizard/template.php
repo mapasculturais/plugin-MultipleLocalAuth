@@ -20,14 +20,15 @@ $this->import('
     <div v-if="!recoveryRequest && !recoveryMode" class="login__action">
         <div class="login__card">
             <div class="login__card__header">
-                <h3 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Boas vindas!')) ?> </h3>
-                <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Boas vindas de volta!')) ?> </h3>
-                <h3 v-if="passwordResetRequired"> <?= $this->text('welcome', i::__('Boas vindas de volta!')) ?> </h3>
-                <h3 v-if="userNotFound"> <?= $this->text('welcome', i::__('Boas vindas ao Mapas Culturais!')) ?> </h3>
-                <h6 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= sprintf($this->text('greeting', i::__('Informe seu e-mail ou CPF e iremos verificar se já possui um cadastro no %s')), $app->siteName) ?> </h6>
-                <h6 v-if="showPassword && !passwordResetRequired"> <?= i::__('Digite sua senha do Mapas Culturais para avançar') ?> </h6>
-                <h6 v-if="passwordResetRequired"> <?= i::__('Verificamos que você já possui cadastro no Mapas com este e-mail ou CPF informado. 
-                Porém, como é seu primeiro acesso nesta versão, será necessário criar uma nova senha. Vamos lá?') ?> </h6>
+                <h3 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Bem-vindo(a) ao Mapa da Cultura!')) ?> </h3>
+                <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Bem-vindo(a) de volta!')) ?> </h3>
+                
+                <h6 v-if="userNotFound" class="bold"> <?= i::__('Verificamos que o e-mail informado não está vinculado a nenhum cadastro no Mapa da Cultura. Realize seu cadastro agora.') ?> </h6>
+
+                <h6 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Informe seu e-mail que vamos verificar se já possui uma conta.')) ?> </h6>
+
+                <h6 v-if="showPassword && !passwordResetRequired"> <?= i::__('Digite sua senha para acessar o Mapa da Cultura.') ?> </h6>
+                <h6 v-if="passwordResetRequired"> <?= i::__('Verificamos que, com o e-mail informado, você já possui cadastro no Mapa da Cultura. Devido a recente atualização de sistema, para acessar seu cadastro será necessário gerar uma nova senha. Para isso, basta clicar em GERAR NOVA SENHA. Vamos lá!') ?> </h6>
             </div>
 
             <div class="login__card__content">
@@ -59,7 +60,6 @@ $this->import('
 
 
                     <div v-if="userNotFound" class="create">
-                        <h5 class="bold"> <?= i::__('Usuário não encontrado. Por favor, realize seu cadastro.') ?> </h5>
                         <a class="button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>"> 
                             <?= i::__('Fazer cadastro') ?>
                         </a>
@@ -75,7 +75,7 @@ $this->import('
         <div class="login__card" v-if="!recoveryEmailSent">
             <div class="login__card__header">
                 <h3> <?= i::__('Alteração de senha') ?> </h3>
-                <h6> <?= i::__('Digite seu e-mail para receber instruções e criar uma nova senha.') ?> </h6>
+                <h6> <?= i::__('Digite seu e-mail para criar uma nova senha.') ?> </h6>
             </div>
 
             <div class="login__card__content">
