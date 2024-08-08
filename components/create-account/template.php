@@ -21,7 +21,7 @@ $this->import('
 
     <div v-if="!created" class="create-account__title">
         <label><?= $this->text('title', i::__('Novo cadastro')) ?> </label>
-        <p><?= $this->text('description', i::__('Siga os passos para criar o seu cadastro no Mapas da Cultura.')) ?> </p>
+        <p><?= $this->text('description', i::__('Siga os passos para criar o seu cadastro no Mapa da Cultura.')) ?> </p>
     </div>
 
     <!-- Creating account -->
