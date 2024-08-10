@@ -21,7 +21,7 @@ $this->import('
 
     <div v-if="!created" class="create-account__title">
         <label><?= $this->text('title', i::__('Novo cadastro')) ?> </label>
-        <p><?= sprintf($this->text('description', i::__('Siga os passos para criar o seu cadastro no %s.')), $app->siteName) ?> </p>
+        <p><?= $this->text('description', i::__('Siga os passos para criar o seu cadastro no Mapa da Cultura.')) ?> </p>
     </div>
 
     <!-- Creating account -->
@@ -99,7 +99,8 @@ $this->import('
                 <label class="title col-12">
                     <div class="subtitle col-12">
                         <span> <?= i::__('Falta pouco para finalizar o seu cadastro!') ?> </span>
-                        <span> <?= i::__('Dê um nome e faça uma breve descrição sua.') ?> </span>
+                        <span> <?= i::__('Preencha seu nome e uma breve descrição sua.') ?> </span>
+                        <span> <?= i::__('As pessoas encontrarão você por esse nome.') ?> </span>
                     </div>
                 </label>
                 
