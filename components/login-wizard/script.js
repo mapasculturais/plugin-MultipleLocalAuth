@@ -88,7 +88,6 @@ app.component('login-wizard', {
             };
     
             return await api.POST($MAPAS.baseURL + "autenticacao/verify", dataPost).then(response => response.json().then(dataReturn => {
-                console.log(dataReturn.result)
                 if (dataReturn.error) {
                     this.throwErrors(dataReturn.data);
                 } else {
@@ -189,7 +188,7 @@ app.component('login-wizard', {
         throwErrors(errors) {
             const messages = useMessages();
 
-            if (this.recaptchaResponse !== '') {
+            if (this.recaptchaShown && this.recaptchaResponse !== '') {
                 grecaptcha.reset();
                 this.expiredCaptcha();
             }
