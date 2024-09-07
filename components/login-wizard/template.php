@@ -55,7 +55,7 @@ $this->import('
 
                     <div class="login__buttons">
                         <button v-if="!showPassword && !passwordResetRequired && !userNotFound" class="button button--primary button--large button--md" type="submit"> <?= i::__('Próximo') ?> </button>
-                        <button v-if="showPassword && !passwordResetRequired" class="button button--primary button--large button--md" type="button" @click="doLogin"> <?= i::__('Entrar') ?> </button>
+                        <button v-if="showPassword && !passwordResetRequired" class="button button--primary button--large button--md" type="submit" @click="doLogin"> <?= i::__('Entrar') ?> </button>
                         <button v-if="passwordResetRequired" class="button button--primary button--large button--md" @click="recoveryRequest = true"> <?= i::__('Gerar nova senha') ?> </button>
                         <button  v-if="passwordResetRequired || showPassword" class="button button--secondary button--large button--md" @click="resetLoginState"> <?= i::__('Voltar') ?> </button>
                     </div>
