@@ -335,6 +335,9 @@ class Provider extends \MapasCulturais\AuthProvider {
             $login = $app->auth->doLogin();
 
             if ($login['success']) {
+                // Chamando Hook do Mapa, responsável por registrar o último login
+                App::i()->applyHook('auth.successful');
+
                 $this->json([
                     'error' => false, 
                     'redirectTo' => $app->auth->getRedirectPath()
