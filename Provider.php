@@ -495,43 +495,6 @@ class Provider extends \MapasCulturais\AuthProvider {
         $app->halt($status, json_encode($data));
     }
     
-
-    function verificarToken($token, $claveSecreta)
-    {
-        $url = "https://www.google.com/recaptcha/api/siteverify";
-        $datos = [
-            "secret" => $claveSecreta,
-            "response" => $token,
-        ];
-        $opciones = array(
-            "http" => array(
-            "header" => "Content-type: application/x-www-form-urlencoded\r\n",
-            "method" => "POST",
-            "content" => http_build_query($datos), # Agregar el contenido definido antes
-           ),
-        );
-        $contexto = stream_context_create($opciones);
-        $resultado = file_get_contents($url, false, $contexto);
-        if ($resultado === false) {
-            return false;
-        }
-        $resultado = json_decode($resultado);
-        $pruebaPasada = $resultado->success;
-        return $pruebaPasada;
-    }
-
-    function verifyRecaptcha2() {
-        $config = $this->_config;
-
-        if (!$config['google-recaptcha-sitekey']) return true;
-        if (empty($_POST["g-recaptcha-response"])) return false;
-
-        $token = $_POST["g-recaptcha-response"];
-        $verified = $this->verificarToken($token, $config["google-recaptcha-secret"]);   
-
-        return $verified ? true : false;
-    }
-
     function verifyPassowrds($pass, $verify) {
         $config = $this->_config;
         $passwordLength = $config['minimumPasswordLength'];
@@ -589,7 +552,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         ];
 
         // validate captcha
-        if (!$this->verifyRecaptcha2()) {
+        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyRecaptcha2($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
             return [
                 'success' => false,
@@ -755,8 +718,8 @@ class Provider extends \MapasCulturais\AuthProvider {
             'email' => [],
             'sendEmail' => []
         ];
-        
-        if (!$this->verifyRecaptcha2()) {
+
+        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyRecaptcha2($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
             return [
                 'success' => false,
@@ -1045,7 +1008,8 @@ class Provider extends \MapasCulturais\AuthProvider {
             'confirmEmail' => []
         ];
 
-        if (!$this->verifyRecaptcha2()) {
+        // Se não recebemos o token, não há motivo para avançar para a verificação
+        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyRecaptcha2($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
             return [
                 'success' => false,
