@@ -552,7 +552,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         ];
 
         // validate captcha
-        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyRecaptcha2($_POST['g-recaptcha-response'])) {
+        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyCaptcha($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
             return [
                 'success' => false,
@@ -719,7 +719,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             'sendEmail' => []
         ];
 
-        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyRecaptcha2($_POST['g-recaptcha-response'])) {
+        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyCaptcha($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
             return [
                 'success' => false,
@@ -1009,7 +1009,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         ];
 
         // Se não recebemos o token, não há motivo para avançar para a verificação
-        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyRecaptcha2($_POST['g-recaptcha-response'])) {
+        if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyCaptcha($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
             return [
                 'success' => false,
