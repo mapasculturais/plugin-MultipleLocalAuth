@@ -60,7 +60,7 @@ app.component('login-wizard', {
             }
 
             if(!this.recaptchaResponse || this.recaptchaResponse === '' || this.recaptchaResponse === null) {
-                this.throwErrors({ email: ['Por favor, preencha o ReCaptcha'] });
+                this.throwErrors({ email: ['Por favor, preencha o CAPTCHA'] });
                 return;
             }
     
