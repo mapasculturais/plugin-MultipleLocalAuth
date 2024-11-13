@@ -52,7 +52,7 @@ $this->import('
 
                     </div>
 
-                    <!-- Componente responsável por renderizar o captcha [Google | Turnstile] -->
+                    <!-- Componente responsável por renderizar o CAPTCHA -->
                     <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha"></mc-captcha>
 
                     <div class="login__buttons">
@@ -89,7 +89,7 @@ $this->import('
                         <input type="email" name="email" id="email" v-model="email" autocomplete="off" />
                     </div>
                     
-                    <!-- Componente responsável por renderizar o captcha [Google | Turnstile] -->
+                    <!-- Componente responsável por renderizar o CAPTCHA -->
                     <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" class="col-12"></mc-captcha>
 
                     <!-- <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha> -->
