@@ -188,9 +188,17 @@ app.component('login-wizard', {
         throwErrors(errors) {
             const messages = useMessages();
 
-            if (this.recaptchaShown && this.recaptchaResponse !== '') {
-                grecaptcha.reset();
-                this.expiredCaptcha();
+            if (this.recaptchaResponse !== '') {
+                // check if grecaptcha is not defined
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                    this.expiredCaptcha();
+                }
+
+                // check if turnstile is not defined
+                if (typeof window.turnstile !== 'undefined') {
+                    window.turnstile.reset();
+                }
             }
 
             for (let key in errors) {
