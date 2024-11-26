@@ -53,7 +53,7 @@ $this->import('
                     </div>
 
                     <!-- Componente responsável por renderizar o CAPTCHA -->
-                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha"></mc-captcha>
+                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error"></mc-captcha>
 
                     <div class="login__buttons">
                         <button v-if="!showPassword && !passwordResetRequired && !userNotFound" class="button button--primary button--large button--md" type="submit"> <?= i::__('Próximo') ?> </button>

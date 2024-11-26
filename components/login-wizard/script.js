@@ -24,7 +24,8 @@ app.component('login-wizard', {
             showPassword: false, // Adicionado para controlar a exibição do campo de senha
             passwordResetRequired: false,
             userNotFound: false,  // Certifique-se de que esta propriedade está definida
-            recaptchaShown: true  // Controle de visibilidade do reCAPTCHA
+            recaptchaShown: true,  // Controle de visibilidade do reCAPTCHA
+            error: false
         }
     },
 
@@ -186,20 +187,8 @@ app.component('login-wizard', {
         },
 
         throwErrors(errors) {
+            this.error = true;
             const messages = useMessages();
-
-            if (this.recaptchaResponse !== '') {
-                // check if grecaptcha is not defined
-                if (typeof grecaptcha !== 'undefined') {
-                    grecaptcha.reset();
-                    this.expiredCaptcha();
-                }
-
-                // check if turnstile is not defined
-                if (typeof window.turnstile !== 'undefined') {
-                    window.turnstile.reset();
-                }
-            }
 
             for (let key in errors) {
                 for (let val of errors[key]) {
