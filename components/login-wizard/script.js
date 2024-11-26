@@ -24,7 +24,8 @@ app.component('login-wizard', {
             showPassword: false, // Adicionado para controlar a exibição do campo de senha
             passwordResetRequired: false,
             userNotFound: false,  // Certifique-se de que esta propriedade está definida
-            recaptchaShown: true  // Controle de visibilidade do reCAPTCHA
+            recaptchaShown: true,  // Controle de visibilidade do reCAPTCHA
+            error: false
         }
     },
 
@@ -60,7 +61,7 @@ app.component('login-wizard', {
             }
 
             if(!this.recaptchaResponse || this.recaptchaResponse === '' || this.recaptchaResponse === null) {
-                this.throwErrors({ email: ['Por favor, preencha o ReCaptcha'] });
+                this.throwErrors({ email: ['Por favor, preencha o CAPTCHA'] });
                 return;
             }
     
@@ -186,12 +187,8 @@ app.component('login-wizard', {
         },
 
         throwErrors(errors) {
+            this.error = true;
             const messages = useMessages();
-
-            if (this.recaptchaShown && this.recaptchaResponse !== '') {
-                grecaptcha.reset();
-                this.expiredCaptcha();
-            }
 
             for (let key in errors) {
                 for (let val of errors[key]) {

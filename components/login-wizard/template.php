@@ -10,6 +10,7 @@ use MapasCulturais\i;
 $this->import('
     mc-card
     password-strongness
+    mc-captcha
 ');
 ?>
 
@@ -51,7 +52,8 @@ $this->import('
 
                     </div>
 
-                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey'] && !showPassword && !passwordResetRequired && !userNotFound" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha"></VueRecaptcha>
+                    <!-- Componente responsável por renderizar o CAPTCHA -->
+                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error"></mc-captcha>
 
                     <div class="login__buttons">
                         <button v-if="!showPassword && !passwordResetRequired && !userNotFound" class="button button--primary button--large button--md" type="submit"> <?= i::__('Próximo') ?> </button>
@@ -86,7 +88,11 @@ $this->import('
                         <label for="email"> <?= i::__('E-mail') ?> </label>
                         <input type="email" name="email" id="email" v-model="email" autocomplete="off" />
                     </div>
-                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
+                    
+                    <!-- Componente responsável por renderizar o CAPTCHA -->
+                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" class="col-12"></mc-captcha>
+
+                    <!-- <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha> -->
                     <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Receber instruções no e-mail') ?> </button>
                     <a @click="recoveryRequest = false" class="col-12 button button--secondarylight button--large button--md"> <?= i::__('Voltar') ?> </a>
                 </form>
