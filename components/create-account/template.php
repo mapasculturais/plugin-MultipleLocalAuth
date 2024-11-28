@@ -14,6 +14,7 @@ $this->import('
     mc-icon
     mc-stepper
     password-strongness
+    mc-captcha
 ');
 ?>
 
@@ -67,7 +68,9 @@ $this->import('
                     <div class="col-12">
                         <password-strongness :password="password"></password-strongness>
                     </div>
-                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
+                
+                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error" class="col-12"></mc-captcha>
+                    
                     <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Continuar') ?> </button>
                 </form>
                 
@@ -108,8 +111,7 @@ $this->import('
                 <entity-field :entity="agent" classes="col-12" hide-required prop="shortDescription" label="<?php i::esc_attr_e("Mini Bio")?>"></entity-field>
                 <entity-terms :entity="agent" classes="col-12" :editable="true" taxonomy='area' title="<?php i::esc_attr_e("Área de atuação") ?>"></entity-terms>                
 
-                <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
-
+                <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error" class="col-12"></mc-captcha>
                 <button class="col-12 button button--primary button--large button--md" @click="register()"> <?= i::__('Criar cadastro') ?></button>
             </div>
         </template>
