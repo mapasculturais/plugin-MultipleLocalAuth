@@ -30,7 +30,7 @@ $this->import('
 
                 <h6 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Informe seu e-mail ou CPF que vamos verificar se já possui uma conta.')) ?> </h6>
 
-                <h6 v-if="showPassword && !passwordResetRequired"> <?= i::__('Digite sua senha para acessar o Mapa da Cultura.') ?> </h6>
+                <h6 v-if="showPassword && !passwordResetRequired"> <?= sprintf(i::__('Digite sua senha para acessar o %s.'), $app->siteName) ?> </h6>
                 <h6 v-if="passwordResetRequired"> <?= sprintf(i::__('Verificamos que, com o e-mail ou CPF informado, você já possui conta no %s. Devido à recente atualização de sistema, para acessar sua conta será necessário gerar uma nova senha. Para isso, basta clicar em GERAR NOVA SENHA. Vamos lá!'), $app->siteName) ?> </h6>
             </div>
 

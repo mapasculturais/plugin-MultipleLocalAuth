@@ -21,8 +21,8 @@ $this->import('
 <div class="create-account"> 
 
     <div v-if="!created" class="create-account__title">
-        <label><?= $this->text('title', i::__('Novo cadastro')) ?> </label>
-        <p><?= $this->text('description', i::__('Siga os passos para criar o seu cadastro no Mapa da Cultura.')) ?> </p>
+        <label><?= $this->text('title', i::__('Nova conta')) ?> </label>
+        <p><?= $this->text('description', sprintf(i::__('Siga os passos para criar sua conta no %s.'), $app->siteName)) ?> </p>
     </div>
 
     <!-- Creating account -->
@@ -101,7 +101,7 @@ $this->import('
             <div v-if="step==totalSteps-1" class="create-account__step grid-12">
                 <label class="title col-12">
                     <div class="subtitle col-12">
-                        <span> <?= i::__('Falta pouco para finalizar o seu cadastro!') ?> </span>
+                        <span> <?= i::__('Falta pouco para ter sua conta criada!') ?> </span>
                         <span> <?= i::__('Preencha seu nome e uma breve descrição sua.') ?> </span>
                         <span> <?= i::__('As pessoas encontrarão você por esse nome.') ?> </span>
                     </div>
@@ -112,7 +112,7 @@ $this->import('
                 <entity-terms :entity="agent" classes="col-12" :editable="true" taxonomy='area' title="<?php i::esc_attr_e("Área de atuação") ?>"></entity-terms>                
 
                 <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error" class="col-12"></mc-captcha>
-                <button class="col-12 button button--primary button--large button--md" @click="register()"> <?= i::__('Criar cadastro') ?></button>
+                <button class="col-12 button button--primary button--large button--md" @click="register()"> <?= i::__('Criar conta') ?></button>
             </div>
         </template>
     </mc-card>
@@ -124,12 +124,12 @@ $this->import('
                 <div class="col-12 title">
                     <mc-icon name="circle-checked" class="title__icon"></mc-icon>
                     <label v-if="emailSent" class="col-12 title__label"> <?= i::__('E-mail de confirmação enviado!') ?> </label>
-                    <label v-if="!emailSent" class="col-12 title__label"> <?= i::__('Seu cadastro foi criado com sucesso!') ?> </label>
+                    <label v-if="!emailSent" class="col-12 title__label"> <?= i::__('Sua conta foi criada com sucesso!') ?> </label>
                 </div>
 
-                <p v-if="emailSent" class="emailSent col-12"> <?= sprintf($this->text('email-sent', i::__('Acesse seu e-mail para confirmar a criação de seu cadastro no %s.')), $app->siteName) ?> </p>
+                <p v-if="emailSent" class="emailSent col-12"> <?= sprintf($this->text('email-sent', i::__('Acesse seu e-mail para confirmar a criação de sua conta no %s.')), $app->siteName) ?> </p>
 
-                <a href="<?= $app->createUrl('auth') ?>" class="col-12 button button--large button--primary"> <?php i::_e('Acessar meu cadastro') ?> </a>
+                <a href="<?= $app->createUrl('auth') ?>" class="col-12 button button--large button--primary"> <?php i::_e('Acessar minha conta') ?> </a>
             </div>
         </template>
     </mc-card>
