@@ -14,6 +14,7 @@ $this->import('
     mc-icon
     mc-stepper
     password-strongness
+    mc-captcha
 ');
 ?>
 
@@ -21,7 +22,7 @@ $this->import('
 
     <div v-if="!created" class="create-account__title">
         <label><?= $this->text('title', i::__('Novo cadastro')) ?> </label>
-        <p><?= sprintf($this->text('description', i::__('Siga os passos para criar o seu cadastro no %s.')), $app->siteName) ?> </p>
+        <p><?= $this->text('description', i::__('Siga os passos para criar o seu cadastro no Mapa da Cultura.')) ?> </p>
     </div>
 
     <!-- Creating account -->
@@ -67,7 +68,9 @@ $this->import('
                     <div class="col-12">
                         <password-strongness :password="password"></password-strongness>
                     </div>
-                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
+                
+                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error" class="col-12"></mc-captcha>
+                    
                     <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Continuar') ?> </button>
                 </form>
                 
@@ -99,7 +102,8 @@ $this->import('
                 <label class="title col-12">
                     <div class="subtitle col-12">
                         <span> <?= i::__('Falta pouco para finalizar o seu cadastro!') ?> </span>
-                        <span> <?= i::__('Dê um nome e faça uma breve descrição sua.') ?> </span>
+                        <span> <?= i::__('Preencha seu nome e uma breve descrição sua.') ?> </span>
+                        <span> <?= i::__('As pessoas encontrarão você por esse nome.') ?> </span>
                     </div>
                 </label>
                 
@@ -107,8 +111,7 @@ $this->import('
                 <entity-field :entity="agent" classes="col-12" hide-required prop="shortDescription" label="<?php i::esc_attr_e("Mini Bio")?>"></entity-field>
                 <entity-terms :entity="agent" classes="col-12" :editable="true" taxonomy='area' title="<?php i::esc_attr_e("Área de atuação") ?>"></entity-terms>                
 
-                <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
-
+                <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error" class="col-12"></mc-captcha>
                 <button class="col-12 button button--primary button--large button--md" @click="register()"> <?= i::__('Criar cadastro') ?></button>
             </div>
         </template>

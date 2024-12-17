@@ -31,6 +31,7 @@ app.component('create-account', {
             recaptchaResponse: '',
             created: false,
             emailSent: false,
+            error: false
         }
     },
 
@@ -260,12 +261,8 @@ app.component('create-account', {
         },
 
         throwErrors(errors) {
+            this.error = true;
             const messages = useMessages();
-
-            if (this.recaptchaResponse !== '') {
-                grecaptcha.reset();
-                this.expiredCaptcha();
-            }
 
             for (let key in errors) {
                 if (errors[key] instanceof Array) {

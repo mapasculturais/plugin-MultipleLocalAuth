@@ -12,9 +12,15 @@ if (trim($_GET['t'] ?? '')) {
     $this->jsObject['recoveryMode']['token'] = $_GET['t']; 
 }
 
-$this->import('
-    login
-')
-?>
+$loginMode = 'login';
+if (isset($config['wizard'])) {
+    if ($config['wizard'] == 'true') {
+        $loginMode = 'login-wizard';
+    }
+}
 
-<login config='<?= $configs; ?>' ></login>
+$this->import($loginMode);
+
+echo "<$loginMode config='$configs'></$loginMode>"
+
+?>
