@@ -39,6 +39,8 @@ class Provider extends \MapasCulturais\AuthProvider {
             'loginOnRegister' => env('AUTH_LOGIN_ON_REGISTER', false),
     
             'enableLoginByCPF' => env('AUTH_LOGIN_BY_CPF', true),
+            'requeridCpf' => env('AUTH_REQUIRED_CPF', true),
+
             'passwordMustHaveCapitalLetters' => env('AUTH_PASS_CAPITAL_LETTERS', true),
             'passwordMustHaveLowercaseLetters' => env('AUTH_PASS_LOWERCASE_LETTERS', true),
             'passwordMustHaveSpecialCharacters' => env('AUTH_PASS_SPECIAL_CHARS', true),
@@ -549,8 +551,10 @@ class Provider extends \MapasCulturais\AuthProvider {
 
             // validate cpf
             if(empty($cpf) || !$this->validateCPF($cpf)) {
-                array_push($errors['user']['cpf'], i::__('Por favor, informe um cpf válido.', 'multipleLocal'));
-                $hasErrors = true;
+                if($this->config['requeridCpf']){
+                    array_push($errors['user']['cpf'], i::__('Por favor, informe um cpf válido.', 'multipleLocal'));
+                    $hasErrors = true;
+                }
             }
             
             $foundAgent = [];
