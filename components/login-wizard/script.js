@@ -18,6 +18,8 @@ app.component('login-wizard', {
             recaptchaResponse: '',
             passwordRules: {},
             recoveryRequest: false,
+            timeToWaitToRecoveryPasswordInSeconds: 60,
+            enableRecovery: false,
             recoveryEmailSent: false,
             recoveryMode: $MAPAS.recoveryMode?.status ?? '',
             recoveryToken: $MAPAS.recoveryMode?.token ?? '',
@@ -137,8 +139,17 @@ app.component('login-wizard', {
             }));
         },
 
+        waitTimeForRecoverPassword() {
+            this.enableRecovery = true;
+            setTimeout(() => {
+                this.enableRecovery = false;
+            }, this.timeToWaitToRecoveryPasswordInSeconds * 1000);
+        },
+
         /* Request password recover */
         async requestRecover() {
+            this.waitTimeForRecoverPassword();
+
             let api = new API();
 
             let dataPost = {
