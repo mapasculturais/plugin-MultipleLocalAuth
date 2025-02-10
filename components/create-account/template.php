@@ -123,8 +123,8 @@ $this->import('
             <div class="create-account__created grid-12">
                 <div class="col-12 title">
                     <mc-icon name="circle-checked" class="title__icon"></mc-icon>
-                    <label v-if="emailSent" class="col-12 title__label"> <?= i::__('E-mail de confirmação enviado!') ?> </label>
-                    <label v-if="!emailSent" class="col-12 title__label"> <?= i::__('Sua conta está sendo criada! <br /> Vá ao seu e-mail e valide a sua conta!') ?> </label>
+                    <label v-if="emailSent" class="col-12 title__label"> <?= i::__('Sua conta está sendo criada! <br /> Vá ao seu e-mail e valide a sua conta!') ?> </label>
+                    <label v-if="!emailSent" class="col-12 title__label"> <?= i::__('Sua conta foi criada com sucesso!') ?> </label>
                 </div>
 
                 <p v-if="emailSent" class="emailSent col-12"> <?= sprintf($this->text('email-sent', i::__('Acesse seu e-mail para confirmar a criação de sua conta no %s.')), $app->siteName) ?> </p>

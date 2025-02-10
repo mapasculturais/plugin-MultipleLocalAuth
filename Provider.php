@@ -1291,11 +1291,7 @@ class Provider extends \MapasCulturais\AuthProvider {
                 'success' => true,
                 'authenticated' => $authenticated,
                 'redirectTo' => $authenticated ? $this->getRedirectPath() : '',
-                'emailSent' => (
-                    isset($config['auth.config']) && 
-                    isset($config['auth.config']['userMustConfirmEmailToUseTheSystem']) && 
-                    $config['auth.config']['userMustConfirmEmailToUseTheSystem']
-                    ) ? true : false
+                'emailSent' => isset($this->_config['userMustConfirmEmailToUseTheSystem']) && $this->_config['userMustConfirmEmailToUseTheSystem'] == true
             ];
 
         } else {
