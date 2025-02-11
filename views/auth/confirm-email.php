@@ -21,9 +21,10 @@ $this->import('
                     <mc-icon name="circle-checked" class="header__icon"></mc-icon>
                     <label class="header__label"> <?= i::__('') ?> </label>
                 </div>
-
-                <a class="col-12 button button--primary button--large button--md" href="<?= $app->createUrl('auth') ?>" type="submit"> <?= i::__('Entrar na minha conta') ?> </a>
             </div>
         </template>
     </mc-card>
 </div>
+<script>
+    setTimeout(() => window.location.href = '<?= $app->createUrl('auth', 'login') ?>', 3000);
+</script>
