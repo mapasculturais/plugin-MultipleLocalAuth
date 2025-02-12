@@ -128,8 +128,6 @@ $this->import('
                 </div>
 
                 <p v-if="emailSent" class="emailSent col-12"> <?= sprintf($this->text('email-sent', i::__('Acesse seu e-mail para confirmar a criação de sua conta no %s.')), $app->siteName) ?> </p>
-
-                <a href="<?= $app->createUrl('auth') ?>" class="col-12 button button--large button--primary"> <?php i::_e('Acessar minha conta') ?> </a>
             </div>
         </template>
     </mc-card>
