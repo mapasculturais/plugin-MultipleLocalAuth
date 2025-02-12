@@ -1088,16 +1088,18 @@ class Provider extends \MapasCulturais\AuthProvider {
             
             $meta = self::$passMetaName;
             $savedPass = $user->getMetadata($meta);
-    
-            if (password_verify($pass, $savedPass)) {
-                $this->middlewareLoginAttempts(true);
-                $this->authenticateUser($userToLogin);
-            } else {
-                $this->middlewareLoginAttempts();
-                array_push($errors['login'], i::__('Usuário ou senha inválidos.', 'multipleLocal'));
-                $hasErrors = true;
+
+            if (!$hasErrors) {
+                if (password_verify($pass, $savedPass)) {
+                    $this->middlewareLoginAttempts(true);
+                    $this->authenticateUser($userToLogin);
+                } else {
+                    $this->middlewareLoginAttempts();
+                    array_push($errors['login'], i::__('Usuário ou senha inválidos.', 'multipleLocal'));
+                    $hasErrors = true;
+                }
             }
-        }        
+        }
 
         return [
             'success' => !$hasErrors,
