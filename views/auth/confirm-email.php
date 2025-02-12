@@ -26,5 +26,5 @@ $this->import('
     </mc-card>
 </div>
 <script>
-    setTimeout(() => window.location.href = '<?= $app->createUrl('auth', 'login') ?>', 3000);
+    setTimeout(() => window.location.href = '<?= $app->createUrl('auth', '?redirectTo=') ?>', 4000);
 </script>
