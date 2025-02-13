@@ -105,7 +105,10 @@ $this->import('
                         <label class="header__label"> <?= i::__('Enviamos as instruções de alteração de senha para seu e-mail.') ?> </label>
                     </div>
 
-                    <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Não recebi o e-mail') ?> </button>
+                    <button :disabled="enableRecovery" :class="{'disabled': enableRecovery}" class="col-12 button button--primary button--large button--md" type="submit" @click="requestRecover();">
+                        <span v-if="enableRecovery">Tente novamente em {{ timeToWaitToRecoveryPasswordInSeconds }} segundos</span>
+                        <span v-else><?= i::__('Não recebi o e-mail') ?></span>
+                    </button>
                     <a @click="recoveryEmailSent = false" class="col-12 button button--secondarylight button--large button--md"> <?= i::__('Voltar') ?> </a>
                 </div>
             </div>
