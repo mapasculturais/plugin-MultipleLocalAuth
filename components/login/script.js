@@ -21,6 +21,8 @@ app.component('login', {
             
             recoveryRequest: false,
             recoveryEmailSent: false,
+            timeToWaitToRecoveryPasswordInSeconds: 60,
+            enableRecovery: false,
             
             recoveryMode: $MAPAS.recoveryMode?.status ?? '',
             recoveryToken: $MAPAS.recoveryMode?.token ?? '',
@@ -76,8 +78,17 @@ app.component('login', {
             }));
         },
 
+        waitTimeForRecoverPassword() {
+            this.enableRecovery = true;
+            setTimeout(() => {
+                this.enableRecovery = false;
+            }, this.timeToWaitToRecoveryPasswordInSeconds * 1000);
+        },
+
         /* Request password recover */
         async requestRecover() {
+            this.waitTimeForRecoverPassword();
+
             let api = new API();
                
             let dataPost = {
