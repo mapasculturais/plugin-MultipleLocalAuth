@@ -50,6 +50,7 @@ class Plugin extends \MapasCulturais\Plugin {
     }
     
     public function register() {
+        $this->registerUserMetadata(Provider::$preventNotifications, ['label' => i::__('Não receber notificações')]);
         $this->registerUserMetadata(Provider::$passMetaName, ['label' => i::__('Senha')]);
         $this->registerUserMetadata(Provider::$recoverTokenMetadata, ['label' => i::__('Token para recuperação de senha')]);
         $this->registerUserMetadata(Provider::$recoverTokenTimeMetadata, ['label' => i::__('Timestamp do token para recuperação de senha')]);
