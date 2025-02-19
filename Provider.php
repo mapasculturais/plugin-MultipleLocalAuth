@@ -22,7 +22,8 @@ class Provider extends \MapasCulturais\AuthProvider {
 
     public static $recoverTokenMetadata     = 'recover_token';
     public static $recoverTokenTimeMetadata = 'recover_token_time';
-    public static $preventNotifications = 'prevent_notifications';
+
+    public static $preventOverhead = 'preventOverhead';
     
     public static $accountIsActiveMetadata    = 'accountIsActive';
     public static $tokenVerifyAccountMetadata = 'tokenVerifyAccount';
