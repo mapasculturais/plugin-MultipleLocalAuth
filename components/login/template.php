@@ -9,6 +9,7 @@ use MapasCulturais\i;
 
 $this->import('
     mc-card
+    login-govbr
     password-strongness
 ');
 ?>
@@ -43,6 +44,8 @@ $this->import('
                     <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha"></VueRecaptcha>
                     
                     <div class="login__buttons">
+                        <login-govbr :config="config"></login-govbr>
+
                         <button class=" button button--primary button--large button--md" type="submit"> <?= i::__('Entrar') ?> </button>
 
                         <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="divider"> 

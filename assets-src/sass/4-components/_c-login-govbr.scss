@@ -1,0 +1,20 @@
+.login-govbr {
+
+
+    &__content {
+        display: grid;
+        gap: 20px;
+        max-width: 520px;
+    }
+
+    .govbr {
+        background-color: #1351b4;
+        color: #FFFFFF;
+        margin-top: 23px;
+
+        > img {
+            width: 50px;
+            height: 100%;
+        }
+    }
+}
