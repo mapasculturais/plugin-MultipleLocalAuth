@@ -17,9 +17,11 @@ class Plugin extends \MapasCulturais\Plugin {
         
         // register translation text domain
         i::load_textdomain( 'multipleLocal', __DIR__ . "/translations" );
-        
+
+        $app->config['govbr.seal'] = '1';
+
         // Load JS & CSS
-        $app->hook('GET(<<auth|panel>>.<<*>>):before', function() use ($app) {
+        $app->hook('GET(<<auth|panel|seal>>.<<*>>):before', function() use ($app) {
             $app->view->enqueueStyle('app-v2', 'multipleLocal-v2', 'css/plugin-MultiplLocalAuth.css');
         });
 
@@ -40,6 +42,19 @@ class Plugin extends \MapasCulturais\Plugin {
 
         $app->hook('module(UserManagement).permissionsLabels', function(&$labels) {
             $labels['changePassword'] = i::__('modificar senha');
+        });
+
+        $app->hook("controller(seal).render(sealrelation)", function(&$template, $seal) use ($app) {
+            $govbr_seal = $app->config['govbr.seal'];
+
+            if ($seal['relation']->seal->id == $govbr_seal) {
+                $template = "certificado-govbr";
+            }
+        });
+
+        // Carrega novos ícones 'iconfy' na estrutura default
+        $app->hook('component(mc-icon).iconset', function(&$iconset){
+            $iconset['cursor-click'] = "mynaui:click-solid";
         });
 
         if (php_sapi_name() == "cli") {
