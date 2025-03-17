@@ -346,6 +346,21 @@ class Provider extends \MapasCulturais\AuthProvider {
             }
         });
 
+        $app->hook('POST(auth.verify)', function () use ($app) {
+            /**
+             * @var \MapasCulturais\Controller $this
+             */
+
+            $verify = $app->auth->doVerify();
+            if ($verify['success']) {
+                $this->json([
+                    'result' => $verify['result']
+                ]);
+            } else {
+                $this->errorJson($verify['errors'], 200);
+            }
+        });
+
         $app->hook('POST(auth.recover)', function () use($app){
             /**
              * @var \MapasCulturais\Controller $this
@@ -1121,6 +1136,102 @@ class Provider extends \MapasCulturais\AuthProvider {
             'success' => !$hasErrors,
             'errors' => $errors
         ];;
+    }
+
+    function doVerify()
+    {
+        
+        $app = App::i();
+        $config = $this->_config;
+        $hasErrors = false;
+        $user = false;
+
+        $errors = [
+            'captcha' => [],
+            'login' => [],
+            'confirmEmail' => []
+        ];
+
+        $email = filter_var($app->request->post('email'), FILTER_SANITIZE_EMAIL);
+        $emailToCheck = $email;
+
+        if ($this->validateCPF($email) && $config['enableLoginByCPF']) {
+            // LOGIN COM CPF
+            $metadataFieldCpf = $this->getMetadataFieldCpfFromConfig(); 
+            $cpf = $email;
+            $cpf = preg_replace("/(\d{3}).?(\d{3}).?(\d{3})-?(\d{2})/", "$1.$2.$3-$4", $cpf);
+            $cpf2 = preg_replace( '/[^0-9]/is', '', $cpf );
+            $foundAgent = $app->repo("AgentMeta")->findBy(['key' => $metadataFieldCpf, 'value' => [$cpf,$cpf2]]);
+            if(!$foundAgent) {
+                return [
+                    'success' => true,
+                    'result' => 0
+                ];
+            }
+
+            //cria um array com os agentes que estão com status == 1, pois o usuario pode ter, por exemplo, 3 agentes, mas 2 estão com status == 0
+            $activeAgents  = [];
+            $active_agent_users = [];
+            if(count($foundAgent) > 1){
+                foreach ($foundAgent as $agentMeta) {
+                    if($agentMeta->owner->status === 1) {
+                        $activeAgents[] = $agentMeta;
+                        if (!in_array($agentMeta->owner->user->id, $active_agent_users)) {
+                            $active_agent_users[] = $agentMeta->owner->user->id;
+                        }
+                    }
+                }
+                
+                //aqui foi feito um "jogo de atribuição" de variaveis para que o restando do fluxo do codigo continue funcionando normalmente
+                $foundAgent = $activeAgents;
+            }
+
+            if(count($active_agent_users) > 1) {
+                array_push($errors['login'], i::__('Você possui 2 ou mais agente com o mesmo CPF! Por favor entre em contato com o suporte.', 'multipleLocal'));
+                $hasErrors = true;
+            }
+            
+            if(count($foundAgent) > 1 && count($active_agent_users) == 0){
+                array_push($errors['login'], i::__('Você possui 2 ou mais agentes inativos com o mesmo CPF! Por favor entre em contato com o suporte.', 'multipleLocal'));
+                $hasErrors = true;
+            }
+
+            $user = $app->repo("User")->findOneBy(array('id' => $foundAgent[0]->owner->user->id));
+            if($user->profile->id != $foundAgent[0]->owner->id) {
+                array_push($errors['login'], i::__('CPF ou senha incorreta. Utilize o CPF do seu agente principal.', 'multipleLocal'));
+                $hasErrors = true;
+            }
+        } else {
+            // LOGIN COM EMAIL
+            $query = new \MapasCulturais\ApiQuery ('MapasCulturais\Entities\User', ['@select' => 'id', 'email' => 'ILIKE(' . $emailToCheck . ')']);
+            if($user = $query->findOne()){
+                unset($user['@entityType']);
+                array_filter($user);
+                $user = $app->repo("User")->findOneBy($user);
+            } else {
+                return [
+                    'success' => true,
+                    'result' => 0
+                ]; // usuário não encontrado / criar conta
+            }
+        }
+
+        // SELECT count(*) FROM user_meta um WHERE key  = 'localAuthenticationPassword' AND um.object_id = :usr_id;
+        $query = new \MapasCulturais\ApiQuery(\MapasCulturais\Entities\UserMeta::class, ['@select' => 'count(*)', 'key' => "EQ(localAuthenticationPassword)",  'owner'=>"EQ({$user->id})"]);
+        $password_reset = $query->findOne();
+        if ($password_reset === null) {
+            return [
+                'success' => true,
+                'errors' => $errors,
+                'result' => 1
+            ]; // troca de senha necessária
+        } else {
+            return [
+                'success' => true,
+                'errors' => $errors,
+                'result' => 2
+            ]; // nenhuma troca de senha necessária
+        }
     }
     
     function doRegister() {
