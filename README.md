@@ -12,7 +12,7 @@ No arquivo de configuração do Mapas Culturais, config.php, você deve:
 2. Configurar MultipleLocalAuth como seu Provider de autenticação
 3. Configurar as chaves das redes sociais
 
-Para ativar o plugin, adicione na sua array de Plugins:
+Para ativar o plugin, adicione na sua array de Plugins dentro de `config/plugins.php`:
 ```
 'plugins' => [
     // ... outros plugins
@@ -27,7 +27,7 @@ Para definir este plugin como seu método de autenticação, defina a configura�
 'auth.provider' => '\MultipleLocalAuth\Provider',
 ```
 
-Finalmente, defina a configuração *auth.config* para definir as estratégias utilizadas e as chaves dos serviços:
+Finalmente, defina a configuração *auth.config* para definir as estratégias utilizadas e as chaves dos serviços dentro de `src/plugins/MultipleLocalAuth/Provider.php`:
 
 ```
 'auth.config' => [
