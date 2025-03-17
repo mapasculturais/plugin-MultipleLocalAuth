@@ -1,12 +1,6 @@
 app.component('login-govbr', {
     template: $TEMPLATES['login-govbr'],
 
-    setup() {
-    },
-
-    data() {
-    },
-
     props: {
         config: {
             type: String,
@@ -14,15 +8,9 @@ app.component('login-govbr', {
         }
     },
 
-    mounted() {
-    },
-
     computed: {
         configs() {
             return JSON.parse(this.config);
         },
-    },
-
-    methods: {
     },
 });

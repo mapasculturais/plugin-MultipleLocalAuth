@@ -44,8 +44,6 @@ $this->import('
                     <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha"></VueRecaptcha>
                     
                     <div class="login__buttons">
-                        <login-govbr :config="config"></login-govbr>
-
                         <button class=" button button--primary button--large button--md" type="submit"> <?= i::__('Entrar') ?> </button>
 
                         <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="divider"> 
@@ -53,10 +51,12 @@ $this->import('
                         </div>
 
                         <div class="login__social-buttons" :class="{'login__social-buttons--multiple': multiple}">
-                            <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">                                
+                            <login-govbr :config="config"></login-govbr>
+                            
+                            <!-- <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">                                
                                 <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
                                 <?= i::__('Entrar com Gov.br') ?>                            
-                            </a>
+                            </a> -->
 
                             <a v-if="configs.strategies.Google?.visible" class="social-login--button button button--icon button--large button--md google" href="<?php echo $app->createUrl('auth', 'google') ?>">                                
                                 <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>                                

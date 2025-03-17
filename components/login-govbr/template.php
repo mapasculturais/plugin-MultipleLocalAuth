@@ -34,5 +34,3 @@ use MapasCulturais\i;
         </template>
     </mc-modal>
 </div>
-
-<!--  -->
