@@ -26,7 +26,7 @@ use MapasCulturais\i;
         </template>
 
         <template #button="modal">
-            <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--large button--md govbr" @click="modal.open()">                                
+            <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="[{'button--sm' : small}, {'button--large': large}]" @click="modal.open()">                                
                 <?= i::__('Entrar com') ?>                            
                 <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
             </a>

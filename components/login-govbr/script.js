@@ -5,7 +5,9 @@ app.component('login-govbr', {
         config: {
             type: String,
             required: true
-        }
+        },
+        small: Boolean,
+        large: Boolean,
     },
 
     computed: {
