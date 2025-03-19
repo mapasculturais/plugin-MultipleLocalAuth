@@ -18,8 +18,6 @@ class Plugin extends \MapasCulturais\Plugin {
         // register translation text domain
         i::load_textdomain( 'multipleLocal', __DIR__ . "/translations" );
 
-        $app->config['govbr.seal'] = '1';
-
         // Load JS & CSS
         $app->hook('GET(<<auth|panel|seal>>.<<*>>):before', function() use ($app) {
             $app->view->enqueueStyle('app-v2', 'multipleLocal-v2', 'css/plugin-MultiplLocalAuth.css');
@@ -52,7 +50,7 @@ class Plugin extends \MapasCulturais\Plugin {
         });
 
         $app->hook("controller(seal).render(sealrelation)", function(&$template, $seal) use ($app) {
-            $govbr_seal = $app->config['govbr.seal'];
+            $govbr_seal = $app->config['auth.config']['strategies']['govbr']['applySealId'];
 
             if ($seal['relation']->seal->id == $govbr_seal) {
                 $template = "certificado-govbr";
