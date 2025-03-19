@@ -284,6 +284,15 @@ class GovBrStrategy extends OpauthStrategy
 		$user->profile->save(true);
 		$app->enableAccessControl();
 
+		$seal = $app->repo('Seal')->find($app->config['auth.config']['strategies']['govbr']['applySealId']);
+        $sealRelation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $user->profile->id]);
+
+        if ($sealRelation) {
+            $sealRelation->validateDate = new DateTime();
+            $app->em->persist($sealRelation);
+            $app->em->flush();
+        }
+
 		if($allAgents = $app->repo("Agent")->findBy(['userId' => $user->id, '_type' => 1])){
 			
 			if(count($allAgents) == 1){
