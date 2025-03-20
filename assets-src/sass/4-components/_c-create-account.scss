@@ -1,3 +1,5 @@
+@use '../1-settings/s-mixins' as *;
+
 .mc-breadcrumb {
     li {
         display: flex;
@@ -18,12 +20,21 @@
     margin: 32px auto;
     padding: 0 16px;
 
+    hr {
+        width: 100%;
+    }
+
     .mc-card {
         padding: 24px;
         
         &.card-created {
             margin: 80px 0;
         }
+    }
+
+    &__button {
+        max-width: size(473);
+        margin: 0 auto;
     }
     
     &__title {
@@ -47,13 +58,51 @@
     }
 
     &__timeline {
-        margin-bottom: 24px;
-        width: 100%;
-        
+        margin-inline: auto;
+        margin-bottom: 31px;
+        width: 80%;
+
         .stepper {
             overflow: hidden;
             margin: 0px -3.7%;
             width: 108%;
+
+            .count {
+                width: 40px;
+                height: 40px;
+            }
+
+            .step {
+                & .label {
+                    width: 40px;
+                    position: relative;
+                    top: -33px;
+                    z-index: 2;
+                    left: 0px;
+                }
+
+                &.active {
+                    & .label {
+                        color: var(--mc-white);
+                    }
+
+                    &:first-child {
+                        .label {
+                            text-align: center;
+                        }
+                    }
+                }
+
+                &::before {
+                    top: size(20);
+                }
+
+                &.passedby {
+                    & .label {
+                        color: var(--mc-white);
+                    }
+                }
+            }
         }
 
         @media (max-width: 560px) {
@@ -75,20 +124,6 @@
     }
 
     &__step {
-        .title {
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 25px;
-            margin: 8px 0 4px;
-
-            .subtitle {
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 19px;
-                margin-top: 16px;
-            }
-        }
-
         .document-label {
             display: flex;
             align-items: center;
@@ -239,6 +274,37 @@
         .button--text {
             color: var(--mc-primary-500);
         }
+    }
+
+    &__step-title {
+        border-bottom: var(--mc-border-hairline) var(--mc-gray-300);
+        padding-bottom: size(11);
+        display: grid;
+        gap: size(16);
+
+        .subtitle {
+            font-weight: 400;
+            font-size: var(--mc-font-size-xxs);
+        }
+    }
+
+    &__modal {
+        max-width: size(992);
+        margin: 0 auto;
+
+        .modal__content {
+            padding: 0 0 0 size(25);
+            overflow-y: auto;
+            margin-right: size(25);
+        }
+    }
+
+    &__modal-content {
+        padding: 0 size(5);
+    }
+
+    &__term-link {
+        cursor: pointer;
     }
 
     &__created {

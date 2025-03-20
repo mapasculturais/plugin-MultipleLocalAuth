@@ -17,7 +17,7 @@ app.component('create-account', {
 
         return {
             actualStep: globalState['stepper'] ?? 0,
-            totalSteps: termsQtd + 2,
+            totalSteps: termsQtd > 0 ? 3 : 2,
             terms,
             passwordRules: {},
             strongness: 0,
@@ -31,6 +31,13 @@ app.component('create-account', {
             recaptchaResponse: '',
             created: false,
             emailSent: false,
+            govbr: {
+                nome: '',
+                nascimento: '',
+                cpf: '',
+                email: '',
+                telefone: '',
+            }
         }
     },
 
@@ -54,7 +61,7 @@ app.component('create-account', {
 
     computed: {
         arraySteps() {
-            let steps = Object.entries(this.terms).length + 2;
+            let steps = this.totalSteps;
             let totalSteps = [];
             for (let i = 0; i < steps; i++) {
                 totalSteps.push(i);
@@ -68,6 +75,14 @@ app.component('create-account', {
 
         configs() {
             return JSON.parse(this.config);
+        },
+
+        isTermsAccepted() {
+            const allTerms = Object.keys(this.terms);
+                
+            return this.slugs.length === allTerms.length &&
+            this.slugs.every((item) => allTerms.includes(item)) &&
+            allTerms.every((item) => this.slugs.includes(item));
         },
 
         passwordStrongness() {
@@ -149,7 +164,7 @@ app.component('create-account', {
         async goToStep(step) {
             const globalState = useGlobalState();
 
-            if (this.actualStep == 0) {
+            if (this.actualStep == 0 && false) {
                 if (await this.validateFields()) {
                     this.actualStep = step;
                     if (step == this.totalSteps - 1) {
@@ -175,7 +190,9 @@ app.component('create-account', {
 
         /* Terms */
         acceptTerm(slug) {
-            this.slugs.push(slug);
+            if (!this.slugs.includes(slug)) {
+                this.slugs.push(slug);
+            }
         },
 
         /* Do register */
