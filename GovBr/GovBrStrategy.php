@@ -319,4 +319,46 @@ class GovBrStrategy extends OpauthStrategy
         }
         return $maskared;
     }
+
+	public static function validateErrors($response, $user)
+  	{
+		$app = App::i();
+		$errors = [];
+
+		if($agents_meta = self::getAgentsByDocumento($response)) {
+			if(count($agents_meta) > 1) {
+				$errors['cpf-duplicado'] = 'cpf-duplicado';
+				return $errors;
+			}
+		}
+		
+		if($agents_meta = self::getUsersByEmail($response)) {
+			if(count($agents_meta) > 1) {
+				$errors['email-duplicado'] = 'email-duplicado';
+			}
+		}
+
+		$metadataFieldCpf = $app->config['auth.config']['metadataFieldCPF']; 
+		if($agents_meta[0]->owner->user->profile->{$metadataFieldCpf} !== $user->profile->{$metadataFieldCpf}){
+			$errors['cpf-diferente'] = 'cpf-diferente';
+		}
+
+		return $errors;
+  	}
+
+  	public static function getAgentsByDocumento($response)
+	{
+		$app = App::i();
+		$metadataFieldCpf = $app->config['auth.config']['metadataFieldCPF']; 
+		$cpf = self::mask($response['auth']['raw']['cpf'],'###.###.###-##');
+		return $cpf ? $app->repo('AgentMeta')->findBy(["key" => $metadataFieldCpf, "value" => $cpf]) : [];
+
+	}
+
+	public static function getUsersByEmail($response)
+    {
+        $app = App::i();
+        $email = $response['auth']['info']['email'];
+        return $email ? $app->repo('User')->findBy(['email' => $email]) : [];
+    }
 }

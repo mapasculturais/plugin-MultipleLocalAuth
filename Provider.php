@@ -1296,8 +1296,10 @@ class Provider extends \MapasCulturais\AuthProvider {
 
         $valid = false;
         // o usuário ainda não tentou se autenticar
-        if(!is_array($response))
+        if(!is_array($response)) {
             return false;
+        }
+
         // verifica se a resposta é um erro
         if (array_key_exists('error', $response)) {
 
@@ -1372,11 +1374,33 @@ class Provider extends \MapasCulturais\AuthProvider {
      * @return boolean true if the response is valid or false if the response is not valid
      */
     public function processResponse(){
+        $app = App::i();
+        
         // se autenticou
         if($this->_validateResponse()){
             // e ainda não existe um usuário no sistema
             $user = $this->_getAuthenticatedUser();
             $response = $this->_getResponse();
+
+            if($response && $provider_class = $response['auth']['provider']."Strategy"){
+                if(method_exists($provider_class, "validateErrors")){
+                    if($errors = $provider_class::validateErrors($response, $user)){
+                        $_SESSION['strategy-error'] = $errors;
+
+                        if(in_array('cpf-diferente', array_keys($errors))) {
+                            header('Location: '. $app->createUrl('panel', 'my-account'));
+                            exit;
+                        } else {
+                            session_unset();
+                            $_SESSION['strategy-error'] = $errors;
+                            http_response_code(302);
+                            header('Location: '.$app->createUrl('auth', 'index'));
+                            exit;
+                        }
+                    }
+                }
+            }
+
             if(!$user){
                 $user = $this->createUser($response);
 
@@ -1438,7 +1462,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         $config = $this->_config;
 
         $user = null;
-        if($provider_class = $response['auth']['provider']."Strategy"){
+        if($response && $provider_class = $response['auth']['provider']."Strategy"){
             if(method_exists($provider_class, "newAccountCheck")){
                 if($user = $provider_class::newAccountCheck($response)){
                     $agent = $user->profile;
