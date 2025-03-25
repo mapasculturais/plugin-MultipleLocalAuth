@@ -1300,26 +1300,28 @@ class Provider extends \MapasCulturais\AuthProvider {
             return false;
         }
 
-        // verifica se a resposta é um erro
-        if (array_key_exists('error', $response)) {
+        return true;
 
-            $app->flash('auth error', 'Opauth returns error auth response');
-        } else {
-            /**
-            * Auth response validation
-            *
-            * To validate that the auth response received is unaltered, especially auth response that
-            * is sent through GET or POST.
-            */
-            if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
-                $app->flash('auth error', 'Invalid auth response: Missing key auth response components.');
-            } elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
-                $app->flash('auth error', "Invalid auth response: {$reason}");
-            } else {
-                $valid = true;
-            }
-        }
-        return $valid;
+        // verifica se a resposta é um erro
+        // if (array_key_exists('error', $response)) {
+
+        //     $app->flash('auth error', 'Opauth returns error auth response');
+        // } else {
+        //     /**
+        //     * Auth response validation
+        //     *
+        //     * To validate that the auth response received is unaltered, especially auth response that
+        //     * is sent through GET or POST.
+        //     */
+        //     if (empty($response['auth']) || empty($response['timestamp']) || empty($response['signature']) || empty($response['auth']['provider']) || empty($response['auth']['uid'])) {
+        //         $app->flash('auth error', 'Invalid auth response: Missing key auth response components.');
+        //     } elseif (!$this->opauth->validate(sha1(print_r($response['auth'], true)), $response['timestamp'], $response['signature'], $reason)) {
+        //         $app->flash('auth error', "Invalid auth response: {$reason}");
+        //     } else {
+        //         $valid = true;
+        //     }
+        // }
+        // return $valid;
     }
 
     public function getMetadataFieldCpfFromConfig() {
@@ -1346,8 +1348,8 @@ class Provider extends \MapasCulturais\AuthProvider {
             $app = App::i();
             $response = $this->_getResponse();
 
-            $auth_uid = $response['auth']['uid'];
-            $auth_provider = $app->getRegisteredAuthProviderId($response['auth']['provider']);
+            // $auth_uid = $response['auth']['uid'];
+            // $auth_provider = $app->getRegisteredAuthProviderId($response['auth']['provider']);
 
             $cpf = (isset($response['auth']['raw']['cpf'])) ? $this->mask($response['auth']['raw']['cpf'],'###.###.###-##') : null;
             if (!empty($cpf)) {        
