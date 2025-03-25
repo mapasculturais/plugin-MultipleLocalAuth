@@ -48,22 +48,26 @@ $this->import('
         </template>
 
         <template #button="modal">
-            <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="[{'button--sm' : small}, {'button--large': large}]" @click="modal.open()">                                
-                <?= i::__('Entrar com') ?>                            
-                <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
-            </a>
+            <div>
+                <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="[{'button--sm' : small}, {'button--large': large}]" @click="modal.open()">                                
+                    <?= i::__('Entrar com') ?>                            
+                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
+                </a>
+            </div>
 
-            <?php if($cpf_duplicado): ?>
-                <mc-alert class="col-12" type="warning">
-                    <?= i::__('Ops! seu CPF está duplicado na plataforma. Por favor, entre em contato com o suporte.') ?>
-                </mc-alert>
-            <?php endif; ?>
-
-            <?php if($cpf_diferente): ?>
-                <mc-alert class="col-12" type="warning">
-                    <?= i::__('Ops! seu CPF está diferente na plataforma. Por favor, entre em contato com o suporte.') ?>
-                </mc-alert>
-            <?php endif; ?>
+            <div>
+                <?php if($cpf_duplicado): ?>
+                    <mc-alert class="col-12" type="warning">
+                        <?= i::__('Ops! seu CPF está duplicado na plataforma. Por favor, entre em contato com o suporte.') ?>
+                    </mc-alert>
+                <?php endif; ?>
+    
+                <?php if($cpf_diferente): ?>
+                    <mc-alert class="col-12" type="warning">
+                        <?= i::__('Ops! seu CPF está diferente na plataforma. Por favor, entre em contato com o suporte.') ?>
+                    </mc-alert>
+                <?php endif; ?>
+            </div>
         </template>
     </mc-modal>
 </div>
