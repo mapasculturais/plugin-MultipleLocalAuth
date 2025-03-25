@@ -24,9 +24,9 @@ $this->import('
     </div>
     <div class="user-mail__config-content">
         <?php if ($has_govbr_seal): ?>
-            <login-govbr config='<?= $configs; ?>' small></login-govbr>
-        <?php else: ?>
             <b><mc-icon name="check"></mc-icon> Usuário vinculado ao Gov.br</b>
+        <?php else: ?>
+            <login-govbr config='<?= $configs; ?>' small></login-govbr>
         <?php endif; ?>
     </div>
 </div>
