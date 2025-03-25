@@ -339,10 +339,10 @@ class GovBrStrategy extends OpauthStrategy
 		}
 
 		$metadataFieldCpf = $app->config['auth.config']['metadataFieldCPF']; 
-		if($agents_meta[0]->owner->user->profile->{$metadataFieldCpf} !== $user->profile->{$metadataFieldCpf}){
+		if($agents_meta[0]->profile->{$metadataFieldCpf} != $user->profile->{$metadataFieldCpf}){
 			$errors['cpf-diferente'] = 'cpf-diferente';
 		}
-
+		
 		return $errors;
   	}
 
