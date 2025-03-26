@@ -288,7 +288,7 @@ class GovBrStrategy extends OpauthStrategy
         $sealRelation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $user->profile->id]);
 
         if ($sealRelation) {
-            $sealRelation->validateDate = new DateTime();
+            $sealRelation->createTimestamp = new DateTime();
             $app->em->persist($sealRelation);
             $app->em->flush();
         }
@@ -328,7 +328,6 @@ class GovBrStrategy extends OpauthStrategy
 		if($agents_meta = self::getAgentsByDocumento($response)) {
 			if(count($agents_meta) > 1) {
 				$errors['cpf-duplicado'] = 'cpf-duplicado';
-				return $errors;
 			}
 		}
 		
