@@ -41,6 +41,20 @@ class Plugin extends \MapasCulturais\Plugin {
             }
         });
 
+        $app->hook('template(agent.single.single1-entity-info-mc-share-links):before', function() use ($app) {
+            /** @var \MapasCulturais\Theme $this */
+            if ($app->config['auth.config']['strategies']['govbr']['visible']) {
+                $this->part('govbr/govbr-data');
+            }
+        });
+        
+        $app->hook('template(agent.edit.edit1-entity-info-site):after', function() use ($app) {
+            /** @var \MapasCulturais\Theme $this */
+            if ($app->config['auth.config']['strategies']['govbr']['visible']) {
+                $this->part('govbr/govbr-data');
+            }
+        });
+
         $app->hook('entity(User).permissionsList,doctrine.emum(permission_action).values', function (&$permissions) {
             $permissions[] = 'changePassword';
         });
