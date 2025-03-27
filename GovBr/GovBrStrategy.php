@@ -300,6 +300,9 @@ class GovBrStrategy extends OpauthStrategy
 				$_agent->setAsUserProfile();
 			}
 		}
+
+		setcookie('errorRedirectLocation', '', time() - 3600, '/');
+		unset($_COOKIE['errorRedirectLocation']);
 		
 		self::getFile($user->profile, $userinfo->picture, $userinfo->access_token);
 	}

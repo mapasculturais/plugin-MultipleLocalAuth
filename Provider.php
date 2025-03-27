@@ -1364,7 +1364,9 @@ class Provider extends \MapasCulturais\AuthProvider {
             if (empty($user)) {
                 $email = $response['auth']['info']['email'];
                 $user = $app->repo('User')->findOneBy(['email' => $email]);
-            }            
+            }
+            
+            $this->authenticateUser($user);
 
             return $user;
         }else{
@@ -1388,15 +1390,20 @@ class Provider extends \MapasCulturais\AuthProvider {
                 if(method_exists($provider_class, "validateErrors")){
                     if($errors = $provider_class::validateErrors($response, $user)){
                         $_SESSION['strategy-error'] = $errors;
+                        
+                        $cookie = json_decode($_COOKIE['errorRedirectLocation'], true);
+                        setcookie('errorRedirectLocation', '', time() - 3600, '/');
+                        unset($_COOKIE['errorRedirectLocation']);
 
-                        if(in_array('cpf-diferente', array_keys($errors))) {
-                            header('Location: '. $app->createUrl('panel', 'my-account'));
+                        if($cookie['isAuth']) {
+                            header('Location: '. $app->createUrl($cookie['controller'], $cookie['action']));
                             exit;
                         } else {
                             session_unset();
                             $_SESSION['strategy-error'] = $errors;
+                            $_SESSION['strategy-error-cpf'] = $user->profile->cpf;
                             http_response_code(302);
-                            header('Location: '.$app->createUrl('auth', 'index'));
+                            header('Location: '.$app->createUrl($cookie['controller'],  $cookie['action']));
                             exit;
                         }
                     }
