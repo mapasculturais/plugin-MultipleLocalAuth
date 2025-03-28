@@ -10,6 +10,7 @@ use MapasCulturais\i;
 $cpf_duplicado = false;
 $cpf_diferente = false;
 $message_error = '';
+$support_email = $app->config['auth.config']['strategies']['govbr']['supportEmail'] ?? '';
 
 if(isset($_SESSION['strategy-error'])) {
     foreach($_SESSION['strategy-error'] as $key => $value) {
@@ -17,7 +18,7 @@ if(isset($_SESSION['strategy-error'])) {
             $cpf_duplicado = true;
             $user_cpf = $_SESSION['strategy-error-cpf'];
 
-            $message_error = sprintf(i::__('Encontramos duas contas cadastradas com este CPF %s. Para solucionar este problema entre em contato com o suporte pelo email XXXX'), $user_cpf);
+            $message_error = sprintf(i::__('Encontramos duas contas cadastradas com este CPF %s. Para solucionar este problema entre em contato com o suporte pelo email %s'), $user_cpf, $support_email);
 
             unset($_SESSION['strategy-error-cpf']);
             unset($_SESSION['strategy-error'][$key]);
