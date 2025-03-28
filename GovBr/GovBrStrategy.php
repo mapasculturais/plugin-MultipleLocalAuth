@@ -281,6 +281,7 @@ class GovBrStrategy extends OpauthStrategy
 				}
 			}
 		}
+		$user->profile->hasSeenSocialLinkingModal = true;
 		$user->profile->save(true);
 		$app->enableAccessControl();
 

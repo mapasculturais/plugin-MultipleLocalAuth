@@ -76,6 +76,34 @@ class Plugin extends \MapasCulturais\Plugin {
             $iconset['cursor-click'] = "mynaui:click-solid";
         });
 
+        $app->hook('template(<<*>>.main-header):after', function() use ($app) {
+            $is_admin = $app->user->is('admin');
+            $govbr_visible = $app->config['auth.config']['strategies']['govbr']['visible'];
+            $has_seen_modal = !$app->user->is('guest') ? $app->user->profile->hasSeenSocialLinkingModal : false;
+            $govbr_seal = $app->config['auth.config']['strategies']['govbr']['applySealId'];
+            $seal_relation = !$app->user->is('guest') && $govbr_seal ? $app->repo('SealRelation')->findOneBy(['seal' => $govbr_seal, 'agent' => $app->user->profile->id]) : false;
+            
+            if ($govbr_visible && !$app->user->is('guest') && !$has_seen_modal && !$seal_relation && !$is_admin) {
+                $this->part('govbr/govbr-modal');
+            }
+        });
+
+        $app->hook('POST(site.desabilitar-modal)', function() use($app) {
+            $this->requireAuthentication();
+            
+            $agent_id = $this->data['agentId'];
+            $agent = $app->repo('Agent')->find($agent_id);
+
+            if($agent) {
+                $agent->hasSeenSocialLinkingModal = true;
+                $agent->save(true);
+
+                $this->json(true);
+            }
+
+            $this->errorJson(false);
+        });
+
         if (php_sapi_name() == "cli") {
             if (!isset($_SERVER['HTTP_HOST'])) {
                 $_SERVER['HTTP_HOST'] = 'localhost';
@@ -90,6 +118,11 @@ class Plugin extends \MapasCulturais\Plugin {
         $this->registerUserMetadata(Provider::$accountIsActiveMetadata, ['label' => i::__('Conta ativa?')]);
         $this->registerUserMetadata(Provider::$tokenVerifyAccountMetadata, ['label' => i::__('Token de verificação')]);
         $this->registerUserMetadata(Provider::$loginAttempMetadata, ['label' => i::__('Número de tentativas de login')]);
-        $this->registerUserMetadata(Provider::$timeBlockedloginAttempMetadata, ['label' => i::__('Tempo de bloqueio por excesso de tentativas')]);        
+        $this->registerUserMetadata(Provider::$timeBlockedloginAttempMetadata, ['label' => i::__('Tempo de bloqueio por excesso de tentativas')]);
+        $this->registerAgentMetadata('hasSeenSocialLinkingModal', [
+            'label' => i::__('Indica se o usuário já viu o modal de vinculação com redes sociais'),
+            'type' => 'boolean',
+            'default' => false
+        ]);    
     }
 }
