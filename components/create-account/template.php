@@ -2,7 +2,7 @@
 /**
  * @var \MapasCulturais\Themes\BaseV2\Theme $this
  * @var \MapasCulturais\App $app
- * 
+ *
  */
 
 use MapasCulturais\i;
@@ -17,7 +17,7 @@ $this->import('
 ');
 ?>
 
-<div class="create-account"> 
+<div class="create-account">
 
     <div v-if="!created" class="create-account__title">
         <label><?= $this->text('title', i::__('Novo cadastro')) ?> </label>
@@ -25,8 +25,8 @@ $this->import('
     </div>
 
     <!-- Creating account -->
-    <mc-card v-if="!created" class="no-title">        
-        <template #content> 
+    <mc-card v-if="!created" class="no-title">
+        <template #content>
             <div class="create-account__timeline">
                 <mc-stepper :steps="arraySteps" :step="step" disable-navigation></mc-stepper>
             </div>
@@ -38,10 +38,10 @@ $this->import('
                         <label for="email"> <?= i::__('E-mail') ?> </label>
                         <input type="text" name="email" id="email" v-model="email" />
                     </div>
-                    
+
                     <div class="field col-12">
-                        <label class="document-label" for="cpf"> 
-                            <?= i::__('CPF') ?> 
+                        <label class="document-label" for="cpf">
+                            <?= i::__('CPF') ?>
                             <div class="question">
                                 <VMenu class="popover">
                                     <button tabindex="-1" class="question" type="button"> <?= i::__('Por que pedimos este dado') ?> <mc-icon name="question"></mc-icon> </button>
@@ -51,7 +51,7 @@ $this->import('
                                 </VMenu>
                             </div>
                         </label>
-                        <input type="text" name="cpf" id="cpf" v-model="cpf" v-maska data-maska="###.###.###-##" maxlength="14" /> 
+                        <input type="text" name="cpf" id="cpf" v-model="cpf" v-maska data-maska="###.###.###-##" maxlength="14" />
                     </div>
 
                     <div class="field col-12 password">
@@ -75,16 +75,16 @@ $this->import('
                     <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
                     <button class="col-12 button button--primary button--large button--md" type="submit"> <?= i::__('Continuar') ?> </button>
                 </form>
-                
+
                 <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="divider col-12"></div>
 
                 <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="social-login col-12">
-                    <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">                                
-                        <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
-                        <?= i::__('Entrar com Gov.br') ?>                            
-                    </a>                    
-                    <a v-if="configs.strategies.Google?.visible" class="social-login--button button button--icon button--large button--md google" href="<?php echo $app->createUrl('auth', 'google') ?>">                                
-                        <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>                                
+                    <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">
+                        <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>
+                        <?= i::__('Entrar com Gov.br') ?>
+                    </a>
+                    <a v-if="configs.strategies.Google?.visible" class="social-login--button button button--icon button--large button--md google" href="<?php echo $app->createUrl('auth', 'google') ?>">
+                        <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>
                         <?= i::__('Entrar com Google') ?>
                     </a>
                 </div>
@@ -96,8 +96,8 @@ $this->import('
                         <h4 class="bold"> <?= i::__('Revise seus dados') ?> </h4>
                     </div>
                     <div class="subtitle col-12">
-                        <span> 
-                            <?= i::__('Seu cadastro foi criado. Agora é necessário criar seu Perfil de Agente Cultural na plataforma, confirme se os seus dados estão corretos para seguir. Esses dados não serão divulgados.') ?> 
+                        <span>
+                            <?= i::__('Seu cadastro foi criado. Agora é necessário criar seu Perfil de Agente Cultural na plataforma, confirme se os seus dados estão corretos para seguir. Esses dados não serão divulgados.') ?>
                         </span>
                     </div>
                 </label>
@@ -107,7 +107,7 @@ $this->import('
                         <label for="nomeCompleto"> <?= i::__('Nome completo') ?> </label>
                         <input type="text" name="nomeCompleto" id="nomeCompleto" v-model="govbr.nome" disabled />
                     </div>
-                    
+
                     <div class="field col-12">
                         <label for="dataNascimento"> <?= i::__('Data de nasciento') ?> </label>
                         <input type="text" name="dataNascimento" id="dataNascimento" v-model="govbr.nascimento" disabled />
@@ -115,9 +115,9 @@ $this->import('
 
                     <div class="field col-12">
                         <label for="cpf"> <?= i::__('CPF') ?> </label>
-                        <input type="text" name="cpf" id="cpf" v-model="govbr.cpf" v-maska data-maska="###.###.###-##" maxlength="14"  disabled/> 
+                        <input type="text" name="cpf" id="cpf" v-model="govbr.cpf" v-maska data-maska="###.###.###-##" maxlength="14"  disabled/>
                     </div>
-                    
+
                     <div class="field col-12">
                         <label for="email"> <?= i::__('E-mail') ?> </label>
                         <input type="text" name="email" id="email" v-model="govbr.email" disabled />
@@ -132,8 +132,8 @@ $this->import('
 
                     <button class="col-12 create-account__button button button--primary button--large button--md" type="submit"> <?= i::__('Continuar') ?> </button>
 
-                    <small class="col-12"> 
-                        <?= i::__('*Caso seus dados estejam incorretos, será necessário alterá-los em sua conta Gov.br.') ?>
+                    <small class="col-12">
+                        <?= i::__('*Caso seus dados estejam incorretos, será necessário alterá-los em sua conta gov.br.') ?>
                         <br>
                         <a href="#"><?= i::__('Saiba mais.') ?></a>
                     </small>
@@ -147,8 +147,8 @@ $this->import('
                         <h4 class="bold"> <?= i::__('Aceite de políticas') ?> </h4>
                     </div>
                     <div class="subtitle col-12">
-                        <span> 
-                            <?= i::__('Para criar o seu perfil é necessário ler e aceitar os termos, políticas e autorizações para utilização da plataforma, que serão encaminhados a você por e-mail. Ao aceitar, você estará concordando com todos.') ?> 
+                        <span>
+                            <?= i::__('Para criar o seu perfil é necessário ler e aceitar os termos, políticas e autorizações para utilização da plataforma, que serão encaminhados a você por e-mail. Ao aceitar, você estará concordando com todos.') ?>
                         </span>
                     </div>
                 </label>
@@ -158,7 +158,7 @@ $this->import('
                         <template #default="modal">
                             <div class="create-account__modal-content grid-12">
                                 <div class="term col-12" v-html="value.text" :id="'term'+index" ref="terms"></div>
-                                <div class="divider col-12"></div>                
+                                <div class="divider col-12"></div>
                                 <button class="col-12 button button--primary button--large button--md" :id="'acceptTerm'+index" @click="modal.close(); acceptTerm(name)"> {{value.buttonText}} </button>
                                 <button class="col-12 button button--text" @click="modal.close(); cancel()"> <?= i::__('Voltar e excluir minhas informações') ?> </button>
                             </div>
@@ -182,19 +182,19 @@ $this->import('
                         <h4 class="bold"> <?= i::__('Criação do Perfil') ?> </h4>
                     </div>
                     <div class="subtitle col-12">
-                        <span> 
-                            <?= i::__(' Para finalizar o seu cadastro, é necessário criar seu Perfil de Agente Cultural. 
-                                        Um Agente Cultural é qualquer pessoa que tenha envolvimento com a área da cultura. 
+                        <span>
+                            <?= i::__(' Para finalizar o seu cadastro, é necessário criar seu Perfil de Agente Cultural.
+                                        Um Agente Cultural é qualquer pessoa que tenha envolvimento com a área da cultura.
                                         Este perfil será público e integrará o Mapa da Cultura brasileira, onde será possível acessar informações e projetos culturais relacionados.
-                                        Dê um nome, faça uma breve descrição sobre sua relação com a cultura e selecione suas principais áreas de atuação, para completar o seu cadastro. 
-                                        Será possível editar as informações posteriormente.') ?> 
+                                        Dê um nome, faça uma breve descrição sobre sua relação com a cultura e selecione suas principais áreas de atuação, para completar o seu cadastro.
+                                        Será possível editar as informações posteriormente.') ?>
                         </span>
                     </div>
                 </label>
-                
+
                 <entity-field :entity="agent" classes="col-12" hide-required label=<?php i::esc_attr_e("Nome")?> prop="name" fieldDescription="<?= i::__('As pessoas irão encontrar você por esse nome.') ?>"></entity-field>
                 <entity-field :entity="agent" classes="col-12" hide-required prop="shortDescription" label="<?php i::esc_attr_e("Mini Bio")?>"></entity-field>
-                <entity-terms :entity="agent" classes="col-12" :editable="true" taxonomy='area' title="<?php i::esc_attr_e("Área de atuação") ?>"></entity-terms>                
+                <entity-terms :entity="agent" classes="col-12" :editable="true" taxonomy='area' title="<?php i::esc_attr_e("Área de atuação") ?>"></entity-terms>
 
                 <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
 
@@ -202,8 +202,8 @@ $this->import('
             </div>
         </template>
     </mc-card>
-    
-    <!-- Account created -->            
+
+    <!-- Account created -->
     <mc-card v-if="created" class="no-title card-created">
         <template #content>
             <div class="create-account__created grid-12">

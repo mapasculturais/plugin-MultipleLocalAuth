@@ -2,7 +2,7 @@
 /**
  * @var \MapasCulturais\Themes\BaseV2\Theme $this
  * @var \MapasCulturais\App $app
- * 
+ *
  */
 
 use MapasCulturais\i;
@@ -23,11 +23,11 @@ if(isset($_SESSION['strategy-error'])) {
             unset($_SESSION['strategy-error-cpf']);
             unset($_SESSION['strategy-error'][$key]);
         }
-        
+
         if('cpf-diferente' == ($key ?? false)) {
             $cpf_diferente = true;
 
-            $message_error = i::__('Sua conta do <a href="https://gov.br">Gov.br</a> vinculada apresenta um número de CPF diferente do cadastrado aqui. Verifique as contas para garantir que sejam do mesmo usuário');
+            $message_error = i::__('Sua conta do <a href="https://gov.br">gov.br</a> vinculada apresenta um número de CPF diferente do cadastrado aqui. Verifique as contas para garantir que sejam do mesmo usuário');
 
             unset($_SESSION['strategy-error'][$key]);
         }
@@ -51,23 +51,30 @@ $this->import('
         <template #default>
             <div class="login-govbr__content">
                 <p class="login-govbr__explain">
-                    <?= i::__('O Mapas Culturais está integrado ao') ." <a href='#'>Gov.br</a> ". i::__('porque garante segurança ao seu acesso, respeitando os ') ." <a href='#'>termos de uso</a> ". i::__('e as') ." <a href='#'>políticas de privacidade</a>". i::__('.') ?>
-                </p>
-                    
-                <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>" data-params='<?= json_encode($params) ?>' @click.prevent="govBrClick($event)">                                 
-                    <?= i::__('Entrar com') ?>                            
-                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
-                </a>
+                <?= sprintf(
+                    i::__('O Mapas Culturais está integrado ao %s porque garante segurança ao seu acesso, respeitando os ') ." <a href='#'>termos de uso</a> ". i::__('e as') ." <a href='#'>políticas de privacidade</a>". i::__('.'),
+                    '<a href="https://www.gov.br/" target="_blank">gov.br</a>',
+                    '<a href="#">' . i::__('Termos de Uso') . '</a>',
 
-                <p> <?= i::__('Ao prosseguir você será direcionado ao site') ." <a href='#'>Gov.br</a> ". i::__('para identificação e autenticação digital do cidadão através do seu navegador de internet.') ?></p>
+                ) ?>
+                </p>
+
+                <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>" data-params='<?= json_encode($params) ?>' @click.prevent="govBrClick($event)">
+                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" /> </div>
+                    <?= i::__('Entrar com gov.br') ?>
+                </a>
+                <p> <?= sprintf(
+                    i::__('Ao prosseguir você será direcionado ao site %s para identificação e autenticação digital do cidadão através do seu navegador de internet.'),
+                    '<a href="https://www.gov.br/" target="_blank">gov.br</a>'
+                ) ?></p>
             </div>
         </template>
 
         <template #button="modal">
             <div>
-                <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="[{'button--sm' : small}, {'button--large': large}]" @click="modal.open()">                                
-                    <?= i::__('Entrar com') ?>                            
-                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>                                
+                <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="{'button--sm' : small, 'button--large': large}" @click="modal.open()">
+                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" /> </div>
+                    <?= i::__('Entrar com gov.br') ?>
                 </a>
             </div>
 
@@ -76,7 +83,7 @@ $this->import('
                     <mc-alert class="col-12" type="warning">
                         <?= $message_error ?>
                     </mc-alert>
-                
+
                 <?php elseif($cpf_duplicado): ?>
                     <mc-alert class="col-12" type="warning">
                         <?= $message_error ?>

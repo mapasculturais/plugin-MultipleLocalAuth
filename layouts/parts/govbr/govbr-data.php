@@ -2,7 +2,7 @@
 /**
  * @var \MapasCulturais\Themes\BaseV2\Theme $this
  * @var \MapasCulturais\App $app
- * 
+ *
  */
 
 use MapasCulturais\i;
@@ -20,11 +20,11 @@ $this->import('
 
 <div class="user-mail__config">
     <div class="user-mail__config-title">
-        <?= i::__('Gov.br') ?> :
+        <?= i::__('gov.br') ?> :
     </div>
     <div class="user-mail__config-content">
         <?php if ($has_govbr_seal): ?>
-            <b><mc-icon name="check"></mc-icon> Usuário vinculado ao Gov.br</b>
+            <b><mc-icon name="check"></mc-icon> <?= i::__('Usuário vinculado ao gov.br') ?></b>
         <?php else: ?>
             <login-govbr config='<?= $configs; ?>' small></login-govbr>
         <?php endif; ?>
