@@ -27,7 +27,10 @@ if(isset($_SESSION['strategy-error'])) {
         if('cpf-diferente' == ($key ?? false)) {
             $cpf_diferente = true;
 
-            $message_error = i::__('Sua conta do <a href="https://gov.br">gov.br</a> vinculada apresenta um número de CPF diferente do cadastrado aqui. Verifique as contas para garantir que sejam do mesmo usuário');
+            $message_error = sprintf(
+                i::__('Sua conta do %s vinculada apresenta um número de CPF diferente do cadastrado aqui. Verifique as contas para garantir que sejam do mesmo usuário'),
+                '<a href="https://www.gov.br/" target="_blank">' . i::__('gov.br') . '</a>'
+            );
 
             unset($_SESSION['strategy-error'][$key]);
         }
@@ -53,7 +56,7 @@ $this->import('
                 <p class="login-govbr__explain">
                 <?= sprintf(
                     i::__('O Mapas Culturais está integrado ao %s porque garante segurança ao seu acesso, respeitando os ') ." <a href='#'>termos de uso</a> ". i::__('e as') ." <a href='#'>políticas de privacidade</a>". i::__('.'),
-                    '<a href="https://www.gov.br/" target="_blank">gov.br</a>',
+                    '<a href="https://www.gov.br/" target="_blank">' . i::__('gov.br') . '</a>',
                     '<a href="#">' . i::__('Termos de Uso') . '</a>',
 
                 ) ?>
@@ -65,7 +68,7 @@ $this->import('
                 </a>
                 <p> <?= sprintf(
                     i::__('Ao prosseguir você será direcionado ao site %s para identificação e autenticação digital do cidadão através do seu navegador de internet.'),
-                    '<a href="https://www.gov.br/" target="_blank">gov.br</a>'
+                    '<a href="https://www.gov.br/" target="_blank">' . i::__('gov.br') . '</a>'
                 ) ?></p>
             </div>
         </template>
