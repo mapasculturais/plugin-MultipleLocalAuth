@@ -24,7 +24,8 @@ $this->import('
                 ) ?></p>
                 <p><?= i::__('Clique abaixo para vincular sua conta agora.') ?></p>
 
-                <a class="button button--icon button--large button--md button--primary" href="<?php echo $app->createUrl('panel', 'my-account') ?>" @click.prevent="disableModal($event)">
+                <a class="button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('panel', 'my-account') ?>" @click.prevent="disableModal($event)">
+                    <img height="16" src="<?php $this->asset('img/govbr-white.svg'); ?>" alt="">
                     <?= i::__('Vincular conta gov.br') ?>
                 </a>
             </div>
