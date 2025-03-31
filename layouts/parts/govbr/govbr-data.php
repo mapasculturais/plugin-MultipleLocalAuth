@@ -7,26 +7,27 @@
 
 use MapasCulturais\i;
 
+$current_user = $app->user;
 $configs = json_encode($app->config['auth.config']);
 $seal = $app->repo('Seal')->find($app->config['auth.config']['strategies']['govbr']['applySealId']);
-$seal_relation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $app->user->profile->id]);
+$seal_relation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $current_user->profile->id]);
 $has_govbr_seal = $seal_relation ? true : false;
-
 
 $this->import('
     login-govbr
 ');
 ?>
 
-<div class="user-mail__config">
-    <div class="user-mail__config-title">
-        <?= i::__('gov.br') ?> :
-    </div>
-    <div class="user-mail__config-content">
-        <?php if ($has_govbr_seal): ?>
-            <b><mc-icon name="check"></mc-icon> <?= i::__('Usuário vinculado ao gov.br') ?></b>
-        <?php else: ?>
-            <login-govbr config='<?= $configs; ?>' small></login-govbr>
-        <?php endif; ?>
-    </div>
-</div>
+<?php if (!$current_user->is('guest') && $this->controller->requestedEntity->id == $current_user->profile->id):
+    if ($has_govbr_seal): ?>
+        <div class="user-mail__config col-12" style="width: max-content">
+            <h4 class="user-mail__config-title bold"><?= i::__('gov.br') ?></h4>
+            <div class="user-mail__config-content">
+                <mc-icon name="check" class="success__color"></mc-icon>
+                <span><?= i::__('Usuário vinculado ao gov.br') ?></span>
+            </div>
+        </div>
+    <?php else: ?>
+        <login-govbr config='<?= $configs; ?>' :binding='true' small></login-govbr>
+    <?php endif;
+endif; ?>

@@ -15,9 +15,9 @@ $this->import('
 ?>
 
 <div v-if="configs.strategies.govbr?.visible" class="link-govbr-modal">
-    <mc-modal ref="linkGovbrModal" title="<?= i::esc_attr_e('Vincular conta gov.br') ?>" classes="link-govbr__modal" @close="disableModal($event, false)">
+    <mc-modal ref="linkGovbrModal" title="<?= i::esc_attr_e('Vincular conta gov.br') ?>" classes="link-govbr__modal login-govbr" @close="disableModal($event, false)">
         <template #default>
-            <div class="link-govbr__content">
+            <div class="link-govbr__content login-govbr__content">
                 <p><?= sprintf(
                     i::__('Você pode vincular sua conta ao %s para facilitar seu acesso a esse serviço. A vinculação é opcional e pode ser feita a qualquer momento.'),
                     '<a href="https://www.gov.br/" target="_blank">' . i::__('gov.br') . '</a>'

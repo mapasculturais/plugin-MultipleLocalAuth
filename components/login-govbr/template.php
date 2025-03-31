@@ -50,7 +50,7 @@ $this->import('
 ?>
 
 <div v-if="configs.strategies.govbr?.visible" class="login-govbr">
-    <mc-modal title="<?= i::esc_attr_e('Boas vindas!') ?>" subtitle="<?= i::esc_attr_e('Entre em sua conta do Mapas Culturais.') ?>" classes="login-govbr__modal">
+    <mc-modal :title="binding ? text('Vincular conta gov.br') : text('Boas vindas!')" classes="login-govbr__modal">
         <template #default>
             <div class="login-govbr__content">
                 <p class="login-govbr__explain">
@@ -63,8 +63,8 @@ $this->import('
                 </p>
 
                 <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>" data-params='<?= json_encode($params) ?>' @click.prevent="govBrClick($event)">
-                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" /> </div>
-                    <?= i::__('Entrar com gov.br') ?>
+                    <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" alt="">
+                    <?= i::__('Acessar gov.br') ?>
                 </a>
                 <p> <?= sprintf(
                     i::__('Ao prosseguir você será direcionado ao site %s para identificação e autenticação digital do cidadão através do seu navegador de internet.'),
@@ -76,8 +76,8 @@ $this->import('
         <template #button="modal">
             <div>
                 <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="{'button--sm' : small, 'button--large': large}" @click="modal.open()">
-                    <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" /> </div>
-                    <?= i::__('Entrar com gov.br') ?>
+                    <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" alt="">
+                    {{ binding ? text('Vincular conta gov.br') : text('Entrar com gov.br') }}
                 </a>
             </div>
 
