@@ -1,18 +1,32 @@
+@use '../1-settings/s-mixins' as *;
+
 .login-govbr {
     &__content {
         display: grid;
         gap: 20px;
-        max-width: 520px;
+        max-width: size(520);
     }
 
-    .govbr {
+    .button.govbr {
+        align-items: center;
         background-color: #1351b4;
         color: #fff;
         display: flex;
+        justify-content: center;
+        min-width: max-content;
+        padding: 8px 16px;
+        width: 100%;
 
         > img {
             width: 50px;
             height: 100%;
+        }
+    }
+
+    &.modal__content {
+
+        .button.govbr {
+            width: 100%;
         }
     }
 }
