@@ -10,6 +10,11 @@
 
     &__error {
         margin-top: size(16);
+        width: 100%;
+
+        a {
+            color: inherit;
+        }
     }
 
     .button.govbr {

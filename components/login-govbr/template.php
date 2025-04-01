@@ -80,14 +80,14 @@ $this->import('
                     {{ binding ? text('Vincular conta gov.br') : text('Entrar com gov.br') }}
                 </a>
             </div>
-
-            <?php if($cpf_diferente || $cpf_duplicado): ?>
-                <div class="login-govbr__error">
-                    <mc-alert class="col-12" type="danger">
-                        <?= $message_error ?>
-                    </mc-alert>
-                </div>
-            <?php endif; ?>
         </template>
     </mc-modal>
 </div>
+
+<?php if($cpf_diferente || $cpf_duplicado): ?>
+    <div class="login-govbr__error col-12">
+        <mc-alert class="col-12" type="danger">
+            <?= $message_error ?>
+        </mc-alert>
+    </div>
+<?php endif; ?>
