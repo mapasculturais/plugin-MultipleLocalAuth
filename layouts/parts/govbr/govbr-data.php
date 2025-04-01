@@ -18,7 +18,7 @@ $this->import('
 ');
 ?>
 
-<?php if (!$current_user->is('guest') && $this->controller->requestedEntity->id == $current_user->profile->id):
+<?php if (!$current_user->is('guest') && ($this->controller->id === 'panel' || $this->controller->requestedEntity->id == $current_user->profile->id)):
     if ($has_govbr_seal): ?>
         <div class="user-mail__config col-12" style="width: max-content">
             <h4 class="user-mail__config-title bold"><?= i::__('gov.br') ?></h4>
