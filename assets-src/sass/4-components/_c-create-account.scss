@@ -1,16 +1,19 @@
 @use '../1-settings/s-mixins' as *;
 
-.mc-breadcrumb {
-    li {
-        display: flex;
-        color: var(--mc-primary-500);
+.controller-auth {
 
-        &::before {
-            content: url('https://api.iconify.design/fe/arrow-left.svg?width=16&height=16');
-            height: 16px;
-            margin-inline-end: 5px;
-            width: 16px;
+    .mc-breadcrumb {
+        li {
+            display: flex;
             color: var(--mc-primary-500);
+
+            &::before {
+                content: url('https://api.iconify.design/fe/arrow-left.svg?width=16&height=16');
+                height: 16px;
+                margin-inline-end: 5px;
+                width: 16px;
+                color: var(--mc-primary-500);
+            }
         }
     }
 }
@@ -26,7 +29,7 @@
 
     .mc-card {
         padding: 24px;
-        
+
         &.card-created {
             margin: 80px 0;
         }
@@ -36,7 +39,7 @@
         max-width: size(473);
         margin: 0 auto;
     }
-    
+
     &__title {
         margin: 35px 0;
 
@@ -113,7 +116,7 @@
                     &::before {
                         top: 16px;
                     }
-                    
+
                     .count {
                         width: 32px;
                         height: 32px;
@@ -138,8 +141,8 @@
             }
         }
 
-        .password {     
-            position: relative;           
+        .password {
+            position: relative;
             &-rules {
                 margin-top:1em;
                 font-size: 14px;
@@ -164,7 +167,7 @@
             }
         }
 
-        
+
 
         .g-recaptcha {
             display: flex;
@@ -186,16 +189,16 @@
             &--button {
                 text-align: center;
                 display: block;
-    
+
                 .img {
                     width: 50px;
                     float: left;
                     text-align: left;
                     display: flex;
                     align-items: center;
-    
+
                     img {
-                        height: 16px;    
+                        height: 16px;
                     }
 
                     @media (max-width: 500px) {
@@ -205,12 +208,12 @@
                         }
                     }
                 }
-    
+
                 &.google {
                     border: var(--mc-border-hairline) var(--mc-low-500);
                     color: var(--mc-low-700);
                 }
-    
+
                 &.govbr {
                     border: var(--mc-border-hairline) #1351B4;
                     background-color: #1351B4;
@@ -223,7 +226,7 @@
                         font-size: 13px;
                     }
                 }
-            }   
+            }
         }
 
         .term {
@@ -231,14 +234,14 @@
 
             /* entire scrollbar */
             &::-webkit-scrollbar {
-                width: 6px; 
+                width: 6px;
             }
-            
+
             /* tracking area */
             &::-webkit-scrollbar-track {
                 background: unset;
             }
-            
+
             /* scroll thumb */
             &::-webkit-scrollbar-thumb {
                 background-color: #6C6C6C;
@@ -353,26 +356,26 @@
             border-radius: var(--mc-border-radius-sm);
         }
 
-        &::-webkit-progress-value {                       
+        &::-webkit-progress-value {
             border-radius: var(--mc-border-radius-sm);
             transition: 1s;
         }
 
         &.fraco {
             &::-webkit-progress-value {
-                background: red;    
+                background: red;
             }
         }
 
         &.medio {
             &::-webkit-progress-value {
-                background: yellow;   
+                background: yellow;
             }
         }
 
         &.forte {
             &::-webkit-progress-value {
-                background: green;    
+                background: green;
             }
         }
     }

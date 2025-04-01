@@ -11,15 +11,15 @@ include('LoginCidadao/LoginCidadaoStrategy.php');
 include('GovBr/GovBrStrategy.php');
 
 class Plugin extends \MapasCulturais\Plugin {
-    
+
     public function _init() {
         $app = App::i();
-        
+
         // register translation text domain
         i::load_textdomain( 'multipleLocal', __DIR__ . "/translations" );
 
         // Load JS & CSS
-        $app->hook('GET(<<auth|panel|seal>>.<<*>>):before', function() use ($app) {
+        $app->hook('GET(<<*>>.<<*>>):before', function() use ($app) {
             $app->view->enqueueStyle('app-v2', 'multipleLocal-v2', 'css/plugin-MultiplLocalAuth.css');
         });
 
@@ -47,7 +47,7 @@ class Plugin extends \MapasCulturais\Plugin {
                 $this->part('govbr/govbr-data');
             }
         });
-        
+
         $app->hook('template(agent.edit.edit1-entity-info-site):after', function() use ($app) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
@@ -82,7 +82,7 @@ class Plugin extends \MapasCulturais\Plugin {
             $has_seen_modal = !$app->user->is('guest') ? $app->user->profile->hasSeenSocialLinkingModal : false;
             $govbr_seal = $app->config['auth.config']['strategies']['govbr']['applySealId'];
             $seal_relation = !$app->user->is('guest') && $govbr_seal ? $app->repo('SealRelation')->findOneBy(['seal' => $govbr_seal, 'agent' => $app->user->profile->id]) : false;
-            
+
             if ($govbr_visible && !$app->user->is('guest') && !$has_seen_modal && !$seal_relation && !$is_admin) {
                 $this->part('govbr/govbr-modal');
             }
@@ -90,7 +90,7 @@ class Plugin extends \MapasCulturais\Plugin {
 
         $app->hook('POST(site.desabilitar-modal)', function() use($app) {
             $this->requireAuthentication();
-            
+
             $agent_id = $this->data['agentId'];
             $agent = $app->repo('Agent')->find($agent_id);
 
@@ -110,7 +110,7 @@ class Plugin extends \MapasCulturais\Plugin {
             }
         }
     }
-    
+
     public function register() {
         $this->registerUserMetadata(Provider::$passMetaName, ['label' => i::__('Senha')]);
         $this->registerUserMetadata(Provider::$recoverTokenMetadata, ['label' => i::__('Token para recuperação de senha')]);
@@ -123,6 +123,6 @@ class Plugin extends \MapasCulturais\Plugin {
             'label' => i::__('Indica se o usuário já viu o modal de vinculação com redes sociais'),
             'type' => 'boolean',
             'default' => false
-        ]);    
+        ]);
     }
 }
