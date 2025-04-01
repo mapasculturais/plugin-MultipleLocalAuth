@@ -1397,7 +1397,8 @@ class Provider extends \MapasCulturais\AuthProvider {
                         unset($_COOKIE['errorRedirectLocation']);
 
                         if($cookie['isAuth']) {
-                            header('Location: '. $app->createUrl($cookie['controller'], $cookie['action']));
+                            $params = $cookie['controller'] == 'agent' ? ['id' => $user->profile->id] : [];
+                            header('Location: ' . $app->createUrl($cookie['controller'], $cookie['action'], $params));
                             exit;
                         } else {
                             session_unset();
