@@ -81,18 +81,13 @@ $this->import('
                 </a>
             </div>
 
-            <div>
-                <?php if($cpf_diferente): ?>
-                    <mc-alert class="col-12" type="warning">
+            <?php if($cpf_diferente || $cpf_duplicado): ?>
+                <div class="login-govbr__error">
+                    <mc-alert class="col-12" type="danger">
                         <?= $message_error ?>
                     </mc-alert>
-
-                <?php elseif($cpf_duplicado): ?>
-                    <mc-alert class="col-12" type="warning">
-                        <?= $message_error ?>
-                    </mc-alert>
-                <?php endif; ?>
-            </div>
+                </div>
+            <?php endif; ?>
         </template>
     </mc-modal>
 </div>

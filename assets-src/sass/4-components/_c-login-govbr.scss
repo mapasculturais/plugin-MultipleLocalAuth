@@ -1,10 +1,15 @@
 @use '../1-settings/s-mixins' as *;
 
 .login-govbr {
+
     &__content {
         display: grid;
         gap: 20px;
         max-width: size(520);
+    }
+
+    &__error {
+        margin-top: size(16);
     }
 
     .button.govbr {
