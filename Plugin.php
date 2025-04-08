@@ -37,37 +37,35 @@ class Plugin extends \MapasCulturais\Plugin {
 
         $app->hook('template(panel.<<my-account|user-detail>>.user-mail):end ', function() use ($app, $plugin) {
             /** @var \MapasCulturais\Theme $this */
-            if ($app->config['auth.config']['strategies']['govbr']['visible']) {
-                $current_user = $app->user;
+            $current_user = $app->user;
+            $can_seal = !$current_user->is('guest');
+
+            if ($app->config['auth.config']['strategies']['govbr']['visible'] && $can_seal) {
                 $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
-                $this->part('govbr/govbr-data', [
-                    'current_user' => $current_user,
-                    'has_govbr_seal' => $has_govbr_seal,
-                ]);
+                $this->part('govbr/govbr-data', [ 'has_govbr_seal' => $has_govbr_seal ]);
             }
         });
 
         $app->hook('template(agent.single.single1-entity-info-mc-share-links):before', function() use ($app, $plugin) {
             /** @var \MapasCulturais\Theme $this */
-            if ($app->config['auth.config']['strategies']['govbr']['visible']) {
-                $current_user = $app->user;
+            $current_user = $app->user;
+            $can_seal = !$current_user->is('guest') && $this->controller->requestedEntity->id == $current_user->profile->id;
+
+            if ($app->config['auth.config']['strategies']['govbr']['visible'] && $can_seal) {
                 $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
-                $this->part('govbr/govbr-data', [
-                    'current_user' => $current_user,
-                    'has_govbr_seal' => $has_govbr_seal,
-                ]);
+                $this->part('govbr/govbr-data', [ 'has_govbr_seal' => $has_govbr_seal ]);
             }
         });
 
         $app->hook('template(agent.edit.edit1-entity-info-site):after', function() use ($app, $plugin) {
             /** @var \MapasCulturais\Theme $this */
-            if ($app->config['auth.config']['strategies']['govbr']['visible']) {
-                $current_user = $app->user;
+            $current_user = $app->user;
+            $can_seal = !$current_user->is('guest') && $this->controller->requestedEntity->id == $current_user->profile->id;
+
+            if ($app->config['auth.config']['strategies']['govbr']['visible'] && $can_seal) {
                 $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
-                $this->part('govbr/govbr-data', [
-                    'current_user' => $current_user,
-                    'has_govbr_seal' => $has_govbr_seal,
-                ]);            }
+                $this->part('govbr/govbr-data', [ 'has_govbr_seal' => $has_govbr_seal ]);
+            }
         });
 
         $app->hook('entity(User).permissionsList,doctrine.emum(permission_action).values', function (&$permissions) {
