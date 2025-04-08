@@ -14,6 +14,7 @@ class Plugin extends \MapasCulturais\Plugin {
 
     public function _init() {
         $app = App::i();
+        $plugin = $this;
 
         // register translation text domain
         i::load_textdomain( 'multipleLocal', __DIR__ . "/translations" );
@@ -34,18 +35,11 @@ class Plugin extends \MapasCulturais\Plugin {
             $this->part('password/change-password');
         });
 
-        function userHasGovBrSeal($user) {
-            $app = App::i();
-            $seal = $app->repo('Seal')->find($app->config['auth.config']['strategies']['govbr']['applySealId']);
-            $seal_relation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $user->profile->id]);
-            return !empty($seal_relation);
-        }
-
-        $app->hook('template(panel.<<my-account|user-detail>>.user-mail):end ', function() use ($app) {
+        $app->hook('template(panel.<<my-account|user-detail>>.user-mail):end ', function() use ($app, $plugin) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
                 $current_user = $app->user;
-                $has_govbr_seal = userHasGovBrSeal($current_user);
+                $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
                 $this->part('govbr/govbr-data', [
                     'current_user' => $current_user,
                     'has_govbr_seal' => $has_govbr_seal,
@@ -53,11 +47,11 @@ class Plugin extends \MapasCulturais\Plugin {
             }
         });
 
-        $app->hook('template(agent.single.single1-entity-info-mc-share-links):before', function() use ($app) {
+        $app->hook('template(agent.single.single1-entity-info-mc-share-links):before', function() use ($app, $plugin) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
                 $current_user = $app->user;
-                $has_govbr_seal = userHasGovBrSeal($current_user);
+                $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
                 $this->part('govbr/govbr-data', [
                     'current_user' => $current_user,
                     'has_govbr_seal' => $has_govbr_seal,
@@ -65,11 +59,11 @@ class Plugin extends \MapasCulturais\Plugin {
             }
         });
 
-        $app->hook('template(agent.edit.edit1-entity-info-site):after', function() use ($app) {
+        $app->hook('template(agent.edit.edit1-entity-info-site):after', function() use ($app, $plugin) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
                 $current_user = $app->user;
-                $has_govbr_seal = userHasGovBrSeal($current_user);
+                $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
                 $this->part('govbr/govbr-data', [
                     'current_user' => $current_user,
                     'has_govbr_seal' => $has_govbr_seal,
@@ -145,5 +139,12 @@ class Plugin extends \MapasCulturais\Plugin {
             'type' => 'boolean',
             'default' => false
         ]);
+    }
+
+    public function hasGovBrSeal($user) {
+        $app = App::i();
+        $seal = $app->repo('Seal')->find($app->config['auth.config']['strategies']['govbr']['applySealId']);
+        $seal_relation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $user->profile->id]);
+        return !empty($seal_relation);
     }
 }
