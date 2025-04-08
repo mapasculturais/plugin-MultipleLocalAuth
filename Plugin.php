@@ -34,25 +34,46 @@ class Plugin extends \MapasCulturais\Plugin {
             $this->part('password/change-password');
         });
 
+        function userHasGovBrSeal($user) {
+            $app = App::i();
+            $seal = $app->repo('Seal')->find($app->config['auth.config']['strategies']['govbr']['applySealId']);
+            $seal_relation = $app->repo('SealRelation')->findOneBy(['seal' => $seal, 'agent' => $user->profile->id]);
+            return !empty($seal_relation);
+        }
+
         $app->hook('template(panel.<<my-account|user-detail>>.user-mail):end ', function() use ($app) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
-                $this->part('govbr/govbr-data');
+                $current_user = $app->user;
+                $has_govbr_seal = userHasGovBrSeal($current_user);
+                $this->part('govbr/govbr-data', [
+                    'current_user' => $current_user,
+                    'has_govbr_seal' => $has_govbr_seal,
+                ]);
             }
         });
 
         $app->hook('template(agent.single.single1-entity-info-mc-share-links):before', function() use ($app) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
-                $this->part('govbr/govbr-data');
+                $current_user = $app->user;
+                $has_govbr_seal = userHasGovBrSeal($current_user);
+                $this->part('govbr/govbr-data', [
+                    'current_user' => $current_user,
+                    'has_govbr_seal' => $has_govbr_seal,
+                ]);
             }
         });
 
         $app->hook('template(agent.edit.edit1-entity-info-site):after', function() use ($app) {
             /** @var \MapasCulturais\Theme $this */
             if ($app->config['auth.config']['strategies']['govbr']['visible']) {
-                $this->part('govbr/govbr-data');
-            }
+                $current_user = $app->user;
+                $has_govbr_seal = userHasGovBrSeal($current_user);
+                $this->part('govbr/govbr-data', [
+                    'current_user' => $current_user,
+                    'has_govbr_seal' => $has_govbr_seal,
+                ]);            }
         });
 
         $app->hook('entity(User).permissionsList,doctrine.emum(permission_action).values', function (&$permissions) {
