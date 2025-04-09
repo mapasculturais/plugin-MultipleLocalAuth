@@ -42,7 +42,11 @@ class Plugin extends \MapasCulturais\Plugin {
 
             if ($app->config['auth.config']['strategies']['govbr']['visible'] && $can_seal) {
                 $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
-                $this->part('govbr/govbr-data', [ 'has_govbr_seal' => $has_govbr_seal ]);
+                $this->part('govbr/govbr-data', [
+                    'has_govbr_seal' => $has_govbr_seal,
+                    'button_class' => 'login-govbr--panel',
+                    'seal_class' => 'seal-govbr--panel',
+                ]);
             }
         });
 
@@ -53,7 +57,11 @@ class Plugin extends \MapasCulturais\Plugin {
 
             if ($app->config['auth.config']['strategies']['govbr']['visible'] && $can_seal) {
                 $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
-                $this->part('govbr/govbr-data', [ 'has_govbr_seal' => $has_govbr_seal ]);
+                $this->part('govbr/govbr-data', [
+                    'has_govbr_seal' => $has_govbr_seal,
+                    'button_class' => 'col-12',
+                    'seal_class' => 'col-12',
+                ]);
             }
         });
 
@@ -64,7 +72,11 @@ class Plugin extends \MapasCulturais\Plugin {
 
             if ($app->config['auth.config']['strategies']['govbr']['visible'] && $can_seal) {
                 $has_govbr_seal = $plugin->hasGovBrSeal($current_user);
-                $this->part('govbr/govbr-data', [ 'has_govbr_seal' => $has_govbr_seal ]);
+                $this->part('govbr/govbr-data', [
+                    'has_govbr_seal' => $has_govbr_seal,
+                    'button_class' => 'col-12',
+                    'seal_class' => 'col-12',
+                ]);
             }
         });
 

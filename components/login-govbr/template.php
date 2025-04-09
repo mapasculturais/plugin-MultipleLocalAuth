@@ -74,20 +74,19 @@ $this->import('
         </template>
 
         <template #button="modal">
-            <div>
-                <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="{'button--sm' : small, 'button--large': large}" @click="modal.open()">
-                    <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" alt="">
-                    {{ binding ? text('Vincular conta gov.br') : text('Entrar com gov.br') }}
-                </a>
-            </div>
+            <a v-if="configs.strategies.govbr?.visible" class="button button--icon button--md govbr" :class="{'button--sm' : small, 'button--large': large}" @click="modal.open()">
+                <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.svg'); ?>" alt="">
+                {{ binding ? text('Vincular conta gov.br') : text('Entrar com gov.br') }}
+            </a>
+
+            <?php if($cpf_diferente || $cpf_duplicado): ?>
+                <div class="login-govbr__error">
+                    <mc-alert type="danger">
+                        <?= $message_error ?>
+                    </mc-alert>
+                </div>
+            <?php endif; ?>
         </template>
     </mc-modal>
 </div>
 
-<?php if($cpf_diferente || $cpf_duplicado): ?>
-    <div class="login-govbr__error col-12">
-        <mc-alert class="col-12" type="danger">
-            <?= $message_error ?>
-        </mc-alert>
-    </div>
-<?php endif; ?>

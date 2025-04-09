@@ -1,0 +1,14 @@
+@use '../1-settings/s-mixins' as *;
+
+.seal-govbr {
+
+    &__content {
+        align-items: center;
+        display: flex;
+        gap: 1ex;
+    }
+
+    &--panel {
+        margin: size(16) 0;
+    }
+}

@@ -23,9 +23,8 @@
         color: #fff;
         display: flex;
         justify-content: center;
-        min-width: max-content;
         padding: 8px 16px;
-        width: 100%;
+        width: fit-content;
 
         > img {
             width: 50px;
@@ -33,7 +32,15 @@
         }
     }
 
-    &.modal__content {
+    &--panel {
+        margin: size(16) 0;
+
+        .button.govbr {
+            width: fit-content;
+        }
+    }
+
+    &.modal__content, .modal__content {
 
         .button.govbr {
             width: 100%;
