@@ -51,7 +51,7 @@ $this->import('
                         </div>
 
                         <div class="login__social-buttons" :class="{'login__social-buttons--multiple': multiple}">
-                            <login-govbr :config="config"></login-govbr>
+                            <login-govbr :config="config" large></login-govbr>
 
                             <!-- <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">
                                 <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>

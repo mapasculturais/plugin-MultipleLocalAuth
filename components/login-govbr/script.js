@@ -10,8 +10,14 @@ app.component('login-govbr', {
             type: Boolean,
             default: false,
         },
-        small: Boolean,
-        large: Boolean,
+        small: {
+            type: Boolean,
+            default: false,
+        },
+        large: {
+            type: Boolean,
+            default: false,
+        },
     },
 
     setup() {
