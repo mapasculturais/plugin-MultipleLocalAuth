@@ -809,6 +809,7 @@ class Provider extends \MapasCulturais\AuthProvider {
                 $hasErrors = true;
             } else {
                 $user->setMetadata('localAuthenticationPassword', $app->auth->hashPassword($new_pass));
+                $user->setMetadata('adminSetPassword', true);
             }
         } else {
             array_push($errors['password'], i::__('Insira sua nova senha.', 'multipleLocal'));
