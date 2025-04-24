@@ -14,6 +14,32 @@ class Plugin extends \MapasCulturais\Plugin {
     
     public function _init() {
         $app = App::i();
+
+        if(!$app->user->is('guest')) {
+            $conn = $app->em->getConnection();
+            $user_id = $app->user->id;
+
+            $query = "
+                SELECT *
+                FROM user_meta
+                WHERE object_id = {$user_id}
+                AND key = 'adminSetPassword'
+            ";
+
+            $result = $conn->fetchAll($query);
+
+            if($result && $result[0]['value'] == '1') {
+                $query = "
+                    UPDATE user_meta
+                    SET value = '0'
+                    WHERE object_id = {$user_id}
+                    AND key = 'adminSetPassword'
+                ";
+
+                $conn->executeUpdate($query);
+                $app->auth->logout();
+            }
+        }
         
         // register translation text domain
         i::load_textdomain( 'multipleLocal', __DIR__ . "/translations" );
