@@ -11,6 +11,7 @@ use MapasCulturais\i;
 $this->import('
     mc-card
     password-strongness
+    mc-captcha
 ');
 ?>
 
@@ -26,6 +27,7 @@ $this->import('
 
             <div class="login__card__content">
                 <form class="login__form" @submit.prevent="doLogin();">
+                    <!-- Campos de login -->
                     <div class="login__fields">
                         <div class="field">
                             <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
@@ -40,8 +42,10 @@ $this->import('
                         </div>
                     </div>
 
-                    <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha"></VueRecaptcha>
+                    <!-- Componente responsável por renderizar o CAPTCHA -->
+                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error"></mc-captcha>
 
+                    <!-- Botões de login [Login social e botão de login] -->
                     <div class="login__buttons">
                         <button class=" button button--primary button--large button--md" type="submit"> <?= i::__('Entrar') ?> </button>
 
@@ -59,7 +63,6 @@ $this->import('
                                 <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>
                                 <?= i::__('Entrar com Google') ?>
                             </a>
-
                         </div>
                     </div>
 
