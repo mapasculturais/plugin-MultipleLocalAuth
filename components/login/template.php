@@ -21,59 +21,115 @@ $this->import('
     <div v-if="!recoveryRequest && !recoveryMode" class="login__action">
         <div class="login__card">
             <div class="login__card__header">
-                <h3> <?= $this->text('welcome', i::__('Boas vindas!')) ?> </h3>
-                <h6> <?= sprintf($this->text('greeting', i::__('Entre na sua conta do %s')), $app->siteName) ?> </h6>
+                <span v-if="wizard">
+                    <h3 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= sprintf($this->text('welcome', i::__('Saudações do %s!')), $app->siteName) ?> </h3>
+                    <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Que bom que você voltou!')) ?> </h3>
+                    <h3 v-if="userNotFound"> <?= $this->text('welcome', i::__('Não encontramos sua conta')) ?> </h3>
+                    <h3 v-if="passwordResetRequired"> <?= sprintf($this->text('welcome', i::__('Você já faz parte do %s!')), $app->siteName) ?> </h3>
+
+                    <h6 v-if="userNotFound"> <?= sprintf(i::__('Verificamos que o e-mail ou CPF informado não está vinculado a nenhuma conta no %s. Crie sua conta agora.'), $app->siteName) ?> </h6>
+
+                    <h6 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= $this->text('welcome', i::__('Informe seu e-mail ou CPF que vamos verificar se já possui uma conta.')) ?> </h6>
+
+                    <h6 v-if="showPassword && !passwordResetRequired"> <?= sprintf(i::__('Digite sua senha para acessar o %s.'), $app->siteName) ?> </h6>
+                    <h6 v-if="passwordResetRequired"> <?= sprintf(i::__('Verificamos que, com o e-mail ou CPF informado, você já possui conta no %s. Devido à recente atualização de sistema, para acessar sua conta será necessário gerar uma nova senha. Para isso, basta clicar em GERAR NOVA SENHA. Vamos lá!'), $app->siteName) ?> </h6>
+                </span>
+                <span v-else>
+                    <h3> <?= $this->text('welcome', i::__('Boas vindas!')) ?> </h3>
+                    <h6> <?= sprintf($this->text('greeting', i::__('Entre na sua conta do %s')), $app->siteName) ?> </h6>
+                </span>
             </div>
 
             <div class="login__card__content">
-                <form class="login__form" @submit.prevent="doLogin();">
-                    <!-- Campos de login -->
-                    <div class="login__fields">
-                        <div class="field">
-                            <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
-                            <input type="text" name="email" id="email" v-model="email" autocomplete="off" />
+                <span v-if="wizard">
+                    <form class="login__form" @submit.prevent="showPasswordField">
+                        <div class="login__fields">
+                            <div class="field" v-if="!showPassword && !passwordResetRequired && !userNotFound">
+                                <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
+                                <input type="text" name="email" id="email" v-model="email" autocomplete="off" />
+                            </div>
+
+                            <div v-if="showPassword && !passwordResetRequired" class="field password">
+                                <label for="password"> <?= i::__('Senha') ?> </label>
+                                <input type="password" name="password" id="password" v-model="password" autocomplete="off" />
+                                <a id="multiple-login-recover" class="login__recover-link" @click="recoveryRequest = true"> <?= i::__('Esqueci minha senha') ?> </a>
+                                <div class="seePassword" @click="togglePassword('password', $event)"></div>
+                            </div>
+
+
                         </div>
 
-                        <div class="field password">
-                            <label for="password"> <?= i::__('Senha') ?> </label>
-                            <input type="password" name="password" id="password" v-model="password" autocomplete="off" />
-                            <a id="multiple-login-recover" class="login__recover-link" @click="recoveryRequest = true"> <?= i::__('Esqueci minha senha') ?> </a>
-                            <div class="seePassword" @click="togglePassword('password', $event)"></div>
+                        <!-- Componente responsável por renderizar o CAPTCHA -->
+                        <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error"></mc-captcha>
+
+                        <div class="login__buttons">
+                            <button v-if="!showPassword && !passwordResetRequired && !userNotFound" class="button button--primary button--large button--md" type="submit"> <?= i::__('Próximo') ?> </button>
+                            <button v-if="showPassword && !passwordResetRequired" class="button button--primary button--large button--md" type="submit" @click="doLogin"> <?= i::__('Entrar') ?> </button>
+                            <button v-if="passwordResetRequired" class="button button--primary button--large button--md" @click="recoveryRequest = true"> <?= i::__('Gerar nova senha') ?> </button>
+                            <button v-if="passwordResetRequired || showPassword" class="button button--secondary button--large button--md" @click="resetLoginState"> <?= i::__('Voltar - wizard') ?> </button>
                         </div>
+
+
+                        <div v-if="userNotFound" class="create">
+                            <a class="button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>">
+                                <?= i::__('Criar conta') ?>
+                            </a>
+                            <button class="button button--secondary button--large button--md" @click="resetLoginState"> <?= i::__('Voltar') ?> </button>
+                        </div>
+                    </form>
+                </span>
+                <span v-else>
+                    <form class="login__form" @submit.prevent="doLogin();">
+                        <!-- Campos de login -->
+                        <div class="login__fields">
+                            <div class="field">
+                                <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
+                                <input type="text" name="email" id="email" v-model="email" autocomplete="off" />
+                            </div>
+
+                            <div class="field password">
+                                <label for="password"> <?= i::__('Senha') ?> </label>
+                                <input type="password" name="password" id="password" v-model="password" autocomplete="off" />
+                                <a id="multiple-login-recover" class="login__recover-link" @click="recoveryRequest = true"> <?= i::__('Esqueci minha senha') ?> </a>
+                                <div class="seePassword" @click="togglePassword('password', $event)"></div>
+                            </div>
+                        </div>
+
+                        <!-- Componente responsável por renderizar o CAPTCHA -->
+                        <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error"></mc-captcha>
+
+                        <!-- Botões de login [Login social e botão de login] -->
+                        <div class="login__buttons">
+                            <button class=" button button--primary button--large button--md" type="submit"> <?= i::__('Entrar') ?> </button>
+                        </div>
+                    </form>
+                </span>
+
+                <div class="login__buttons" style="margin-top: 15px;">
+                    <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="divider">
+                        <span class="divider__text"> <?= i::__('Ou entre com') ?> </span>
                     </div>
 
-                    <!-- Componente responsável por renderizar o CAPTCHA -->
-                    <mc-captcha @captcha-verified="verifyCaptcha" @captcha-expired="expiredCaptcha" :error="error"></mc-captcha>
+                    <div class="login__social-buttons" :class="{'login__social-buttons--multiple': multiple}">
+                        <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">
+                            <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>
+                            <?= i::__('Entrar com Gov.br') ?>
+                        </a>
 
-                    <!-- Botões de login [Login social e botão de login] -->
-                    <div class="login__buttons">
-                        <button class=" button button--primary button--large button--md" type="submit"> <?= i::__('Entrar') ?> </button>
-
-                        <div v-if="configs.strategies.Google?.visible || configs.strategies.govbr?.visible" class="divider">
-                            <span class="divider__text"> <?= i::__('Ou entre com') ?> </span>
-                        </div>
-
-                        <div class="login__social-buttons" :class="{'login__social-buttons--multiple': multiple}">
-                            <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">
-                                <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>
-                                <?= i::__('Entrar com Gov.br') ?>
-                            </a>
-
-                            <a v-if="configs.strategies.Google?.visible" class="social-login--button button button--icon button--large button--md google" href="<?php echo $app->createUrl('auth', 'google') ?>">
-                                <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>
-                                <?= i::__('Entrar com Google') ?>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="create ">
-                        <h5 class="bold"> <?= sprintf($this->text('register', i::__('Ainda não tem cadastro no %s? Realize seu cadastro agora!')), $app->siteName) ?> </h5>
-
-                        <a class=" button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>">
-                            <?= $this->text('fazer-cadastro', i::__('Fazer cadastro')) ?>
+                        <a v-if="configs.strategies.Google?.visible" class="social-login--button button button--icon button--large button--md google" href="<?php echo $app->createUrl('auth', 'google') ?>">
+                            <div class="img"> <img height="16" src="<?php $this->asset('img/g.png'); ?>" /> </div>
+                            <?= i::__('Entrar com Google') ?>
                         </a>
                     </div>
-                </form>
+                </div>
+
+                <div class="create">
+                    <h5 class="bold"> <?= sprintf($this->text('register', i::__('Ainda não tem cadastro no %s? Realize seu cadastro agora!')), $app->siteName) ?> </h5>
+
+                    <a class=" button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>">
+                        <?= $this->text('fazer-cadastro', i::__('Fazer cadastro')) ?>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
