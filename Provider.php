@@ -1533,7 +1533,18 @@ class Provider extends \MapasCulturais\AuthProvider {
                 $agent->$metadataFieldCpf =  $cpf;
             }
 
-            $agent->status = (int) $config['statusCreateAgent'] ?? '0';
+            // Valida se algum campo obrigatório não foi preenchido
+            if (
+                empty($agent->$metadataFieldCpf) ||
+                empty($agent->name) ||
+                empty($agent->shortDescription) ||
+                (isset($agent->terms['area']) && $agent->terms['area'] === [])
+            ) {
+                $agent->status = 0;
+            } else {
+                $agent->status = (int) $config['statusCreateAgent'] ?? '0';
+            }
+            
             $agent->emailPrivado = $user->email;
             
             $agent->save();
