@@ -1,6 +1,5 @@
 <?php
 
-use MapasCulturais\i;
 use MapasCulturais\App;
 
 $app = App::i();
@@ -13,15 +12,9 @@ if (trim($_GET['t'] ?? '')) {
 }
 
 $this->jsObject['login']['wizard'] = $config['wizard'] ?? false;
-$loginMode = 'login';
-// if (isset($config['wizard'])) {
-//     if ($config['wizard'] == 'true') {
-//         $loginMode = 'login-wizard';
-//     }
-// }
 
-$this->import($loginMode);
+$this->import('login');
 
-echo "<$loginMode config='$configs'></$loginMode>"
+echo "<login config='$configs'></login>"
 
 ?>
