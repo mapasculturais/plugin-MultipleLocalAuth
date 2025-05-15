@@ -1466,107 +1466,115 @@ class Provider extends \MapasCulturais\AuthProvider {
     }
     
     protected function _createUser($response) {
-        $app = App::i();
+        try {
+            $app = App::i();
 
-        $app->disableAccessControl();
+            $app->disableAccessControl();
 
-        $config = $this->_config;
+            $config = $this->_config;
 
-        $user = null;
-        if($response && $provider_class = $response['auth']['provider']."Strategy"){
-            if(method_exists($provider_class, "newAccountCheck")){
-                if($user = $provider_class::newAccountCheck($response)){
-                    $agent = $user->profile;
+            $user = null;
+            if($response && $provider_class = $response['auth']['provider']."Strategy"){
+                if(method_exists($provider_class, "newAccountCheck")){
+                    if($user = $provider_class::newAccountCheck($response)){
+                        $agent = $user->profile;
+                    }
                 }
             }
-        }
 
-        if(!$user){
-            // cria o usuário
-            $user = new Entities\User;
-            $user->authProvider = $response['auth']['provider'];
-            $user->authUid = $response['auth']['uid'];
-            $user->email = $response['auth']['info']['email'];
+            if(!$user){
+                $app->em->beginTransaction();
 
-            $app->em->persist($user);
+                // cria o usuário
+                $user = new Entities\User;
+                $user->authProvider = $response['auth']['provider'];
+                $user->authUid = $response['auth']['uid'];
+                $user->email = $response['auth']['info']['email'];
+
+                $app->em->persist($user);
+                
+                // cria um agente do tipo user profile para o usuário criado acima
+                $agent = new Entities\Agent($user);
+
+                if(isset($response['auth']['info']['name'])){
+                    $agent->name = $response['auth']['info']['name'];
+                } 
+                elseif(isset($response['auth']['info']['first_name']) && isset($response['auth']['info']['last_name'])){
+                    $agent->name = $response['auth']['info']['first_name'] . ' ' . $response['auth']['info']['last_name'];
+                }
+                elseif(isset($response['auth']['agentData']['name'])){
+                    $agent->name = $response['auth']['agentData']['name'];
+                }
+                else{
+                    $agent->name = '';
+                }
+                
+                if(isset($response['auth']['info']['phone_number'])){
+                    $metadataFieldPhone = $this->getMetadataFieldPhone(); 
+                    $metadataFieldPhone = $this->getMetadataFieldPhone(); 
+                    $metadataFieldPhone = $this->getMetadataFieldPhone(); 
+                    $agent->$metadataFieldPhone = $response['auth']['info']['phone_number'];
+                }
+
+                if(isset($response['auth']['agentData']['shortDescription'])){
+                    $agent->shortDescription = $response['auth']['agentData']['shortDescription'];
+                }
+
+                if(isset($response['auth']['agentData']['terms:area'])){
+                    $agent->terms['area']  = $response['auth']['agentData']['terms:area'];
+                }
+
+                if(isset($response['auth']['info']['phone_number'])){
+                    $metadataFieldPhone = $this->getMetadataFieldPhone();  
+                    $agent->setMetadata($metadataFieldPhone, $response['auth']['info']['phone_number']);
+                }
+
+                //cpf
+                $cpf = (isset($response['auth']['info']['cpf']) && $response['auth']['info']['cpf'] != "") ? $this->mask($response['auth']['info']['cpf'],'###.###.###-##') : null;
+                if(!empty($cpf)){
+                    $metadataFieldCpf = $this->getMetadataFieldCpfFromConfig();   
+                    $agent->$metadataFieldCpf =  $cpf;
+                }
+
+                // Valida se algum campo obrigatório não foi preenchido
+                if (
+                    empty($agent->$metadataFieldCpf) ||
+                    empty($agent->name) ||
+                    empty($agent->shortDescription) ||
+                    (isset($agent->terms['area']) && $agent->terms['area'] === [])
+                ) {
+                    $agent->status = 0;
+                } else {
+                    $agent->status = (int) $config['statusCreateAgent'] ?? '0';
+                }
             
-            // cria um agente do tipo user profile para o usuário criado acima
-            $agent = new Entities\Agent($user);
+                $agent->emailPrivado = $user->email;
+                $agent->save();
+                $app->em->flush();
+                
+                $user->profile = $agent;
+                $user->save(true);
+                $app->em->flush();
+                
+                $user->createPermissionsCacheForUsers([$user]);
+                $agent->createPermissionsCacheForUsers([$user]);
 
-            if(isset($response['auth']['info']['name'])){
-                $agent->name = $response['auth']['info']['name'];
+                $app->em->commit();
             }
-            elseif(isset($response['auth']['info']['first_name']) && isset($response['auth']['info']['last_name'])){
-                $agent->name = $response['auth']['info']['first_name'] . ' ' . $response['auth']['info']['last_name'];
-            }
-            elseif(isset($response['auth']['agentData']['name'])){
-                $agent->name = $response['auth']['agentData']['name'];
-            }
-            else{
-                $agent->name = '';
-            }
-            
-            if(isset($response['auth']['info']['phone_number'])){
-                $metadataFieldPhone = $this->getMetadataFieldPhone(); 
-                $metadataFieldPhone = $this->getMetadataFieldPhone(); 
-                $metadataFieldPhone = $this->getMetadataFieldPhone(); 
-                $agent->$metadataFieldPhone = $response['auth']['info']['phone_number'];
-            }
-
-            if(isset($response['auth']['agentData']['shortDescription'])){
-                $agent->shortDescription = $response['auth']['agentData']['shortDescription'];
-            }
-
-            if(isset($response['auth']['agentData']['terms:area'])){
-                $agent->terms['area']  = $response['auth']['agentData']['terms:area'];
-            }
-
-            if(isset($response['auth']['info']['phone_number'])){
-                $metadataFieldPhone = $this->getMetadataFieldPhone();  
-                $agent->setMetadata($metadataFieldPhone, $response['auth']['info']['phone_number']);
-            }
-
-            //cpf
-            $cpf = (isset($response['auth']['info']['cpf']) && $response['auth']['info']['cpf'] != "") ? $this->mask($response['auth']['info']['cpf'],'###.###.###-##') : null;
-            if(!empty($cpf)){
-                $metadataFieldCpf = $this->getMetadataFieldCpfFromConfig();   
-                $agent->$metadataFieldCpf =  $cpf;
-            }
-
-            // Valida se algum campo obrigatório não foi preenchido
-            if (
-                empty($agent->$metadataFieldCpf) ||
-                empty($agent->name) ||
-                empty($agent->shortDescription) ||
-                (isset($agent->terms['area']) && $agent->terms['area'] === [])
-            ) {
-                $agent->status = 0;
-            } else {
-                $agent->status = (int) $config['statusCreateAgent'] ?? '0';
-            }
-            
-            $agent->emailPrivado = $user->email;
-            
-            $agent->save();
-            $app->em->flush();
-
-            $user->profile = $agent;
-            
-            $user->save(true);
-
-            $user->createPermissionsCacheForUsers([$user]);
-            $agent->createPermissionsCacheForUsers([$user]);
-        }
         
-        $app->enableAccessControl();
-        $redirectUrl = $agent->status == Agent::STATUS_DRAFT ? $agent->editUrl : $this->getRedirectPath();
-        $app->applyHookBoundTo($this, 'auth.createUser:redirectUrl', [&$redirectUrl]);
+            $app->enableAccessControl();
+            $redirectUrl = $agent->status == Agent::STATUS_DRAFT ? $agent->editUrl : $this->getRedirectPath();
+            $app->applyHookBoundTo($this, 'auth.createUser:redirectUrl', [&$redirectUrl]);
 
-        if ($redirectUrl) {
-            $this->_setRedirectPath($redirectUrl);
+            if ($redirectUrl) {
+                $this->_setRedirectPath($redirectUrl);
+            }
+            
+            return $user;
+        } catch(\Exception $e) {
+            $app->em->rollback();
+            throw $e;
         }
-        
-        return $user;
     }
 
     function mask($val, $mask) {
