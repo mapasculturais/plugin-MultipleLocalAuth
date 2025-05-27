@@ -314,7 +314,6 @@
 
 .custom-count {
     background-color: var(--mc-gray-300); // cor padrão para todos
-    border: 2px solid var(--mc-gray-300);
     border-radius: 50%;
     color: white;
     display: flex;
@@ -328,8 +327,8 @@
 }
 
 .step.active .custom-count {
-    background-color: #8b71f7; // cor roxa somente no step ativo
-    border-color: #8b71f7;
+    background-color:  var(--mc-primary-500);
+    border-color:  var(--mc-primary-500);
 }
 
 .stepper .step:before {
