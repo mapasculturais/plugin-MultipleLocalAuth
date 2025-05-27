@@ -336,15 +336,15 @@
 }
 
 .stepper .step.passedby:before {
-    background:  #8b71f7;
+    background:  var(--mc-primary-500);
 }
 
 .stepper .step.active:before {
-    background:  #8b71f7;
+    background:  var(--mc-primary-500);
 }
 
 .stepper .step.passedby:before,
 .stepper .step.passedby .custom-count {
-  background-color: #8b71f7;
-  border-color: #8b71f7;
+  background-color: var(--mc-primary-500);
+  border-color: var(--mc-primary-500);
 }
