@@ -401,8 +401,13 @@ class Provider extends \MapasCulturais\AuthProvider {
             $userId = $app->request->post('userId');
             $user = $app->repo("User")->find($userId);
 
-            $token = $user->{self::$tokenVerifyAccountMetadata}; 
+            // If the user already has a token, use it, otherwise generate a new one
+            $token = $user->{self::$tokenVerifyAccountMetadata} ?? $app->auth->generateToken();
 
+            $user->setMetadata(self::$tokenVerifyAccountMetadata, $token);
+            $user->save(true);
+
+            // Send email validation
             $sendEmailValidation = $app->auth->sendEmailValidation($user, $token);
             if ($sendEmailValidation['success']) {
                 $this->json(['error' => false]);
@@ -1268,7 +1273,20 @@ class Provider extends \MapasCulturais\AuthProvider {
             ];
         }
     }
+
     
+    /**
+     * Generate a token for the user
+     * @return string
+     */
+    function generateToken() {
+        $source = rand(3333, 8888);
+        $cut = rand(10, 30);
+        $string = $this->hashPassword($source);
+        $token = substr($string, $cut, 20);
+        return $token;
+    }
+
     function doRegister() {
         $app = App::i();
         $config = $app->_config;
@@ -1282,10 +1300,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             $cpf = str_replace(".","",$cpf); // remove "."
 
             // generate the token hash
-            $source = rand(3333, 8888);
-            $cut = rand(10, 30);
-            $string = $this->hashPassword($source);
-            $token = substr($string, $cut, 20);
+            $token = $this->generateToken();
 
             // Oauth pattern
             $response = [
