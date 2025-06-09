@@ -36,6 +36,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         
         $config += [
             'salt' => env('AUTH_SALT', null),
+            'wizard' => env('AUTH_WIZARD_ENABLED', false),
             'timeout' => env('AUTH_TIMEOUT', '24 hours'),
 
             'loginOnRegister' => env('AUTH_LOGIN_ON_REGISTER', false),
