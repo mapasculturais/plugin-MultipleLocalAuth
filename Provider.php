@@ -410,6 +410,28 @@ class Provider extends \MapasCulturais\AuthProvider {
             }
         });
 
+        $app->hook('POST(auth.resend-email-validation)', function () use($app){
+            /**
+             * @var \MapasCulturais\Controller $this
+             */
+            $userId = $app->request->post('userId');
+            $user = $app->repo("User")->find($userId);
+
+            // If the user already has a token, use it, otherwise generate a new one
+            $token = $user->{self::$tokenVerifyAccountMetadata} ?? $app->auth->generateToken();
+
+            $user->setMetadata(self::$tokenVerifyAccountMetadata, $token);
+            $user->save(true);
+
+            // Send email validation
+            $sendEmailValidation = $app->auth->sendEmailValidation($user, $token);
+            if ($sendEmailValidation['success']) {
+                $this->json(['error' => false]);
+            } else {
+                $this->errorJson($sendEmailValidation['errors'], 200);
+            }
+        });
+
         $app->hook('POST(auth.changepassword)', function () use($app){
             /**
              * @var \MapasCulturais\Controller $this
@@ -689,7 +711,8 @@ class Provider extends \MapasCulturais\AuthProvider {
             ];
         }
     }
-    
+
+
     function recover() {
         $app = App::i();
         $config = $app->_config;
@@ -1220,7 +1243,66 @@ class Provider extends \MapasCulturais\AuthProvider {
             ]; // nenhuma troca de senha necessária
         }
     }
+
+    function sendEmailValidation(Entities\User $user, string $token)
+    {
+        $app = App::i();
+
+        //ATENÇÃO !! Se for necessario "padronizar" os emails com header/footers, é necessario adapatar o 'mustache', e criar uma mini estrutura de pasta de emails em 'MultipleLocalAuth\views'
+        $mustache = new \Mustache_Engine();
+        $site_name = $app->siteName;
+        $baseUrl = $app->getBaseUrl();
+        $content = $mustache->render(
+            file_get_contents(
+                __DIR__.
+                DIRECTORY_SEPARATOR.'views'.
+                DIRECTORY_SEPARATOR.'auth'.
+                DIRECTORY_SEPARATOR.'email-to-validate-account.html'
+            ), array(
+                "siteName" => $site_name,
+                "user" => $user->profile->name,
+                "urlToValidateAccount" =>  $baseUrl.'auth/confirma-email?token='.$token,
+                "baseUrl" => $baseUrl,
+                "urlSupportChat" => $this->_config['urlSupportChat'],
+                "urlSupportEmail" => $this->_config['urlSupportEmail'],
+                "urlSupportSite" => $this->_config['urlSupportSite'],
+                "textSupportSite" => $this->_config['textSupportSite'],
+                "urlImageToUseInEmails" => $this->getImageImageURl(),
+            )
+        );
+
+        try {
+            $app->createAndSendMailMessage([
+                'from' => $app->config['mailer.from'],
+                'to' => $user->email,
+                'subject' => "Bem-vindo ao ".$site_name,
+                'body' => $content
+            ]);
+
+            return [
+                'success' => true
+            ];
+        } catch (\Throwable $th) {
+            return [
+                'success' => false,
+                'error' => $th->getMessage()
+            ];
+        }
+    }
+
     
+    /**
+     * Generate a token for the user
+     * @return string
+     */
+    function generateToken() {
+        $source = rand(3333, 8888);
+        $cut = rand(10, 30);
+        $string = $this->hashPassword($source);
+        $token = substr($string, $cut, 20);
+        return $token;
+    }
+
     function doRegister() {
         $app = App::i();
         $config = $app->_config;
@@ -1234,10 +1316,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             $cpf = str_replace(".","",$cpf); // remove "."
 
             // generate the token hash
-            $source = rand(3333, 8888);
-            $cut = rand(10, 30);
-            $string = $this->hashPassword($source);
-            $token = substr($string, $cut, 20);
+            $token = $this->generateToken();
 
             // Oauth pattern
             $response = [
@@ -1262,36 +1341,9 @@ class Provider extends \MapasCulturais\AuthProvider {
             $user = $this->_createUser($response);
             $app->applyHookBoundTo($this, 'auth.createUser:after', [$user, $response]);
 
-            $baseUrl = $app->getBaseUrl();
 
-            //ATENÇÃO !! Se for necessario "padronizar" os emails com header/footers, é necessario adapatar o 'mustache', e criar uma mini estrutura de pasta de emails em 'MultipleLocalAuth\views'
-            $mustache = new \Mustache_Engine();
-            $site_name = $app->siteName;
-            $content = $mustache->render(
-                file_get_contents(
-                    __DIR__.
-                    DIRECTORY_SEPARATOR.'views'.
-                    DIRECTORY_SEPARATOR.'auth'.
-                    DIRECTORY_SEPARATOR.'email-to-validate-account.html'
-                ), array(
-                    "siteName" => $site_name,
-                    "user" => $user->profile->name,
-                    "urlToValidateAccount" =>  $baseUrl.'auth/confirma-email?token='.$token,
-                    "baseUrl" => $baseUrl,
-                    "urlSupportChat" => $this->_config['urlSupportChat'],
-                    "urlSupportEmail" => $this->_config['urlSupportEmail'],
-                    "urlSupportSite" => $this->_config['urlSupportSite'],
-                    "textSupportSite" => $this->_config['textSupportSite'],
-                    "urlImageToUseInEmails" => $this->getImageImageURl(),
-                )
-            );
-
-            $app->createAndSendMailMessage([
-                'from' => $app->config['mailer.from'],
-                'to' => $user->email,
-                'subject' => "Bem-vindo ao ".$site_name,
-                'body' => $content
-            ]);
+            // Envia o email de validação de conta
+            $this->sendEmailValidation($user, $token);
 
             $app->disableAccessControl();
             $user->{self::$passMetaName} = $app->auth->hashPassword($pass); 
