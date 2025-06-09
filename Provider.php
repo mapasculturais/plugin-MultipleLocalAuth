@@ -118,6 +118,13 @@ class Provider extends \MapasCulturais\AuthProvider {
                 ]
             ]
         ];
+
+        /**
+         * Esse método carrega as configurações do tema, pois como o plugin é carregado antes do tema,
+         * as configurações do tema não são carregadas.
+         */
+        $this->preLoadThemeConfig($config);
+
         parent::__construct($config);
     }
 
@@ -1637,4 +1644,38 @@ class Provider extends \MapasCulturais\AuthProvider {
         }
         return $user;
     }
+
+     /**
+     * Carrega e mescla as configurações do tema com as configurações do plugin
+     * 
+     * @param array &$config Array de configurações que será modificado
+     * @return void
+     */
+    protected function preLoadThemeConfig(array &$config) {
+        $app = App::i();
+        
+        // Se não houver subsite, não faz nada
+        if (!$app->subsite) {
+            return;
+        }
+
+        $theme_path = THEMES_PATH . $app->subsite->namespace . '/';
+        
+        // Carrega conf-base.php se existir
+        if (file_exists($theme_path . 'conf-base.php')) {
+            $theme_config = require $theme_path . 'conf-base.php';
+            if (isset($theme_config['auth.config'])) {
+                $config = array_replace_recursive($config, $theme_config['auth.config']);
+            }
+        }
+        
+        // Carrega config.php se existir
+        if (file_exists($theme_path . 'config.php')) {
+            $theme_config = require $theme_path . 'config.php';
+            if (isset($theme_config['auth.config'])) {
+                $config = array_replace_recursive($config, $theme_config['auth.config']);
+            }
+        }
+    }
+
 }
