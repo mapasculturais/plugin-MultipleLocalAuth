@@ -34,6 +34,11 @@ class Plugin extends \MapasCulturais\Plugin {
             $this->part('password/change-password');
         });
 
+        $app->hook('template(panel.<<my-account|user-detail>>.user-mail):begin ', function() use ($app) {
+            /** @var \MapasCulturais\Theme $this */
+            $this->part('email/resent-email-validation');
+        });
+
         $app->hook('entity(User).permissionsList,doctrine.emum(permission_action).values', function (&$permissions) {
             $permissions[] = 'changePassword';
         });
