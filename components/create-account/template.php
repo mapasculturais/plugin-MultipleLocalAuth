@@ -29,7 +29,7 @@ $this->import('
     <mc-card v-if="!created" class="no-title">        
         <template #content> 
             <div class="create-account__timeline">
-                <mc-stepper :steps="arraySteps" disable-navigation no-labels></mc-stepper>
+            <mc-stepper :steps="arraySteps" :step="actualStep" @stepChanged="goToStep" disable-navigation :no-labels="true" :count-class="'custom-count'" :showStepNumber="true"></mc-stepper>
             </div>
 
             <!-- First step -->
