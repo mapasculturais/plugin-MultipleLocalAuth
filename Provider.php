@@ -1712,6 +1712,12 @@ class Provider extends \MapasCulturais\AuthProvider {
             return;
         }
 
+        // Se a URL for diferente de $app->subsite->url, parar, pois não é o subsite atual 
+        $domain = $_SERVER['HTTP_HOST'] ?? '';
+        if ($domain !== $app->subsite->url) {
+            return;
+        }
+        
         $theme_path = THEMES_PATH . $app->subsite->namespace . '/';
         
         // Carrega conf-base.php se existir
