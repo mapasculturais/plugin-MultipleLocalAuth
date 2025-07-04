@@ -123,7 +123,7 @@ $this->import('
                     </div>
                 </div>
 
-                <div class="create">
+                <div class="create" v-if="!wizard">
                     <h5 class="bold"> <?= sprintf($this->text('register', i::__('Ainda não tem cadastro no %s? Realize seu cadastro agora!')), $app->siteName) ?> </h5>
 
                     <a class=" button button--primary button--large button--md" href="<?php echo $app->createUrl('auth', 'register') ?>">
