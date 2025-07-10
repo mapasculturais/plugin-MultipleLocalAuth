@@ -27,6 +27,7 @@ class GovBrStrategy extends OpauthStrategy
 	public function request()
 	{
 		$_SESSION['govbr-state'] = md5($this->strategy['state_salt'].time());
+		$_SESSION['last_auth_provider'] = get_class($this);
 
 		$url = $this->strategy['auth_endpoint'];
 		$params = array(
@@ -125,6 +126,24 @@ class GovBrStrategy extends OpauthStrategy
 
 			$this->errorCallback($error);
 		}
+	}
+
+	/**
+	 * Logout
+	 * @return void
+	 */
+	public static function logout()
+	{
+		$app = \MapasCulturais\App::i();
+		$config = $app->config['auth.config']['strategies']['govbr'];
+
+		if (empty($config['client_id']) || empty($config['url_logout'])) {
+			return;
+		}
+
+		$logoutUrl = $config['url_logout'] . '?client_id=' . urlencode($config['client_id']);
+
+		$app->redirect($logoutUrl, 302, false);
 	}
 
 	/**
