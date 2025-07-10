@@ -36,6 +36,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         
         $config += [
             'salt' => env('AUTH_SALT', null),
+            'wizard' => env('AUTH_WIZARD_ENABLED', false),
             'timeout' => env('AUTH_TIMEOUT', '24 hours'),
 
             'loginOnRegister' => env('AUTH_LOGIN_ON_REGISTER', false),
@@ -96,7 +97,7 @@ class Provider extends \MapasCulturais\AuthProvider {
                     'app_secret' => env('AUTH_TWITTER_APP_SECRET', null),
                 ],
                 'govbr' => [
-                    'visible' => env('AUTH_GOV_BR_ID', false),
+                    'visible' => env('AUTH_GOV_BR_VISIBLE', false),
                     'response_type' => env('AUTH_GOV_BR_RESPONSE_TYPE', 'code'),
                     'client_id' => env('AUTH_GOV_BR_CLIENT_ID', null),
                     'client_secret' => env('AUTH_GOV_BR_SECRET', null),
@@ -112,10 +113,19 @@ class Provider extends \MapasCulturais\AuthProvider {
                     'state_salt' => env('AUTH_GOV_BR_STATE_SALT', null),
                     'applySealId' => env('AUTH_GOV_BR_APPLY_SEAL_ID', null),
                     'menssagem_authenticated' => env('AUTH_GOV_BR_MENSSAGEM_AUTHENTICATED','Usuário já se autenticou pelo GovBr'),
-                    'dic_agent_fields_update' => env('AUTH_GOV_BR_DICT_AGENT_FIELDS_UPDATE','[]')
+                    'dic_agent_fields_update' => json_decode(env('AUTH_GOV_BR_DICT_AGENT_FIELDS_UPDATE', '{}'), true),
+                    'post_logout_redirect_uri' => env('post_logout_redirect_uri', null),
+                    'url_logout' => env('url_logout', 'https://sso.staging.acesso.gov.br/logout'),
                 ]
             ]
         ];
+
+        /**
+         * Esse método carrega as configurações do tema, pois como o plugin é carregado antes do tema,
+         * as configurações do tema não são carregadas.
+         */
+        $this->preLoadThemeConfig($config);
+
         parent::__construct($config);
     }
 
@@ -280,6 +290,12 @@ class Provider extends \MapasCulturais\AuthProvider {
 
             $app->hook("<<GET|POST>>(auth.<<{$providers}>>)", function () use($opauth, $config){
                 $opauth->run();
+            });
+
+            $app->hook('auth.logout:after', function () use($app, $config){
+                if(isset($_SESSION['last_auth_provider']) && method_exists($_SESSION['last_auth_provider'], 'logout')) {
+                    ($_SESSION['last_auth_provider'])::logout();
+                }
             });
         }
         
@@ -1681,4 +1697,44 @@ class Provider extends \MapasCulturais\AuthProvider {
         }
         return $user;
     }
+
+     /**
+     * Carrega e mescla as configurações do tema com as configurações do plugin
+     * 
+     * @param array &$config Array de configurações que será modificado
+     * @return void
+     */
+    protected function preLoadThemeConfig(array &$config) {
+        $app = App::i();
+        
+        // Se não houver subsite, não faz nada
+        if (!$app->subsite) {
+            return;
+        }
+
+        // Se a URL for diferente de $app->subsite->url, parar, pois não é o subsite atual 
+        $domain = $_SERVER['HTTP_HOST'] ?? '';
+        if ($domain !== $app->subsite->url) {
+            return;
+        }
+        
+        $theme_path = THEMES_PATH . $app->subsite->namespace . '/';
+        
+        // Carrega conf-base.php se existir
+        if (file_exists($theme_path . 'conf-base.php')) {
+            $theme_config = require $theme_path . 'conf-base.php';
+            if (isset($theme_config['auth.config'])) {
+                $config = array_replace_recursive($config, $theme_config['auth.config']);
+            }
+        }
+        
+        // Carrega config.php se existir
+        if (file_exists($theme_path . 'config.php')) {
+            $theme_config = require $theme_path . 'config.php';
+            if (isset($theme_config['auth.config'])) {
+                $config = array_replace_recursive($config, $theme_config['auth.config']);
+            }
+        }
+    }
+
 }

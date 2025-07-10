@@ -1,6 +1,5 @@
 <?php
 
-use MapasCulturais\i;
 use MapasCulturais\App;
 
 $app = App::i();
@@ -12,15 +11,10 @@ if (trim($_GET['t'] ?? '')) {
     $this->jsObject['recoveryMode']['token'] = $_GET['t']; 
 }
 
-$loginMode = 'login';
-if (isset($config['wizard'])) {
-    if ($config['wizard'] == 'true') {
-        $loginMode = 'login-wizard';
-    }
-}
+$this->jsObject['login']['wizard'] = $config['wizard'] ?? false;
 
-$this->import($loginMode);
+$this->import('login');
 
-echo "<$loginMode config='$configs'></$loginMode>"
+echo "<login config='$configs'></login>"
 
 ?>
