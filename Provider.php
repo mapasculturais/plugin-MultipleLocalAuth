@@ -1252,12 +1252,15 @@ class Provider extends \MapasCulturais\AuthProvider {
         $mustache = new \Mustache_Engine();
         $site_name = $app->siteName;
         $baseUrl = $app->getBaseUrl();
+        $template_name = 'email-to-validate-account.html';
+
+        $app->applyHookBoundTo($this, 'auth.sendEmailValidation', [&$template_name]);
+
+        $template = $app->view->resolveFilename('views/auth', $template_name);
+
         $content = $mustache->render(
             file_get_contents(
-                __DIR__.
-                DIRECTORY_SEPARATOR.'views'.
-                DIRECTORY_SEPARATOR.'auth'.
-                DIRECTORY_SEPARATOR.'email-to-validate-account.html'
+               $template
             ), array(
                 "siteName" => $site_name,
                 "user" => $user->profile->name,
