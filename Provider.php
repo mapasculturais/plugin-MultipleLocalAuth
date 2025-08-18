@@ -1168,7 +1168,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             $baseUrl = $app->getBaseUrl();
 
             if(!$user) {
-                $error['user']['createUser'] = i::__('Não foi possível criar o usuário. Fale com o administrador', 'multipleLocal');
+                $error['user']['createUser'] = i::__('Não foi possível criar o usuário. Entre em contato com suporte', 'multipleLocal');
 
                 return [ 
                     'success' => false,
