@@ -122,6 +122,7 @@ class Provider extends \MapasCulturais\AuthProvider {
                     'auth_endpoint' => env('AUTH_DECIDIM_AUTH_ENDPOINT', null),
                     'token_endpoint' => env('AUTH_DECIDIM_TOKEN_ENDPOINT', null),
                     'userinfo_endpoint' => env('AUTH_DECIDIM_USERINFO_ENDPOINT', null),
+                    'button_text' => env('AUTH_DECIDIM_BUTTON_TEXT', 'Entrar com Decidim'),
                 ]
             ]
         ];
