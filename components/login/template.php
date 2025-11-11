@@ -61,7 +61,8 @@ $this->import('
                             </a>
 
                             <a v-if="configs.strategies.decidim?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'decidim') ?>">                                
-                                <?= i::__('Entrar com Decidim') ?>                            
+                                <span v-if="configs.strategies.decidim?.button_text">{{configs.strategies.decidim.button_text}}</span>
+                                <span v-else><?= i::__('Entrar com ID Cacicadas') ?></span>                            
                             </a>
                         </div>
                     </div>
