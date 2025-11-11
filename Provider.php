@@ -112,6 +112,16 @@ class Provider extends \MapasCulturais\AuthProvider {
                     'applySealId' => env('AUTH_GOV_BR_APPLY_SEAL_ID', null),
                     'menssagem_authenticated' => env('AUTH_GOV_BR_MENSSAGEM_AUTHENTICATED','Usuário já se autenticou pelo GovBr'),
                     'dic_agent_fields_update' => env('AUTH_GOV_BR_DICT_AGENT_FIELDS_UPDATE','[]')
+                ],
+                'decidim' => [
+                    'visible' => env('AUTH_DECIDIM_CLIENT_ID', false),
+                    'client_id' => env('AUTH_DECIDIM_CLIENT_ID', null),
+                    'client_secret' => env('AUTH_DECIDIM_CLIENT_SECRET', null),
+                    'redirect_uri' => env('AUTH_DECIDIM_REDIRECT_URI', null),
+                    'scope' => env('AUTH_DECIDIM_SCOPE', null),
+                    'auth_endpoint' => env('AUTH_DECIDIM_AUTH_ENDPOINT', null),
+                    'token_endpoint' => env('AUTH_DECIDIM_TOKEN_ENDPOINT', null),
+                    'userinfo_endpoint' => env('AUTH_DECIDIM_USERINFO_ENDPOINT', null),
                 ]
             ]
         ];
@@ -1311,7 +1321,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         // verifica se a resposta é um erro
         if (array_key_exists('error', $response)) {
 
-            $app->flash('auth error', 'Opauth returns error auth response');
+            // $app->flash('auth error', 'Opauth returns error auth response');
         } else {
             /**
             * Auth response validation
