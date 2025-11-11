@@ -1,117 +1,149 @@
 # MultipleLocalAuth
 
-Plugin que implementa um método de autenticação local para o Mapas Culturais, em conjunto com login via redes sociais.
+Plugin de autenticação para o Mapas Culturais que combina login local (e-mail e CPF) com múltiplas estratégias sociais (Google, Facebook, LinkedIn, Twitter, Login Cidadão, Gov.br, Decidim etc.), regras de senha configuráveis e proteção contra abuso.
 
-## Instalação e Configuração
+## Recursos principais
+- Cadastro local com fluxo multi-etapas, validação de CPF e aceite de termos LGPD.
+- Login por e-mail ou CPF, com limite de tentativas e bloqueio temporário automático.
+- Confirmação de conta por e-mail, recuperação de senha com token e troca de senha pelo painel.
+- Integração com Google reCAPTCHA v2 (visível) para login, cadastro e recuperação.
+- Autenticação social via Opauth (Google, Facebook, LinkedIn, Twitter, Login Cidadão, Gov.br, Decidim) com mapeamento automático de dados.
+- Atualização opcional de avatar e metadados ao autenticar via Gov.br ou Decidim.
+- Componentes Vue (`login`, `create-account`, `change-password`, `password-strongness`) prontos para a Base V2.
 
-Faça download ou clone do plugin e coloque a pasta MultipleLocalAuth no pasta dos plugins do Mapas Culturais.
+## Instalação
+1. Faça download/clonagem deste repositório e coloque a pasta `MultipleLocalAuth` em `protected/application/plugins/` do Mapas Culturais.
+2. Garanta que o módulo `LGPD` esteja habilitado, pois o cadastro consome `LGPD::acceptTerms`.
+3. Instale dependências do Mapas Culturais (este plugin não adiciona dependências externas além das que já vêm com o core/opauth).
 
-No arquivo de configuração do Mapas Culturais, config.php, você deve:
+## Configuração
+Edite `config.php` do Mapas Culturais:
 
-1. Ativar o plugin
-2. Configurar MultipleLocalAuth como seu Provider de autenticação
-3. Configurar as chaves das redes sociais
-
-Para ativar o plugin, adicione na sua array de Plugins:
-```
+```php
 'plugins' => [
     // ... outros plugins
     'MultipleLocalAuth' => [
         'namespace' => 'MultipleLocalAuth',
     ],
 ],
-```
 
-Para definir este plugin como seu método de autenticação, defina a configuraço *auth.provider*:
-```
-'auth.provider' => '\MultipleLocalAuth\Provider',
-```
+'auth.provider' => \MultipleLocalAuth\Provider::class,
 
-Finalmente, defina a configuração *auth.config* para definir as estratégias utilizadas e as chaves dos serviços:
-
-```
 'auth.config' => [
-            
-            //SALT da senha do usuario
-            'salt' => 'LT_SECURITY_SALT_SECURITY_SALT_SECURITY_SALT_SECURITY_SALT_SECU',
-            
-            'timeout' => '24 hours',
-            
-            //url de suporte por chat para ser enviado nos emails
-            'urlSupportChat' => 'https://www.google.com',
-            
-            //url de suporte por email para ser enviado nos emails
-            'urlSupportEmail' => 'https://www.google.com',
-            
-            //url do site de suporte para ser enviado nos emails
-            'urlSupportSite' => 'https://www.google.com',
-            
-            //url dos termos de uso para utilizar a plataforma
-            'urlTermsOfUse' => 'https://www.google.com',
-            
-            //url de uma imagem para ser enviado como plano de fundo nos emails
-            'urlImageToUseInEmails' => 'https://mapacultural.juazeiro.ce.gov.br/files/project/1561/file/963893/blob-3d922310b0a1eb1c16791a06023f56df.png',
-            
-            //Habilita registro e login através do CPF
-            'enableLoginByCPF' => true,
-            
-            //apelido do metadata que será salvo o campo CPF
-            'metadataFieldCPF' => 'documento',
-            
-            //Regra para saber se o usuario deve ou não confiar o email para poder utilizar o sistema
-            'userMustConfirmEmailToUseTheSystem' => false,
-
-            //Regra de força de senha - Ter no mínimo 1 letra maiúscula
-            'passwordMustHaveCapitalLetters' => true,
-
-            //Regra de força de senha - Ter no mínimo 1 letra minúscula
-            'passwordMustHaveLowercaseLetters' => true,
-
-            //Regra de força de senha - Ter no mínimo 1 caractere especial
-            'passwordMustHaveSpecialCharacters' => true,
-
-            //Regra de força de senha - Ter no mínimo 1 caractere numérico
-            'passwordMustHaveNumbers' => true,
-
-            //Regra de força de senha - Ter no mínimo n caracteres
-            'minimumPasswordLength' => 6,
-            
-            //Configuração de GOOGLE Recaptcha
-            'google-recaptcha-secret' => '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe',
-            'google-recaptcha-sitekey' => '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-
-            //Tempo da sessao do usuario em segundos
-            'sessionTime' => 7200,
-
-            //Limite de tentativas não sucedidas de login antes de bloquear o usuario por X minutos
-            'numberloginAttemp' => '5', 
-
-            //Tempo de bloqueio do usuario em segundos, após romper limites de tentativas não sucedidas
-            'timeBlockedloginAttemp' => '900', 
-            
-            //Estratégias de autenticação
-            'strategies' => [
-                'Facebook' => array(
-                    'app_id' => 'SUA_APP_ID',
-                    'app_secret' => 'SUA_APP_SECRET', 
-                    'scope' => 'email'
-                ),
-                'LinkedIn' => array(
-                    'api_key' => 'SUA_API_KEY',
-                    'secret_key' => 'SUA_SECRET_KEY',
-                    'redirect_uri' => URL_DO_SEU_SITE . '/autenticacao/linkedin/oauth2callback',
-                    'scope' => 'r_emailaddress'
-                ),
-                'Google' => array(
-                    'client_id' => 'SEU_CLIENT_ID',
-                    'client_secret' => 'SEU_CLIENT_SECRET',
-                    'redirect_uri' => URL_DO_SEU_SITE . '/autenticacao/google/oauth2callback',
-                    'scope' => 'email'
-                ),
-                'Twitter' => array(
-                    'app_id' => 'SUA_APP_ID', 
-                    'app_secret' => 'SUA_APP_SECRET', 
-                ),
-            ]
+    // ajuste conforme as tabelas abaixo
 ],
 ```
+
+### Opções gerais
+| Chave | Descrição | Padrão | Variável `.env` |
+| --- | --- | --- | --- |
+| `salt` | Salt usado pelo Opauth | `env('AUTH_SALT')` | `AUTH_SALT` |
+| `timeout` | Tempo máximo da sessão OAuth | `24 hours` | `AUTH_TIMEOUT` |
+| `loginOnRegister` | Autenticar automaticamente após cadastro | `false` | `AUTH_LOGIN_ON_REGISTER` |
+| `enableLoginByCPF` | Permite login/cadastro via CPF | `true` | `AUTH_LOGIN_BY_CPF` |
+| `requireCpf` | Exige CPF no cadastro | `true` | `AUTH_REQUIRED_CPF` |
+| `metadataFieldCPF` | Campo de metadata que armazena CPF | `documento` | `AUTH_METADATA_FIELD_DOCUMENT` |
+| `metadataFieldPhone` | Campo de metadata que armazena telefone | `telefone1` | `AUTH_METADATA_FIELD_PHONE` |
+| `userMustConfirmEmailToUseTheSystem` | Exige validação por e-mail antes do uso | `false` | `AUTH_EMAIL_CONFIRMATION` |
+| `sessionTime` | Duração da sessão (segundos) | `7200` | `AUTH_SESSION_TIME` |
+| `statusCreateAgent` | Status default do agente criado | `Agent::STATUS_ENABLED` | `STATUS_CREATE_AGENT` |
+
+### Comunicação e suporte
+| Chave | Uso | Padrão | Variável `.env` |
+| --- | --- | --- | --- |
+| `urlSupportChat` | Link incluído nos e-mails | `''` | `AUTH_SUPPORT_CHAT` |
+| `urlSupportEmail` | Link de contato por e-mail | `''` | `AUTH_SUPPORT_EMAIL` |
+| `urlSupportSite` | URL geral de suporte | `''` | `AUTH_SUPPORT_SITE` |
+| `textSupportSite` | Texto exibido com o link | `''` | `AUTH_SUPPORT_TEXT` |
+| `urlImageToUseInEmails` | Imagem de fundo para e-mails | `null` | `AUTH_EMAIL_IMAGE` |
+| `urlTermsOfUse` | URL dos termos de uso | `auth/termos-e-condicoes` | `LINK_TERMOS` |
+
+### Regras de senha
+| Chave | Descrição | Padrão | Variável `.env` |
+| --- | --- | --- | --- |
+| `passwordMustHaveCapitalLetters` | Exigir letra maiúscula | `true` | `AUTH_PASS_CAPITAL_LETTERS` |
+| `passwordMustHaveLowercaseLetters` | Exigir letra minúscula | `true` | `AUTH_PASS_LOWERCASE_LETTERS` |
+| `passwordMustHaveSpecialCharacters` | Exigir caractere especial | `true` | `AUTH_PASS_SPECIAL_CHARS` |
+| `passwordMustHaveNumbers` | Exigir número | `true` | `AUTH_PASS_NUMBERS` |
+| `minimumPasswordLength` | Tamanho mínimo da senha | `6` | `AUTH_PASS_LENGTH` |
+
+### Proteção contra abuso
+| Chave | Descrição | Padrão | Variável `.env` |
+| --- | --- | --- | --- |
+| `numberloginAttemp` | Tentativas antes do bloqueio | `5` | `AUTH_NUMBER_ATTEMPTS` |
+| `timeBlockedloginAttemp` | Tempo de bloqueio (segundos) | `900` | `AUTH_BLOCK_TIME` |
+
+### Google reCAPTCHA v2
+| Chave | Descrição | Padrão |
+| --- | --- | --- |
+| `google-recaptcha-secret` | Secret da integração | `env('GOOGLE_RECAPTCHA_SECRET')` |
+| `google-recaptcha-sitekey` | Site key usada no front | `env('GOOGLE_RECAPTCHA_SITEKEY')` |
+
+Se ambas as chaves estiverem ausentes, o captcha é desativado.
+
+### Estratégias de autenticação
+Cada estratégia pode receber `visible => bool` para controlar se o botão aparece na interface.
+
+#### Google
+- `client_id`, `client_secret`, `redirect_uri`, `scope` (`email profile` por padrão).
+
+#### Facebook
+- `app_id`, `app_secret`, `scope` (default `email`).
+
+#### LinkedIn
+- `api_key`, `secret_key`, `redirect_uri`, `scope` (default `r_emailaddress`).
+
+#### Twitter
+- `app_id`, `app_secret`. (Fluxo direto do Opauth).
+
+#### Login Cidadão
+- `client_id`, `client_secret`, `auth_endpoint`, `token_endpoint`, `userinfo_endpoint`, `redirect_uri`, `scope`.
+
+#### Gov.br
+- `client_id`, `client_secret`, `scope`, `auth_endpoint`, `token_endpoint`, `userinfo_endpoint`, `redirect_uri`.
+- `state_salt`, `code_verifier`, `code_challenge`, `code_challenge_method` para PKCE.
+- `applySealId` (opcional): selo aplicado ao agente autenticado.
+- `dic_agent_fields_update`: mapa de campos que podem ser atualizados automaticamente (JSON, ex: `{"name": "full_name"}`).
+- `menssagem_authenticated`: mensagem exibida quando o usuário já autenticou via Gov.br.
+
+#### Decidim
+- `client_id`, `client_secret`, `auth_endpoint`, `token_endpoint`, `userinfo_endpoint`, `redirect_uri`, `scope`.
+- Atualiza automaticamente avatar do agente com a imagem fornecida.
+
+Você pode adicionar ou remover estratégias conforme necessário; qualquer estratégia Opauth disponível no diretório do plugin pode ser configurada.
+
+## Fluxos e endpoints
+- `GET auth.index`: renderiza o componente de login.
+- `GET auth.register`: fluxo multi-etapas de cadastro.
+- `GET auth.recover`: formulário para solicitar redefinição de senha.
+- `GET auth.confirma-email`: valida o token enviado por e-mail e ativa a conta.
+- `POST auth.validate`: validação assíncrona do primeiro passo do cadastro.
+- `POST auth.register`: criação de conta (gera agente, token de verificação e envia e-mail).
+- `POST auth.login`: autenticação local (com bloqueio por tentativas via metadata).
+- `POST auth.recover` / `POST auth.dorecover`: solicitação e conclusão da recuperação de senha.
+- `POST auth.changepassword` / `POST auth.newpassword`: alteração de senha logado ou via token.
+- `POST auth.adminchangeuseremail` / `POST auth.adminchangeuserpassword`: rotinas administrativas (acessos protegidos).
+- `GET auth.passwordvalidationinfos`: retorna as regras de senha atuais para o front-end.
+
+## Componentes que acompanham o plugin
+- `components/login`: formulário de login com reCAPTCHA, recuperação de senha e botões sociais.
+- `components/create-account`: esteira de cadastro com validações de senha, CPF e aceite de termos LGPD.
+- `components/change-password`: formulário para troca de senha no painel.
+- `components/password-strongness`: barra de força da senha, reutilizada em cadastro e redefinição.
+
+Todos os componentes carregam textos a partir de `components/*/texts.php`, permitindo tradução personalizada.
+
+## Personalização
+- E-mails: templates Mustache em `views/auth/email-to-validate-account.html` e `views/auth/email-resert-password.html`. Você pode copiar/adaptar mantendo as variáveis esperadas.
+- Telas: `views/auth/*.php` rendem os componentes Vue; é possível sobrescrever esses arquivos em um tema customizado.
+- Estilos: CSS compilado em `assets/css/plugin-MultiplLocalAuth.css`. O SCSS-fonte está em `assets-src/sass/`.
+- Traduções: arquivos `.po` em `translations/` (domínio `multipleLocal`).
+
+## Boas práticas
+- Configure o cron/serviço de fila de e-mail do Mapas Culturais antes de habilitar a confirmação por e-mail.
+- Ajuste `metadataFieldCPF`/`metadataFieldPhone` para corresponder ao schema de metadados do seu deployment.
+- Revise as mensagens carregadas via `textSupportSite`, `urlSupport*` para garantir contato adequado ao usuário.
+- Gere URLs de callback das estratégias sociais com HTTPS e defina-as nos painéis dos provedores.
+
+---
+Mantemos este documento atualizado a partir do código-fonte do plugin. Contribuições são bem-vindas!
