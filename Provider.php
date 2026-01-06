@@ -349,6 +349,8 @@ class Provider extends \MapasCulturais\AuthProvider {
             $login = $app->auth->doLogin();
 
             if ($login['success']) {
+                $app->applyHook('auth.successful');
+                
                 $this->json([
                     'error' => false, 
                     'redirectTo' => $app->auth->getRedirectPath()
