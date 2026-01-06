@@ -300,6 +300,17 @@ app.component('create-account', {
             if (this.agent.terms.area.length == 0) {
                 errors.agent.push(__('Área de atuação obrigatória', 'create-account'));
             }
+
+            // Validação de campos obrigatórios das taxonomias
+            Object.keys($TAXONOMIES).forEach(taxonomy => {
+                const t = $TAXONOMIES[taxonomy];
+                if (t.required  && t.entities.includes('MapasCulturais\\Entities\\Agent')) {
+                    if(this.agent.terms[taxonomy].length == 0) {
+                        errors.agent.push(`${t.description} ${__('required', 'create-account')}`);
+                    }
+                }
+            });
+
             if (errors.agent.length > 0) {
                 this.throwErrors(errors);
                 return false;

@@ -15,6 +15,8 @@ $this->import('
     mc-stepper
     password-strongness
 ');
+
+$taxonomies = $app->getRegisteredTaxonomies("MapasCulturais\Entities\Agent");
 ?>
 
 <div class="create-account"> 
@@ -105,7 +107,12 @@ $this->import('
                 
                 <entity-field :entity="agent" classes="col-12" hide-required label=<?php i::esc_attr_e("Nome")?> prop="name" fieldDescription="<?= i::__('As pessoas irão encontrar você por esse nome.') ?>"></entity-field>
                 <entity-field :entity="agent" classes="col-12" hide-required prop="shortDescription" label="<?php i::esc_attr_e("Mini Bio")?>"></entity-field>
-                <entity-terms :entity="agent" classes="col-12" :editable="true" taxonomy='area' title="<?php i::esc_attr_e("Área de atuação") ?>"></entity-terms>                
+                
+                <?php foreach($taxonomies as $taxonomy): ?>
+                    <?php if($taxonomy->required): ?>
+                        <entity-terms hide-required :entity="agent" classes="col-12" :editable="true" taxonomy='<?php echo $taxonomy->slug; ?>' title="<?php i::esc_attr_e($taxonomy->description) ?>"></entity-terms>
+                    <?php endif; ?>
+                <?php endforeach; ?>
 
                 <VueRecaptcha v-if="configs['google-recaptcha-sitekey']" :sitekey="configs['google-recaptcha-sitekey']" @verify="verifyCaptcha" @expired="expiredCaptcha" @render="expiredCaptcha" class="g-recaptcha col-12"></VueRecaptcha>
 
