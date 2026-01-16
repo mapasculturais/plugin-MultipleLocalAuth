@@ -61,6 +61,10 @@ app.component('login', {
 
         multiple() {
             return this.configs.strategies.Google?.visible && this.configs.strategies.govbr?.visible;
+        },
+
+        hasLocalAuth() {
+            return $MAPAS.login.hasLocalAuth;
         }
     },
 

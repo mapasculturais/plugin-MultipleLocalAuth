@@ -146,6 +146,7 @@ class Provider extends \MapasCulturais\AuthProvider {
     protected function _init() {
 
         $app = App::i();
+        $provider = $this;
         $config = $this->_config;
 
         $app->hook('GET(auth.passwordvalidationinfos)', function () use($config){
@@ -271,8 +272,10 @@ class Provider extends \MapasCulturais\AuthProvider {
         }
 
         // add actions to auth controller
-        $app->hook('GET(auth.index)', function () use($config){
-            $this->render('multiple-local', [ 'config' => $config ]);
+        $app->hook('GET(auth.index)', function () use($config, $provider){
+            $hasLocalAuth = $provider->hasLocalAuth();
+
+            $this->render('multiple-local', [ 'config' => $config, 'hasLocalAuth' => $hasLocalAuth ?? false ]);
         });
 
         $app->hook('GET(auth.register)', function () use($config){
@@ -924,6 +927,7 @@ class Provider extends \MapasCulturais\AuthProvider {
             'feedback_msg'                  => $app->auth->feedback_msg,   
             'triedEmail'                    => $app->auth->triedEmail,
             'triedName'                     => $app->auth->triedName,
+            'hasLocalAuth'                  => $this->hasLocalAuth(),
         ]);
 
     }
@@ -1015,6 +1019,22 @@ class Provider extends \MapasCulturais\AuthProvider {
             'confirmEmail' => []
         ];
 
+        if (!$this->hasLocalAuth()) {
+            return;
+        }
+
+        // Verifica se o login por email/senha está habilitado
+        if (!$this->hasLocalAuth()) {
+            return [
+                'success' => false,
+                'errors' => [
+                    'login' => [i::__(
+                        'Login por email e senha não está disponível. Por favor, use o login pelo Gov.br.',
+                        'multipleLocal'
+                    )]
+                ]
+            ];
+        }
         // Se não recebemos o token, não há motivo para avançar para a verificação
         if ((!isset($_POST["g-recaptcha-response"]) || empty($_POST["g-recaptcha-response"])) || !$app->verifyCaptcha($_POST['g-recaptcha-response'])) {
             array_push($errors['captcha'], i::__('Captcha incorreto, tente novamente!', 'multipleLocal'));
@@ -1701,6 +1721,54 @@ class Provider extends \MapasCulturais\AuthProvider {
         return $user;
     }
 
+    /**
+     * Verifica se o login por email/senha está habilitado para o tema atual
+     * 
+     * @return bool true se habilitado, false caso contrário
+     */
+    public function hasLocalAuth(): bool {
+        $app = \MapasCulturais\App::i();
+
+        if (env('AUTH_LOCAL_ENABLED', true) === false) {
+            return false;
+        }
+
+        // Se o tema for PNAB, desabilita o login local por padrão.
+        // Permite override via AUTH_LOCAL_PNAB_ENABLED se setado explicitamente como true.
+        if ($app->view instanceof \Pnab\Theme) {
+             return filter_var(env('AUTH_LOCAL_PNAB_ENABLED', false), FILTER_VALIDATE_BOOLEAN);
+        }
+
+        // DEBUG SUPREMO
+        if (isset($_GET['debug_env'])) {
+             echo "<h1>DEBUG ENTRY POINT</h1>";
+             $conf = $app->config['plugins']['MultipleLocalAuth'] ?? 'NULL';
+             echo "Config Raw: <pre>" . var_export($conf, true) . "</pre><br>";
+             $enabled = $conf['enabled'] ?? 'NOT_SET';
+             echo "Enabled Type: " . gettype($enabled) . "<br>";
+             if (is_callable($enabled)) echo "Enabled is CALLABLE<br>";
+             else echo "Enabled value: " . var_export($enabled, true) . "<br>";
+             
+             die();
+        }
+        
+        // Obtém a configuração do plugin
+        $plugin_config = $app->config['plugins']['MultipleLocalAuth'] ?? null;
+        
+        // Se não houver configuração ou 'enabled' não for uma função, retorna true (padrão)
+        if (!$plugin_config || !isset($plugin_config['enabled'])) {
+            return true;
+        }
+        
+        // Se 'enabled' for uma função (closure), executa e retorna o resultado
+        if (is_callable($plugin_config['enabled'])) {
+
+            return (bool) $plugin_config['enabled']();
+        }
+        
+        // Se 'enabled' for um valor booleano direto, retorna ele
+        return (bool) $plugin_config['enabled'];
+    }
      /**
      * Carrega e mescla as configurações do tema com as configurações do plugin
      * 

@@ -21,7 +21,11 @@ $this->import('
     <div v-if="!recoveryRequest && !recoveryMode" class="login__action">
         <div class="login__card">
             <div class="login__card__header">
-                <span v-if="wizard">
+                <span v-if="!hasLocalAuth">
+                    <h3> <?= sprintf($this->text('welcome', i::__('Saudações do %s!')), $app->siteName) ?> </h3>
+                    <h6> <?= sprintf(i::__('Para acessar o %s, utilize sua conta Gov.br.'), $app->siteName) ?> </h6>
+                </span>
+                <span v-else-if="wizard">
                     <h3 v-if="!showPassword && !passwordResetRequired && !userNotFound"> <?= sprintf($this->text('welcome', i::__('Saudações do %s!')), $app->siteName) ?> </h3>
                     <h3 v-if="showPassword"> <?= $this->text('welcome', i::__('Que bom que você voltou!')) ?> </h3>
                     <h3 v-if="userNotFound"> <?= $this->text('welcome', i::__('Não encontramos sua conta')) ?> </h3>
@@ -41,13 +45,23 @@ $this->import('
             </div>
 
             <div class="login__card__content">
-                <span v-if="wizard">
-                    <form class="login__form" @submit.prevent="showPasswordField">
-                        <div class="login__fields">
-                            <div class="field" v-if="!showPassword && !passwordResetRequired && !userNotFound">
-                                <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
-                                <input type="text" name="email" id="email" v-model="email" autocomplete="off" />
-                            </div>
+                <div v-if="!hasLocalAuth" class="login__govbr-only">
+                    <div class="login__social-buttons">
+                        <a v-if="configs.strategies.govbr?.visible" class="social-login--button button button--icon button--large button--md govbr" href="<?php echo $app->createUrl('auth', 'govbr') ?>">
+                            <div class="img"> <img height="16" class="br-sign-in-img" src="<?php $this->asset('img/govbr-white.png'); ?>" /> </div>
+                            <?= i::__('Entrar com Gov.br') ?>
+                        </a>
+                    </div>
+                </div>
+
+                <template v-else>
+                    <span v-if="wizard">
+                        <form class="login__form" @submit.prevent="showPasswordField">
+                            <div class="login__fields">
+                                <div class="field" v-if="!showPassword && !passwordResetRequired && !userNotFound">
+                                    <label for="email"> <?= i::__('E-mail ou CPF') ?> </label>
+                                    <input type="text" name="email" id="email" v-model="email" autocomplete="off" />
+                                </div>
 
                             <div v-if="showPassword && !passwordResetRequired" class="field password">
                                 <label for="password"> <?= i::__('Senha') ?> </label>

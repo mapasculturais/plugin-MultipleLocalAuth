@@ -11,7 +11,10 @@ if (trim($_GET['t'] ?? '')) {
     $this->jsObject['recoveryMode']['token'] = $_GET['t']; 
 }
 
-$this->jsObject['login']['wizard'] = $config['wizard'] ?? false;
+$this->jsObject['login'] = [
+    'wizard' => $config['wizard'] ?? false,
+    'hasLocalAuth' => $hasLocalAuth ?? false,
+];
 
 $this->import('login');
 
