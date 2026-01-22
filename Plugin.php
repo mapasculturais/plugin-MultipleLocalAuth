@@ -51,6 +51,7 @@ class Plugin extends \MapasCulturais\Plugin {
     }
     
     public function register() {
+        $this->registerUserMetadata(Provider::$preventOverhead, ['label' => i::__('Evitar tarefas que geram sobrecarga de processamento')]);
         $this->registerUserMetadata(Provider::$passMetaName, ['label' => i::__('Senha')]);
         $this->registerUserMetadata(Provider::$recoverTokenMetadata, ['label' => i::__('Token para recuperação de senha')]);
         $this->registerUserMetadata(Provider::$recoverTokenTimeMetadata, ['label' => i::__('Timestamp do token para recuperação de senha')]);
