@@ -2,14 +2,15 @@
 /**
  * Google strategy for Opauth
  * based on https://developers.google.com/accounts/docs/OAuth2
- * 
+ *
  * More information on Opauth: http://opauth.org
- * 
+ *
  * @copyright    Copyright © 2012 U-Zyn Chua (http://uzyn.com)
  * @link         http://opauth.org
  * @package      Opauth.GoogleStrategy
  * @license      MIT License
  */
+use MapasCulturais\App;
 /**
  * Google strategy for Opauth
  * based on https://developers.google.com/accounts/docs/OAuth2
@@ -119,7 +120,42 @@ class GoogleStrategy extends OpauthStrategy{
 			$this->errorCallback($error);
 		}
 	}
-	
+
+	/**
+	 * Sincroniza nome e e-mail do agente a partir dos dados do Google.
+	 *
+	 * Assim como o GovBrStrategy, roda em todo login (não só na criação da conta),
+	 * garantindo que agentes com nome vazio ou com o placeholder padrão sejam
+	 * atualizados com os dados vindos do Google.
+	 *
+	 * @param \MapasCulturais\Entities\User $user
+	 * @param array $response
+	 * @return void
+	 */
+	public static function verifyUpdateData($user, $response)
+	{
+		$app = App::i();
+		$info = $response['auth']['info'];
+
+		$name = $info['name'] ?? trim(($info['first_name'] ?? '') . ' ' . ($info['last_name'] ?? ''));
+
+		$app->disableAccessControl();
+
+		$profile = $user->profile;
+
+		if ($name !== '' && ($profile->name == '' || $profile->name === 'Meu Nome')) {
+			$profile->name = $name;
+		}
+
+		if (empty($profile->emailPrivado) && !empty($info['email'])) {
+			$profile->emailPrivado = $info['email'];
+		}
+
+		$profile->save(true);
+
+		$app->enableAccessControl();
+	}
+
 	/**
 	 * Queries Google API for user info
 	 *
