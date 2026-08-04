@@ -1,0 +1,22 @@
+services:
+  mapas:
+    volumes:
+      # Restaura o provedor de autenticação deste plugin na suíte de testes do repositório
+      # principal, sem editar tests/config.d/ do core. O core força 'auth.provider' => 'Test'
+      # em tests/config.d/auth.php; "zz-multiplelocalauth.d" ordena depois de "config.d" no
+      # glob de src/conf/config.php, então as chaves deste diretório vencem.
+      # Diferente de AldirBlanc e MapasBlame, aqui NÃO é preciso um config.d/plugins.php:
+      # config/plugins.php já lista MultipleLocalAuth e nenhum config.d de teste sobrescreve
+      # a chave 'plugins'.
+      # Caminho relativo ao cwd esperado do `docker compose` (tests/ do repositório principal).
+      # Monta o DIRETÓRIO (não o arquivo isolado) — bind mount de arquivo único dentro de outro
+      # bind mount (../config:/var/www/config) falha no Docker Desktop/virtiofs (macOS) quando o
+      # subdiretório de destino ainda não existe no host.
+      - ../src/plugins/MultipleLocalAuth/tests/config.d:/var/www/config/zz-multiplelocalauth.d
+
+      # Testes do próprio plugin, montados como subpasta de /var/www/tests (mesmo destino de
+      # tests/src do core, mapeado por tests/docker-compose.yml). O autoload PSR-4 'Tests\\' =>
+      # '/var/www/tests' (composer.json) resolve "Tests\MultipleLocalAuth\SmokeTest" para
+      # /var/www/tests/MultipleLocalAuth/SmokeTest.php, então as classes deste plugin podem
+      # usar/estender Tests\Abstract\TestCase e Tests\Traits\* normalmente.
+      - ../src/plugins/MultipleLocalAuth/tests/src:/var/www/tests/MultipleLocalAuth
