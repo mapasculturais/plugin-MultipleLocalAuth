@@ -1,8 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Multiple Local Auth\n"
-"POT-Creation-Date: 2025-04-07 19:07-0300\n"
-"PO-Revision-Date: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-06 16:03-0300\n"
+"PO-Revision-Date: 2026-08-06 16:06-0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: es_ES\n"
@@ -17,204 +18,33 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: assets\n"
 
-#: Plugin.php:42
-msgid "modificar senha"
-msgstr "modificar contraseña"
-
-#: Plugin.php:53 components/change-password/template.php:33
-#: components/create-account/template.php:56 components/login/template.php:36
-#: components/login/template.php:125
-msgid "Senha"
-msgstr "Contraseña"
-
-#: Plugin.php:54
-msgid "Token para recuperação de senha"
-msgstr "Token de recuperación de contraseña"
-
-#: Plugin.php:55
-msgid "Timestamp do token para recuperação de senha"
-msgstr "Marca de tiempo del token para la recuperación de la contraseña"
-
-#: Plugin.php:56
-msgid "Conta ativa?"
-msgstr "¿Cuenta activa?"
-
-#: Plugin.php:57
-msgid "Token de verificação"
-msgstr "Token de verificación"
-
-#: Plugin.php:58
-msgid "Número de tentativas de login"
-msgstr "Número de intentos de inicio de sesión"
-
-#: Plugin.php:59
-msgid "Tempo de bloqueio por excesso de tentativas"
-msgstr "Tiempo de bloqueo debido a intentos excesivos"
-
-#: Provider.php:163
-msgid "Token inválidos"
-msgstr "Token incorrectos"
-
-#: Provider.php:424
-msgid "Minha conta"
-msgstr "Mi cuenta"
-
-#: Provider.php:488
-msgid "Sua senha deve conter pelo menos "
-msgstr "La contraseña debe contener al menos "
-
-#: Provider.php:491
-msgid " Sua senha deve conter pelo menos 1 número!"
-msgstr " ¡Su contraseña debe contener al menos 1 número!"
-
-#: Provider.php:494
-msgid " Sua senha deve conter pelo menos 1 letra maiúscula!"
-msgstr " ¡Su contraseña debe contener al menos 1 letra mayúscula !"
-
-#: Provider.php:497
-msgid " Sua senha deve conter pelo menos 1 letra minúscula!"
-msgstr " ¡Su contraseña debe contener al menos 1 letra minúscula!"
-
-#: Provider.php:500
-msgid " Sua senha deve conter pelo menos 1 caractere especial!"
-msgstr " ¡Su contraseña debe contener al menos 1 carácter especial!"
-
-#: Provider.php:503
-msgid "Por favor, insira sua senha."
-msgstr "Por favor, introduzca su contraseña."
-
-#: Provider.php:507
-msgid "As senhas não conferem."
-msgstr "Las contraseñas no coinciden."
-
-#: Provider.php:542 Provider.php:708 Provider.php:997
-msgid "Captcha incorreto, tente novamente!"
-msgstr "¡Captcha incorrecto, inténtalo de nuevo!"
-
-#: Provider.php:554
-msgid "Por favor, informe um cpf válido."
-msgstr "Por favor, introduzca una ci válida."
-
-#: Provider.php:576
-msgid "Este CPF já esta em uso. Tente recuperar a sua senha."
-msgstr "Esta CI ya está en uso. Intente recuperar su contraseña."
-
-#: Provider.php:588
-msgid "Este endereço de email já está em uso. Tente recuperar a sua senha."
-msgstr ""
-"Esta dirección de correo electrónico ya está en uso. Intente recuperar su "
-"contraseña."
-
-#: Provider.php:594
-msgid "Por favor, informe um email válido."
-msgstr "Por favor, ingrese un correo electrónico válido."
-
-#: Provider.php:641
-msgid "Token não encontrado."
-msgstr "Token no encontrado."
-
-#: Provider.php:660
-msgid "Este token expirou."
-msgstr "Este token expiró."
-
-#: Provider.php:716
-msgid "Email não encontrado"
-msgstr "Email no encontrado"
-
-#: Provider.php:742
-#, php-format
-msgid "Pedido de recuperação de senha para %s"
-msgstr "Pedido de recuperación de contraseña para %s"
-
-#: Provider.php:777
-msgid ""
-"Erro ao enviar email de recuperação. Entre em contato com os administradors "
-"do site."
-msgstr ""
-"Error al enviar el correo electrónico de recuperación. Entre en contacto con "
-"los administradores del sitio."
-
-#: Provider.php:814 Provider.php:865
-msgid "Insira sua nova senha."
-msgstr "Ingrese su nueva contraseña."
-
-#: Provider.php:860
-msgid "Senha atual inválida."
-msgstr "Contraseña actual no válida."
-
-#: Provider.php:887
-msgid "A senha deve conter uma letra maiúscula"
-msgstr "La contraseña debe contener una letra mayúscula"
-
-#: Provider.php:888
-msgid "A senha deve conter uma letra minúscula"
-msgstr "La contraseña debe contener una letra minúscula"
-
-#: Provider.php:889
-msgid "A senha deve conter um caractere especial"
-msgstr "La contraseña debe contener un carácter especial"
-
-#: Provider.php:890
-msgid "A senha deve conter um número "
-msgstr "La contraseña debe contener un número "
-
-#: Provider.php:891
-msgid "O tamanho mínimo da senha é de: "
-msgstr "La longitud mínima de la contraseña es: "
-
-#: Provider.php:1028
-msgid "CPF ou senha incorreta, tente novamente!"
-msgstr "¡CI o contraseña incorrecta, inténtalo de nuevo!"
-
-#: Provider.php:1050
-msgid ""
-"Você possui 2 ou mais agente com o mesmo CPF! Por favor entre em contato com "
-"o suporte."
-msgstr ""
-"¡Tienes 2 o más agentes con la misma CI! Por favor contacta al servicio de "
-"soporte."
-
-#: Provider.php:1055
-msgid ""
-"Você possui 2 ou mais agentes inativos com o mesmo CPF! Por favor entre em "
-"contato com o suporte."
-msgstr ""
-"¡Tienes 2 o más agentes inactivos con la misma CI! Por favor contacta con el "
-"servicio de soporte."
-
-#: Provider.php:1061
-msgid "CPF ou senha incorreta. Utilize o CPF do seu agente principal."
-msgstr "CI o contraseña incorrectas. Utilice la CI de su agente principal."
-
-#: Provider.php:1081 Provider.php:1115
-msgid "Usuário ou senha inválidos."
-msgstr "Usuario o contraseña incorrectos."
-
-#: Provider.php:1087
-msgid "Verifique seu email para validar a sua conta."
-msgstr "Revise su correo electrónico para validar su cuenta."
-
-#: Provider.php:1096
-msgid "Login bloqueado, tente novamente em "
-msgstr "Inicio de sesión bloqueado, inténtalo de nuevo en "
-
-#: Provider.php:1421
-msgid "É preciso estar autenticado para realizar esta ação"
-msgstr "Es preciso está autenticado para realizar esta acción"
-
 #: components/change-password/template.php:15
 msgid "Senha:"
 msgstr "Contraseña:"
 
-#: components/change-password/template.php:27
+#: components/change-password/template.php:19
+msgid ""
+"Foi solicitada a troca de senha deste usuário. O aviso some assim que ele "
+"efetivamente trocar a senha."
+msgstr ""
+"Se solicitó el cambio de contraseña de este usuario. El aviso"
+"desaparece cuando efectivamente cambie la contraseña."
+
+#: components/change-password/template.php:32
 msgid "Senha atual"
 msgstr "Contraseña actual"
 
-#: components/change-password/template.php:37
+#: components/change-password/template.php:38
+#: components/create-account/template.php:58 components/login/template.php:36
+#: components/login/template.php:197 Plugin.php:57
+msgid "Senha"
+msgstr "Contraseña"
+
+#: components/change-password/template.php:42
 msgid "A senha deve ter:"
 msgstr "La contraseña debe tener:"
 
-#: components/change-password/template.php:38
+#: components/change-password/template.php:43
 msgid ""
 " caracteres, um número, um caractere especial (! @ # $ & *), pelo menos uma "
 "letra maiúscula e uma minúscula."
@@ -222,120 +52,136 @@ msgstr ""
 " caracteres, un número, un carácter especial (!@#$&*), al menos una letra "
 "mayúscula y una minúscula."
 
-#: components/change-password/template.php:43
+#: components/change-password/template.php:48
 msgid "Confirme a senha"
 msgstr "Confirmar contraseña"
 
-#: components/change-password/template.php:54
-#: components/change-password/template.php:59 components/login/template.php:93
+#: components/change-password/template.php:59
+#: components/change-password/template.php:64 components/login/template.php:97
 msgid "Alterar senha"
 msgstr "Cambiar contraseña"
 
-#: components/change-password/template.php:60
+#: components/change-password/template.php:65
+#: components/change-password/template.php:87
 msgid "Cancelar"
 msgstr "Cancelar"
 
-#: components/create-account/script.js:295
-msgid "Nome obrigatório"
-msgstr "Nombre obligatorio"
+#: components/change-password/template.php:71
+msgid "Forçar troca de senha"
+msgstr "Forzar cambio de contraseña"
 
-#: components/create-account/script.js:298
-msgid "Descrição obrigatória"
-msgstr "Descripción obligatoria"
+#: components/change-password/template.php:73
+msgid ""
+"Na próxima vez que este usuário entrar com a senha atual, ele será obrigado "
+"a trocá-la."
+msgstr ""
+"La próxima vez que este usuario inicie sesión con la contraseña"
+"actual, estará obligado a cambiarla."
 
-#: components/create-account/script.js:301
-msgid "Área de atuação obrigatória"
-msgstr "Área de actuación obligatoria"
+#: components/change-password/template.php:74
+msgid "Confirma?"
+msgstr "¿Confirma?"
 
-#: components/create-account/template.php:23
+#: components/change-password/template.php:81 Plugin.php:65
+msgid "Forçar troca de senha no próximo login"
+msgstr "Forzar cambio de contraseña en el próximo inicio de sesión"
+
+#: components/change-password/template.php:86
+msgid "Confirmar"
+msgstr "Confirmar"
+
+#: components/create-account/template.php:25
 msgid "Novo cadastro"
 msgstr "Nuevo registro"
 
-#: components/create-account/template.php:24
+#: components/create-account/template.php:26
 #, php-format
 msgid "Siga os passos para criar o seu cadastro no %s."
 msgstr "Siga los pasos para crear su registro en %s."
 
-#: components/create-account/template.php:38 components/login/template.php:89
+#: components/create-account/template.php:40 components/login/template.php:93
 msgid "E-mail"
 msgstr "E-mail"
 
-#: components/create-account/template.php:43
+#: components/create-account/template.php:45
 msgid "CPF"
 msgstr "CI"
 
-#: components/create-account/template.php:46
+#: components/create-account/template.php:48
 msgid "Por que pedimos este dado"
 msgstr "Por qué pedimos este dato"
 
-#: components/create-account/template.php:48
-msgid "Texto sobre o motivo da coleta do CPF"
-msgstr "Texto sobre el motivo de la recogida del dato de la CI"
+#: components/create-account/template.php:50
+msgid ""
+"Para previnir fraudes e por questão de segurança, sendo utilizado para "
+"verificar a identidade do <br> usuário e garantir a segurança dos processos "
+"de identificação na plataforma, <br> evitando golpes e contas falsas."
+msgstr ""
+"Para prevenir fraudes y por cuestión de seguridad, se utiliza para"
+"verificar la identidad del <br> usuario y garantizar la seguridad de"
+"los procesos de identificación en la plataforma, <br> evitando"
+"estafas y cuentas falsas."
 
-#: components/create-account/template.php:62
+#: components/create-account/template.php:64
 msgid "Confirme sua senha"
 msgstr "Confirmar contraseña"
 
-#: components/create-account/template.php:71
+#: components/create-account/template.php:73
 msgid "Continuar"
 msgstr "Continuar"
 
-#: components/create-account/template.php:79 components/login/template.php:55
+#: components/create-account/template.php:81 components/login/template.php:55
 msgid "Entrar com Gov.br"
-msgstr ""
+msgstr "Entrar con Gov.br"
 
-#: components/create-account/template.php:83 components/login/template.php:60
+#: components/create-account/template.php:85 components/login/template.php:60
 msgid "Entrar com Google"
 msgstr "Entrar con Google"
 
-#: components/create-account/template.php:94
+#: components/create-account/template.php:96
 msgid "Voltar e excluir minhas informações"
 msgstr "Regresar y borrar mi información"
 
-#: components/create-account/template.php:101
+#: components/create-account/template.php:103
 msgid "Falta pouco para finalizar o seu cadastro!"
 msgstr "Queda poco para que finalice su registro!"
 
-#: components/create-account/template.php:102
+#: components/create-account/template.php:104
 msgid "Dê um nome e faça uma breve descrição sua."
 msgstr "Ponte un nombre y haz una breve descripción de ti mismo."
 
-#: components/create-account/template.php:106
+#: components/create-account/template.php:108
 msgid "Nome"
 msgstr "Nombre"
 
-#: components/create-account/template.php:106
+#: components/create-account/template.php:108
 msgid "As pessoas irão encontrar você por esse nome."
 msgstr "Las personas te encontrarán por ese nombre."
 
-#: components/create-account/template.php:107
+#: components/create-account/template.php:109
 msgid "Mini Bio"
 msgstr "Mini Bio"
 
-#: components/create-account/template.php:108
-msgid "Área de atuação"
-msgstr "Área de actuación"
-
-#: components/create-account/template.php:112
+#: components/create-account/template.php:119
 msgid "Criar cadastro"
 msgstr "Crear registro"
 
-#: components/create-account/template.php:123
+#: components/create-account/template.php:130
 msgid "E-mail de confirmação enviado!"
 msgstr "¡Correo electrónico de confirmación enviado!"
 
-#: components/create-account/template.php:124
+#: components/create-account/template.php:131
 msgid "Seu cadastro foi criado com sucesso!"
 msgstr "Su registro fue creado con éxito!"
 
-#: components/create-account/template.php:127
+#: components/create-account/template.php:134
 #, php-format
 msgid "Acesse seu e-mail para confirmar a criação de seu cadastro no %s."
 msgstr ""
 "Acceda a su correo electrónico para confirmar la creación de su registro en "
 "%s."
 
-#: components/create-account/template.php:129
+#: components/create-account/template.php:136
 msgid "Acessar meu cadastro"
 msgstr "Acceder a mi registro"
 
@@ -350,6 +196,10 @@ msgstr "La descripción es obligatoria!"
 #: components/create-account/texts.php:7
 msgid "A área de atuação é obrigatória!"
 msgstr "El área de actuación es obligatoria!"
+
+#: components/create-account/texts.php:8
+msgid "é um campo obrigatório!"
+msgstr "¡es un campo obligatorio!"
 
 #: components/login/template.php:23
 msgid "Boas vindas!"
@@ -376,53 +226,112 @@ msgstr "Ingresar"
 msgid "Ou entre com"
 msgstr "O entre con"
 
-#: components/login/template.php:67
+#: components/login/template.php:65
+msgid "Entrar com ID Cacicadas"
+msgstr "Entrar con ID Cacicadas"
+
+#: components/login/template.php:71
 #, php-format
 msgid "Ainda não tem cadastro no %s? Realize seu cadastro agora!"
 msgstr "Todavía no está registrado en %s? Realiza el registro ahora!"
 
-#: components/login/template.php:70
+#: components/login/template.php:74
 msgid "Fazer cadastro"
 msgstr "Hacer registro"
 
-#: components/login/template.php:82 components/login/template.php:103
+#: components/login/template.php:86 components/login/template.php:107
 #: views/auth/confirm-email.php:20
 msgid "Alteração de senha"
 msgstr "Cambio de contraseña"
 
-#: components/login/template.php:83
+#: components/login/template.php:87
 msgid "Se você esqueceu a senha, não se preocupe, todo mundo passa por isso."
 msgstr ""
 "Si has olvidado tu contraseña, no te preocupes, todo el mundo pasa por eso."
 
-#: components/login/template.php:83
+#: components/login/template.php:87
 msgid "Digite seu e-mail para criar uma nova."
 msgstr "Introduzca su dirección de correo electrónico para crear una nueva."
 
-#: components/login/template.php:94 components/login/template.php:109
+#: components/login/template.php:98 components/login/template.php:113
+#: components/login/template.php:132 components/login/template.php:146
 #: views/auth/register.php:16
 msgid "Voltar"
 msgstr "Volver"
 
-#: components/login/template.php:105 views/auth/confirm-email.php:22
+#: components/login/template.php:109 views/auth/confirm-email.php:22
 msgid "Enviamos as instruções de alteração de senha para seu e-mail."
 msgstr ""
 "Enviamos las instrucciones para el cambio de contraseña a su correo "
 "electrónico."
 
-#: components/login/template.php:108
+#: components/login/template.php:112
 msgid "Não recebi o e-mail"
 msgstr "No recibí el correo electrónico"
 
-#: components/login/template.php:119
+#: components/login/template.php:123 components/login/template.php:141
+msgid "Sua conta foi excluída parcialmente"
+msgstr "Su cuenta fue eliminada parcialmente"
+
+#: components/login/template.php:125
+msgid "Olá"
+msgstr "Hola"
+
+#: components/login/template.php:125
+msgid ""
+"sua conta foi excluída parcialmente e para continuar a usar você deve clicar "
+"no botão abaixo e confirmar que quer recuperar sua conta."
+msgstr ""
+"su cuenta fue eliminada parcialmente y para continuar usándola debe"
+"hacer clic en el botón de abajo y confirmar que desea recuperar su"
+"cuenta."
+
+#: components/login/template.php:131
+msgid "Confirmar recuperação da conta"
+msgstr "Confirmar recuperación de la cuenta"
+
+#: components/login/template.php:143
+msgid ""
+"Enviamos um e-mail de confirmação. Clique no link recebido para concluir a "
+"recuperação da sua conta."
+msgstr ""
+"Enviamos un correo electrónico de confirmación. Haga clic en el"
+"enlace recibido para concluir la recuperación de su cuenta."
+
+#: components/login/template.php:156
+msgid "Troca de senha obrigatória"
+msgstr "Cambio de contraseña obligatorio"
+
+#: components/login/template.php:157
+msgid ""
+"Por segurança, você precisa cadastrar uma nova senha antes de continuar."
+msgstr "Por seguridad, debe registrar una nueva contraseña antes de continuar."
+
+#: components/login/template.php:163
+msgid "Usuário"
+msgstr "Usuario"
+
+#: components/login/template.php:168
+msgid "Nova senha"
+msgstr "Nueva contraseña"
+
+#: components/login/template.php:173
+msgid "Confirme a nova senha"
+msgstr "Confirme la nueva contraseña"
+
+#: components/login/template.php:181
+msgid "Trocar senha"
+msgstr "Cambiar contraseña"
+
+#: components/login/template.php:191
 msgid "Redefinir senha de acesso"
 msgstr "Redefinir contraseña de acceso"
 
-#: components/login/template.php:131
+#: components/login/template.php:203
 msgid "Confirme sua nova senha"
 msgstr "Confirme su nueva contraseña"
 
-#: components/login/template.php:139
+#: components/login/template.php:211
 msgid "Redefinir senha"
 msgstr "Redefinir contraseña"
 
@@ -458,6 +367,273 @@ msgstr "un número"
 msgid "Entrar na minha conta"
 msgstr "Entrar a mi cuenta"
 
+#: views/auth/govbr-email.php:12
+msgid "E-mail já utilizado"
+msgstr "Correo electrónico ya utilizado"
+
+#: views/auth/govbr-email.php:15
+msgid ""
+"O e-mail informado pelo Gov.br já está vinculado a outra conta neste mapa "
+"cultural."
+msgstr ""
+"El correo electrónico informado por Gov.br ya está vinculado a otra"
+"cuenta en este mapa cultural."
+
+#: views/auth/govbr-email.php:21
+msgid ""
+"Para criar a sua conta, informe outro e-mail. Este e-mail será o da sua "
+"conta e deve ser único."
+msgstr ""
+"Para crear su cuenta, informe otro correo electrónico. Este correo"
+"será el de su cuenta y debe ser único."
+
+#: views/auth/govbr-email.php:34
+msgid "Novo e-mail"
+msgstr "Nuevo correo electrónico"
+
+#: views/auth/govbr-email.php:47
+msgid "Criar conta com este e-mail"
+msgstr "Crear cuenta con este correo electrónico"
+
+#: views/auth/govbr-email.php:53
+msgid "Voltar para o login"
+msgstr "Volver al inicio de sesión"
+
+#: Provider.php:185
+msgid "Token inválidos"
+msgstr "Token incorrectos"
+
+#: Provider.php:381
+msgid "Não foi possível criar o usuário. Tente novamente."
+msgstr "No fue posible crear el usuario. Inténtelo de nuevo."
+
+#: Provider.php:612
+msgid "É necessário trocar a senha antes de continuar."
+msgstr "Es necesario cambiar la contraseña antes de continuar."
+
+#: Provider.php:623
+msgid "Minha conta"
+msgstr "Mi cuenta"
+
+#: Provider.php:687
+msgid "Sua senha deve conter pelo menos "
+msgstr "La contraseña debe contener al menos "
+
+#: Provider.php:690
+msgid " Sua senha deve conter pelo menos 1 número!"
+msgstr " ¡Su contraseña debe contener al menos 1 número!"
+
+#: Provider.php:693
+msgid " Sua senha deve conter pelo menos 1 letra maiúscula!"
+msgstr " ¡Su contraseña debe contener al menos 1 letra mayúscula !"
+
+#: Provider.php:696
+msgid " Sua senha deve conter pelo menos 1 letra minúscula!"
+msgstr " ¡Su contraseña debe contener al menos 1 letra minúscula!"
+
+#: Provider.php:699
+msgid " Sua senha deve conter pelo menos 1 caractere especial!"
+msgstr " ¡Su contraseña debe contener al menos 1 carácter especial!"
+
+#: Provider.php:702
+msgid "Por favor, insira sua senha."
+msgstr "Por favor, introduzca su contraseña."
+
+#: Provider.php:706
+msgid "As senhas não conferem."
+msgstr "Las contraseñas no coinciden."
+
+#: Provider.php:741 Provider.php:907 Provider.php:1304
+msgid "Captcha incorreto, tente novamente!"
+msgstr "¡Captcha incorrecto, inténtalo de nuevo!"
+
+#: Provider.php:753
+msgid "Por favor, informe um cpf válido."
+msgstr "Por favor, introduzca una ci válida."
+
+#: Provider.php:775
+msgid "Este CPF já esta em uso. Tente recuperar a sua senha."
+msgstr "Esta CI ya está en uso. Intente recuperar su contraseña."
+
+#: Provider.php:787
+msgid "Este endereço de email já está em uso. Tente recuperar a sua senha."
+msgstr ""
+"Esta dirección de correo electrónico ya está en uso. Intente recuperar su "
+"contraseña."
+
+#: Provider.php:793
+msgid "Por favor, informe um email válido."
+msgstr "Por favor, ingrese un correo electrónico válido."
+
+#: Provider.php:840
+msgid "Token não encontrado."
+msgstr "Token no encontrado."
+
+#: Provider.php:859
+msgid "Este token expirou."
+msgstr "Este token expiró."
+
+#: Provider.php:915
+msgid "Email não encontrado"
+msgstr "Email no encontrado"
+
+#: Provider.php:941
+#, php-format
+msgid "Pedido de recuperação de senha para %s"
+msgstr "Pedido de recuperación de contraseña para %s"
+
+#: Provider.php:976
+msgid ""
+"Erro ao enviar email de recuperação. Entre em contato com os administradors "
+"do site."
+msgstr ""
+"Error al enviar el correo electrónico de recuperación. Entre en contacto con "
+"los administradores del sitio."
+
+#: Provider.php:1013 Provider.php:1172
+msgid "Insira sua nova senha."
+msgstr "Ingrese su nueva contraseña."
+
+#: Provider.php:1056
+msgid "Você não tem permissão para executar esta ação."
+msgstr "No tiene permiso para ejecutar esta acción."
+
+#: Provider.php:1064
+msgid "Usuário não encontrado."
+msgstr "Usuario no encontrado."
+
+#: Provider.php:1110
+msgid "Não há troca de senha pendente para este usuário."
+msgstr "No hay cambio de contraseña pendiente para este usuario."
+
+#: Provider.php:1167
+msgid "Senha atual inválida."
+msgstr "Contraseña actual no válida."
+
+#: Provider.php:1194
+msgid "A senha deve conter uma letra maiúscula"
+msgstr "La contraseña debe contener una letra mayúscula"
+
+#: Provider.php:1195
+msgid "A senha deve conter uma letra minúscula"
+msgstr "La contraseña debe contener una letra minúscula"
+
+#: Provider.php:1196
+msgid "A senha deve conter um caractere especial"
+msgstr "La contraseña debe contener un carácter especial"
+
+#: Provider.php:1197
+msgid "A senha deve conter um número "
+msgstr "La contraseña debe contener un número "
+
+#: Provider.php:1198
+msgid "O tamanho mínimo da senha é de: "
+msgstr "La longitud mínima de la contraseña es: "
+
+#: Provider.php:1335
+msgid "CPF ou senha incorreta, tente novamente!"
+msgstr "¡CI o contraseña incorrecta, inténtalo de nuevo!"
+
+#: Provider.php:1357
+msgid ""
+"Você possui 2 ou mais agente com o mesmo CPF! Por favor entre em contato com "
+"o suporte."
+msgstr ""
+"¡Tienes 2 o más agentes con la misma CI! Por favor contacta al servicio de "
+"soporte."
+
+#: Provider.php:1362
+msgid ""
+"Você possui 2 ou mais agentes inativos com o mesmo CPF! Por favor entre em "
+"contato com o suporte."
+msgstr ""
+"¡Tienes 2 o más agentes inactivos con la misma CI! Por favor contacta con el "
+"servicio de soporte."
+
+#: Provider.php:1368
+msgid "CPF ou senha incorreta. Utilize o CPF do seu agente principal."
+msgstr "CI o contraseña incorrectas. Utilice la CI de su agente principal."
+
+#: Provider.php:1386 Provider.php:1430
+msgid "Usuário ou senha inválidos."
+msgstr "Usuario o contraseña incorrectos."
+
+#: Provider.php:1392
+msgid "Verifique seu email para validar a sua conta."
+msgstr "Revise su correo electrónico para validar su cuenta."
+
+#: Provider.php:1401
+msgid "Login bloqueado, tente novamente em "
+msgstr "Inicio de sesión bloqueado, inténtalo de nuevo en "
+
+#: Provider.php:1492
+msgid "Sessão expirada, faça login novamente."
+msgstr "Sesión expirada, inicie sesión nuevamente."
+
+#: Provider.php:1501
+msgid "Esta conta não está mais com exclusão parcial."
+msgstr "Esta cuenta ya no está con exclusión parcial."
+
+#: Provider.php:1548
+#, php-format
+msgid "Confirme a recuperação da sua conta no %s"
+msgstr "Confirme la recuperación de su cuenta en %s"
+
+#: Provider.php:1601
+msgid "Não foi possível criar o usuário. Entre em contato com suporte"
+msgstr "No fue posible crear el usuario. Contacte al soporte"
+
+#: Provider.php:1911
+msgid "É preciso estar autenticado para realizar esta ação"
+msgstr "Es preciso está autenticado para realizar esta acción"
+
+#: Plugin.php:46
+msgid "modificar senha"
+msgstr "modificar contraseña"
+
+#: Plugin.php:58
+msgid "Token para recuperação de senha"
+msgstr "Token de recuperación de contraseña"
+
+#: Plugin.php:59
+msgid "Timestamp do token para recuperação de senha"
+msgstr "Marca de tiempo del token para la recuperación de la contraseña"
+
+#: Plugin.php:60
+msgid "Conta ativa?"
+msgstr "¿Cuenta activa?"
+
+#: Plugin.php:61
+msgid "Token de verificação"
+msgstr "Token de verificación"
+
+#: Plugin.php:62
+msgid "Número de tentativas de login"
+msgstr "Número de intentos de inicio de sesión"
+
+#: Plugin.php:63
+msgid "Tempo de bloqueio por excesso de tentativas"
+msgstr "Tiempo de bloqueo debido a intentos excesivos"
+
+#: Plugin.php:64
+msgid "Aguardando confirmação de recuperação de conta"
+msgstr "Esperando confirmación de recuperación de cuenta"
+
+#~ msgid "Nome obrigatório"
+#~ msgstr "Nombre obligatorio"
+
+#~ msgid "Descrição obrigatória"
+#~ msgstr "Descripción obligatoria"
+
+#~ msgid "Área de atuação obrigatória"
+#~ msgstr "Área de actuación obligatoria"
+
+#~ msgid "Texto sobre o motivo da coleta do CPF"
+#~ msgstr "Texto sobre el motivo de la recogida del dato de la CI"
+
+#~ msgid "Área de atuação"
+#~ msgstr "Área de actuación"
+
 #~ msgid "Guardar alteraçoes"
 #~ msgstr "Guardar cambios"
 
@@ -469,9 +645,6 @@ msgstr "Entrar a mi cuenta"
 
 #~ msgid "Trocar Senha"
 #~ msgstr "Cambiar contraseña"
-
-#~ msgid "Nova senha"
-#~ msgstr "Nueva contraseña"
 
 #~ msgid "Confirmar nova senha"
 #~ msgstr "Confirme su nueva contraseña"

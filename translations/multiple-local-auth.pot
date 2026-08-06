@@ -1,0 +1,587 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the Multiple Local Auth package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Multiple Local Auth\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-06 16:03-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: components/change-password/template.php:15
+msgid "Senha:"
+msgstr ""
+
+#: components/change-password/template.php:19
+msgid ""
+"Foi solicitada a troca de senha deste usuário. O aviso some assim que ele "
+"efetivamente trocar a senha."
+msgstr ""
+
+#: components/change-password/template.php:32
+msgid "Senha atual"
+msgstr ""
+
+#: components/change-password/template.php:38
+#: components/create-account/template.php:58 components/login/template.php:36
+#: components/login/template.php:197 Plugin.php:57
+msgid "Senha"
+msgstr ""
+
+#: components/change-password/template.php:42
+msgid "A senha deve ter:"
+msgstr ""
+
+#: components/change-password/template.php:43
+msgid ""
+" caracteres, um número, um caractere especial (! @ # $ & *), pelo menos uma "
+"letra maiúscula e uma minúscula."
+msgstr ""
+
+#: components/change-password/template.php:48
+msgid "Confirme a senha"
+msgstr ""
+
+#: components/change-password/template.php:59
+#: components/change-password/template.php:64 components/login/template.php:97
+msgid "Alterar senha"
+msgstr ""
+
+#: components/change-password/template.php:65
+#: components/change-password/template.php:87
+msgid "Cancelar"
+msgstr ""
+
+#: components/change-password/template.php:71
+msgid "Forçar troca de senha"
+msgstr ""
+
+#: components/change-password/template.php:73
+msgid ""
+"Na próxima vez que este usuário entrar com a senha atual, ele será obrigado "
+"a trocá-la."
+msgstr ""
+
+#: components/change-password/template.php:74
+msgid "Confirma?"
+msgstr ""
+
+#: components/change-password/template.php:81 Plugin.php:65
+msgid "Forçar troca de senha no próximo login"
+msgstr ""
+
+#: components/change-password/template.php:86
+msgid "Confirmar"
+msgstr ""
+
+#: components/create-account/template.php:25
+msgid "Novo cadastro"
+msgstr ""
+
+#: components/create-account/template.php:26
+#, php-format
+msgid "Siga os passos para criar o seu cadastro no %s."
+msgstr ""
+
+#: components/create-account/template.php:40 components/login/template.php:93
+msgid "E-mail"
+msgstr ""
+
+#: components/create-account/template.php:45
+msgid "CPF"
+msgstr ""
+
+#: components/create-account/template.php:48
+msgid "Por que pedimos este dado"
+msgstr ""
+
+#: components/create-account/template.php:50
+msgid ""
+"Para previnir fraudes e por questão de segurança, sendo utilizado para "
+"verificar a identidade do <br> usuário e garantir a segurança dos processos "
+"de identificação na plataforma, <br> evitando golpes e contas falsas."
+msgstr ""
+
+#: components/create-account/template.php:64
+msgid "Confirme sua senha"
+msgstr ""
+
+#: components/create-account/template.php:73
+msgid "Continuar"
+msgstr ""
+
+#: components/create-account/template.php:81 components/login/template.php:55
+msgid "Entrar com Gov.br"
+msgstr ""
+
+#: components/create-account/template.php:85 components/login/template.php:60
+msgid "Entrar com Google"
+msgstr ""
+
+#: components/create-account/template.php:96
+msgid "Voltar e excluir minhas informações"
+msgstr ""
+
+#: components/create-account/template.php:103
+msgid "Falta pouco para finalizar o seu cadastro!"
+msgstr ""
+
+#: components/create-account/template.php:104
+msgid "Dê um nome e faça uma breve descrição sua."
+msgstr ""
+
+#: components/create-account/template.php:108
+msgid "Nome"
+msgstr ""
+
+#: components/create-account/template.php:108
+msgid "As pessoas irão encontrar você por esse nome."
+msgstr ""
+
+#: components/create-account/template.php:109
+msgid "Mini Bio"
+msgstr ""
+
+#: components/create-account/template.php:119
+msgid "Criar cadastro"
+msgstr ""
+
+#: components/create-account/template.php:130
+msgid "E-mail de confirmação enviado!"
+msgstr ""
+
+#: components/create-account/template.php:131
+msgid "Seu cadastro foi criado com sucesso!"
+msgstr ""
+
+#: components/create-account/template.php:134
+#, php-format
+msgid "Acesse seu e-mail para confirmar a criação de seu cadastro no %s."
+msgstr ""
+
+#: components/create-account/template.php:136
+msgid "Acessar meu cadastro"
+msgstr ""
+
+#: components/create-account/texts.php:5
+msgid "O nome é obrigatório!"
+msgstr ""
+
+#: components/create-account/texts.php:6
+msgid "A descrição é obrigatória!"
+msgstr ""
+
+#: components/create-account/texts.php:7
+msgid "A área de atuação é obrigatória!"
+msgstr ""
+
+#: components/create-account/texts.php:8
+msgid "é um campo obrigatório!"
+msgstr ""
+
+#: components/login/template.php:23
+msgid "Boas vindas!"
+msgstr ""
+
+#: components/login/template.php:24
+#, php-format
+msgid "Entre na sua conta do %s"
+msgstr ""
+
+#: components/login/template.php:31
+msgid "E-mail ou CPF"
+msgstr ""
+
+#: components/login/template.php:38
+msgid "Esqueci minha senha"
+msgstr ""
+
+#: components/login/template.php:46
+msgid "Entrar"
+msgstr ""
+
+#: components/login/template.php:49
+msgid "Ou entre com"
+msgstr ""
+
+#: components/login/template.php:65
+msgid "Entrar com ID Cacicadas"
+msgstr ""
+
+#: components/login/template.php:71
+#, php-format
+msgid "Ainda não tem cadastro no %s? Realize seu cadastro agora!"
+msgstr ""
+
+#: components/login/template.php:74
+msgid "Fazer cadastro"
+msgstr ""
+
+#: components/login/template.php:86 components/login/template.php:107
+#: views/auth/confirm-email.php:20
+msgid "Alteração de senha"
+msgstr ""
+
+#: components/login/template.php:87
+msgid "Se você esqueceu a senha, não se preocupe, todo mundo passa por isso."
+msgstr ""
+
+#: components/login/template.php:87
+msgid "Digite seu e-mail para criar uma nova."
+msgstr ""
+
+#: components/login/template.php:98 components/login/template.php:113
+#: components/login/template.php:132 components/login/template.php:146
+#: views/auth/register.php:16
+msgid "Voltar"
+msgstr ""
+
+#: components/login/template.php:109 views/auth/confirm-email.php:22
+msgid "Enviamos as instruções de alteração de senha para seu e-mail."
+msgstr ""
+
+#: components/login/template.php:112
+msgid "Não recebi o e-mail"
+msgstr ""
+
+#: components/login/template.php:123 components/login/template.php:141
+msgid "Sua conta foi excluída parcialmente"
+msgstr ""
+
+#: components/login/template.php:125
+msgid "Olá"
+msgstr ""
+
+#: components/login/template.php:125
+msgid ""
+"sua conta foi excluída parcialmente e para continuar a usar você deve clicar "
+"no botão abaixo e confirmar que quer recuperar sua conta."
+msgstr ""
+
+#: components/login/template.php:131
+msgid "Confirmar recuperação da conta"
+msgstr ""
+
+#: components/login/template.php:143
+msgid ""
+"Enviamos um e-mail de confirmação. Clique no link recebido para concluir a "
+"recuperação da sua conta."
+msgstr ""
+
+#: components/login/template.php:156
+msgid "Troca de senha obrigatória"
+msgstr ""
+
+#: components/login/template.php:157
+msgid ""
+"Por segurança, você precisa cadastrar uma nova senha antes de continuar."
+msgstr ""
+
+#: components/login/template.php:163
+msgid "Usuário"
+msgstr ""
+
+#: components/login/template.php:168
+msgid "Nova senha"
+msgstr ""
+
+#: components/login/template.php:173
+msgid "Confirme a nova senha"
+msgstr ""
+
+#: components/login/template.php:181
+msgid "Trocar senha"
+msgstr ""
+
+#: components/login/template.php:191
+msgid "Redefinir senha de acesso"
+msgstr ""
+
+#: components/login/template.php:203
+msgid "Confirme sua nova senha"
+msgstr ""
+
+#: components/login/template.php:211
+msgid "Redefinir senha"
+msgstr ""
+
+#: components/password-strongness/template.php:12
+msgid "Força da senha"
+msgstr ""
+
+#: components/password-strongness/template.php:18
+msgid "A senha deve conter:"
+msgstr ""
+
+#: components/password-strongness/texts.php:6
+msgid "{num} caracteres"
+msgstr ""
+
+#: components/password-strongness/texts.php:7
+msgid "pelo menos uma letra maiúscula"
+msgstr ""
+
+#: components/password-strongness/texts.php:8
+msgid "pelo menos uma letra minúscula"
+msgstr ""
+
+#: components/password-strongness/texts.php:9
+msgid "um caracter especial (! @ # $ % & * < > ?)"
+msgstr ""
+
+#: components/password-strongness/texts.php:10
+msgid "um número"
+msgstr ""
+
+#: views/auth/confirm-email.php:25
+msgid "Entrar na minha conta"
+msgstr ""
+
+#: views/auth/govbr-email.php:12
+msgid "E-mail já utilizado"
+msgstr ""
+
+#: views/auth/govbr-email.php:15
+msgid ""
+"O e-mail informado pelo Gov.br já está vinculado a outra conta neste mapa "
+"cultural."
+msgstr ""
+
+#: views/auth/govbr-email.php:21
+msgid ""
+"Para criar a sua conta, informe outro e-mail. Este e-mail será o da sua "
+"conta e deve ser único."
+msgstr ""
+
+#: views/auth/govbr-email.php:34
+msgid "Novo e-mail"
+msgstr ""
+
+#: views/auth/govbr-email.php:47
+msgid "Criar conta com este e-mail"
+msgstr ""
+
+#: views/auth/govbr-email.php:53
+msgid "Voltar para o login"
+msgstr ""
+
+#: Provider.php:185
+msgid "Token inválidos"
+msgstr ""
+
+#: Provider.php:381
+msgid "Não foi possível criar o usuário. Tente novamente."
+msgstr ""
+
+#: Provider.php:612
+msgid "É necessário trocar a senha antes de continuar."
+msgstr ""
+
+#: Provider.php:623
+msgid "Minha conta"
+msgstr ""
+
+#: Provider.php:687
+msgid "Sua senha deve conter pelo menos "
+msgstr ""
+
+#: Provider.php:690
+msgid " Sua senha deve conter pelo menos 1 número!"
+msgstr ""
+
+#: Provider.php:693
+msgid " Sua senha deve conter pelo menos 1 letra maiúscula!"
+msgstr ""
+
+#: Provider.php:696
+msgid " Sua senha deve conter pelo menos 1 letra minúscula!"
+msgstr ""
+
+#: Provider.php:699
+msgid " Sua senha deve conter pelo menos 1 caractere especial!"
+msgstr ""
+
+#: Provider.php:702
+msgid "Por favor, insira sua senha."
+msgstr ""
+
+#: Provider.php:706
+msgid "As senhas não conferem."
+msgstr ""
+
+#: Provider.php:741 Provider.php:907 Provider.php:1304
+msgid "Captcha incorreto, tente novamente!"
+msgstr ""
+
+#: Provider.php:753
+msgid "Por favor, informe um cpf válido."
+msgstr ""
+
+#: Provider.php:775
+msgid "Este CPF já esta em uso. Tente recuperar a sua senha."
+msgstr ""
+
+#: Provider.php:787
+msgid "Este endereço de email já está em uso. Tente recuperar a sua senha."
+msgstr ""
+
+#: Provider.php:793
+msgid "Por favor, informe um email válido."
+msgstr ""
+
+#: Provider.php:840
+msgid "Token não encontrado."
+msgstr ""
+
+#: Provider.php:859
+msgid "Este token expirou."
+msgstr ""
+
+#: Provider.php:915
+msgid "Email não encontrado"
+msgstr ""
+
+#: Provider.php:941
+#, php-format
+msgid "Pedido de recuperação de senha para %s"
+msgstr ""
+
+#: Provider.php:976
+msgid ""
+"Erro ao enviar email de recuperação. Entre em contato com os administradors "
+"do site."
+msgstr ""
+
+#: Provider.php:1013 Provider.php:1172
+msgid "Insira sua nova senha."
+msgstr ""
+
+#: Provider.php:1056
+msgid "Você não tem permissão para executar esta ação."
+msgstr ""
+
+#: Provider.php:1064
+msgid "Usuário não encontrado."
+msgstr ""
+
+#: Provider.php:1110
+msgid "Não há troca de senha pendente para este usuário."
+msgstr ""
+
+#: Provider.php:1167
+msgid "Senha atual inválida."
+msgstr ""
+
+#: Provider.php:1194
+msgid "A senha deve conter uma letra maiúscula"
+msgstr ""
+
+#: Provider.php:1195
+msgid "A senha deve conter uma letra minúscula"
+msgstr ""
+
+#: Provider.php:1196
+msgid "A senha deve conter um caractere especial"
+msgstr ""
+
+#: Provider.php:1197
+msgid "A senha deve conter um número "
+msgstr ""
+
+#: Provider.php:1198
+msgid "O tamanho mínimo da senha é de: "
+msgstr ""
+
+#: Provider.php:1335
+msgid "CPF ou senha incorreta, tente novamente!"
+msgstr ""
+
+#: Provider.php:1357
+msgid ""
+"Você possui 2 ou mais agente com o mesmo CPF! Por favor entre em contato com "
+"o suporte."
+msgstr ""
+
+#: Provider.php:1362
+msgid ""
+"Você possui 2 ou mais agentes inativos com o mesmo CPF! Por favor entre em "
+"contato com o suporte."
+msgstr ""
+
+#: Provider.php:1368
+msgid "CPF ou senha incorreta. Utilize o CPF do seu agente principal."
+msgstr ""
+
+#: Provider.php:1386 Provider.php:1430
+msgid "Usuário ou senha inválidos."
+msgstr ""
+
+#: Provider.php:1392
+msgid "Verifique seu email para validar a sua conta."
+msgstr ""
+
+#: Provider.php:1401
+msgid "Login bloqueado, tente novamente em "
+msgstr ""
+
+#: Provider.php:1492
+msgid "Sessão expirada, faça login novamente."
+msgstr ""
+
+#: Provider.php:1501
+msgid "Esta conta não está mais com exclusão parcial."
+msgstr ""
+
+#: Provider.php:1548
+#, php-format
+msgid "Confirme a recuperação da sua conta no %s"
+msgstr ""
+
+#: Provider.php:1601
+msgid "Não foi possível criar o usuário. Entre em contato com suporte"
+msgstr ""
+
+#: Provider.php:1911
+msgid "É preciso estar autenticado para realizar esta ação"
+msgstr ""
+
+#: Plugin.php:46
+msgid "modificar senha"
+msgstr ""
+
+#: Plugin.php:58
+msgid "Token para recuperação de senha"
+msgstr ""
+
+#: Plugin.php:59
+msgid "Timestamp do token para recuperação de senha"
+msgstr ""
+
+#: Plugin.php:60
+msgid "Conta ativa?"
+msgstr ""
+
+#: Plugin.php:61
+msgid "Token de verificação"
+msgstr ""
+
+#: Plugin.php:62
+msgid "Número de tentativas de login"
+msgstr ""
+
+#: Plugin.php:63
+msgid "Tempo de bloqueio por excesso de tentativas"
+msgstr ""
+
+#: Plugin.php:64
+msgid "Aguardando confirmação de recuperação de conta"
+msgstr ""
