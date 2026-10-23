@@ -1,0 +1,40 @@
+.email-verification-status {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.email-verification-status__label {
+  color: var(--mc-gray-700, #374151);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.email-verification-status__badge {
+  align-items: center;
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 0.35rem;
+  line-height: 1;
+  padding: 0.35rem 0.7rem;
+}
+
+.email-verification-status__badge .iconify {
+  flex-shrink: 0;
+  font-size: 0.875rem;
+}
+
+.email-verification-status__badge--pending {
+  background: var(--mc-alert-100, #fff3cd);
+  color: var(--mc-alert-700, #7a5b00);
+}
+
+.email-verification-status__badge--verified {
+  background: var(--mc-success-100, #d1e7dd);
+  color: var(--mc-success-700, #0f5132);
+}

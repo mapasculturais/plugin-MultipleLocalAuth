@@ -201,6 +201,14 @@ class Provider extends \MapasCulturais\AuthProvider {
             $user->saveMetadata(true);
             $app->enableAccessControl();
             $app->em->flush();
+
+            // Se loginOnRegister está ligado mas o e-mail é obrigatório, o auto-login
+            // foi adiado para cá (cadastro não autentica conta ainda inativa).
+            if (!empty(($app->config['auth.config'] ?? [])['loginOnRegister'])) {
+                $app->auth->authenticateUser($user);
+                $app->applyHook('auth.successful');
+            }
+
             $this->render('confirm-email');
         });
 
@@ -1646,19 +1654,21 @@ class Provider extends \MapasCulturais\AuthProvider {
 
 
             $authenticated = false;
-            if ($this->_config['loginOnRegister']) {
+            $mustConfirmEmail = !empty($this->_config['userMustConfirmEmailToUseTheSystem']);
+            // Não autentica no cadastro se a conta ainda precisa de confirmação de e-mail.
+            // Nesse caso o auto-login (loginOnRegister) ocorre em GET(auth.confirma-email).
+            if ($this->_config['loginOnRegister'] && !$mustConfirmEmail) {
                 $this->authenticateUser($user);
+                // Garante loggedInSubsite*, lastLogin e demais listeners do SaaS/core
+                // (o login formal dispara auth.successful; o auto-login do cadastro não fazia).
+                $app->applyHook('auth.successful');
                 $authenticated = true;
             }
             return [ 
                 'success' => true,
                 'authenticated' => $authenticated,
                 'redirectTo' => $authenticated ? $this->getRedirectPath() : '',
-                'emailSent' => (
-                    isset($config['auth.config']) && 
-                    isset($config['auth.config']['userMustConfirmEmailToUseTheSystem']) && 
-                    $config['auth.config']['userMustConfirmEmailToUseTheSystem']
-                    ) ? true : false
+                'emailSent' => $mustConfirmEmail,
             ];
 
         } else {

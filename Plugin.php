@@ -33,9 +33,26 @@ class Plugin extends \MapasCulturais\Plugin {
             }
         });
 
-        $app->hook('template(panel.<<my-account|user-detail>>.user-mail):end ', function() {
+        $app->hook('template(panel.<<my-account|user-detail>>.user-mail):end ', function() use ($app) {
             /** @var \MapasCulturais\Theme $this */
+            $mustConfirmEmail = !empty(($app->config['auth.config'] ?? [])['userMustConfirmEmailToUseTheSystem']);
+            if ($mustConfirmEmail) {
+                $app->view->enqueueStyle('app-v2', 'email-verification-status', 'css/email-verification-status.css');
+                $this->part('account/email-verification-status');
+            }
             $this->part('password/change-password');
+        });
+
+        // Garante accountIsActive no entity JS do painel quando a confirmação por e-mail está ativa
+        $app->hook('view.requestedEntity(user).params', function (&$query_params) use ($app) {
+            $mustConfirmEmail = !empty(($app->config['auth.config'] ?? [])['userMustConfirmEmailToUseTheSystem']);
+            if (!$mustConfirmEmail) {
+                return;
+            }
+            $select = $query_params['@select'] ?? '*';
+            if ($select !== '*' && stripos($select, 'accountIsActive') === false) {
+                $query_params['@select'] = $select . ',accountIsActive';
+            }
         });
 
         $app->hook('entity(User).permissionsList,doctrine.emum(permission_action).values', function (&$permissions) {
