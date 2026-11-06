@@ -612,7 +612,7 @@ class Provider extends \MapasCulturais\AuthProvider {
         // então ALL(<<*>>):before casa com qualquer controller/ação.
         $app->hook('ALL(<<*>>):before,API(<<*>>):before,-ALL(auth.<<*>>):before,-API(auth.<<*>>):before', function () use ($app) {
             /** @var \MapasCulturais\Controller $this */
-            if (!$app->auth->userMustChangePassword()) {
+            if (!method_exists($app->auth, 'userMustChangePassword') || !$app->auth->userMustChangePassword()) {
                 return;
             }
 
